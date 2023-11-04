@@ -1,0 +1,49 @@
+openapi: "3.0.0"
+info:
+  title: User feedback API
+  version: 1.0.0
+paths:
+  /feedback:
+    post:
+      operationId: postModelFeedback
+      summary: "API to post model verdict feedback"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                feedback:
+                  type: boolean
+                userId:
+                  type: integer
+                  format: int64
+      responses:
+        "201":
+          description: "feedback succesfully posted"
+        "400":
+          description: "error in feedback published"
+          content:
+            application/json:
+              schema: 
+                "$ref": "#/components/schemas/apiError"
+        "500":
+          description: "internal server logic error"
+          content:
+            application/json:
+              schema: 
+                "$ref": "#/components/schemas/apiError"
+          
+components:
+  schemas:
+    apiError:
+      type: object
+      properties:
+        error:
+          type: string
+          description: A brief description of the error
+        code:
+          type: integer
+          format: int32
+          description: Error code indicating the specific error
