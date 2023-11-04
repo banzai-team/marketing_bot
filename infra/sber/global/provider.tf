@@ -6,16 +6,16 @@ terraform {
   }
   required_version = ">= 1.3.7"
 
-#  backend "s3" {
-#    endpoint   = "https://obs.ru-moscow-1.hc.sbercloud.ru"
-#    bucket     = "repairai-tf-state"
-#    region     = "ru-central1"
-#    key        = "repair-me-tf-state/global/state.tfstate"
-#
-#    skip_region_validation      = true
-#    skip_credentials_validation = true
-#    skip_metadata_api_check     = true
-#  }
+  backend "s3" {
+    endpoint   = "https://obs.ru-moscow-1.hc.sbercloud.ru"
+    bucket     = "gazprom-tf-state"
+    region     = "ru-central1"
+    key        = "gazprom-tf-state/global/state.tfstate"
+
+    skip_region_validation      = true
+    skip_credentials_validation = true
+    skip_metadata_api_check     = true
+  }
 }
 
 provider "sbercloud" {
