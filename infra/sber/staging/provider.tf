@@ -7,9 +7,9 @@ terraform {
 
   backend "s3" {
     endpoint   = "https://obs.ru-moscow-1.hc.sbercloud.ru"
-    bucket     = "repairai-tf-state"
+    bucket     = "gazprom-tf-state"
     region     = "ru-central1"
-    key        = "repair-me-tf-state/staging/state.tfstate"
+    key        = "gazprom-tf-state/staging/state.tfstate"
 
     skip_region_validation      = true
     skip_credentials_validation = true
