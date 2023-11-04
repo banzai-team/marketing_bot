@@ -1,9 +1,9 @@
 {
-  "name": "vite-react-ts-tailwind-starter",
+  "name": "Marketing Bot",
   "version": "1.0.0",
   "license": "MIT",
   "author": {
-    "name": "TeXmeijin"
+    "name": "banz.ai"
   },
   "scripts": {
     "dev": "vite",
@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.16",
+    "@heroicons/react": "^2.0.18",
     "daisyui": "^3.9.4",
     "firebase": "^9.23.0",
     "react": "^18.2.0",
