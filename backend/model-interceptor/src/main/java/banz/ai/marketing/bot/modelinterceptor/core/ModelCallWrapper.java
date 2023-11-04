@@ -19,12 +19,12 @@ public class ModelCallWrapper {
     public ModelResponse wrap(ModelRequest modelRequest) {
         var resp = modelClient.makeModelRequest(modelRequest);
         var modelResponse = resp.getBody();
-//
-//        var mqMessage = new MqMessage();
-//        mqMessage.setMadeAt(new Date());
-//        mqMessage.setModelRequest(modelRequest);
-//        mqMessage.setModelResponse(modelResponse);
-//        rabbitTemplate.convertAndSend(mqMessage);
+
+        var mqMessage = new MqMessage();
+        mqMessage.setMadeAt(new Date());
+        mqMessage.setModelRequest(modelRequest);
+        mqMessage.setModelResponse(modelResponse);
+        rabbitTemplate.convertAndSend(mqMessage);
 
         return modelResponse;
     }

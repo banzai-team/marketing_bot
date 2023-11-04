@@ -62,7 +62,7 @@ class InterceptionControllerTest {
     }
 
     @Test
-    void should() throws Exception {
+    void shouldInvokeModelThenSendMessageToMqAndReturnCorrectResponse() throws Exception {
         mockServerClient
                 .when(request().withMethod("POST").withPath("/base_process"))
                 .respond(
