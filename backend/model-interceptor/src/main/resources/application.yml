@@ -1,0 +1,10 @@
+server:
+  port: ${SERVER_PORT}
+spring:
+  rabbitmq:
+    host: ${RMQ_HOST}
+    port: ${RMQ_PASSWORD}
+    password: ${RMQ_PASSWORD}
+    username: ${RMQ_USERNAME}
+    template:
+      routing-key: ${RMQ_ROUTING_KEY}
