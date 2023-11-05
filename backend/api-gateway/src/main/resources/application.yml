@@ -1,0 +1,15 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: model
+          uri: http://localhost:50002
+          predicates:
+            - Path=/api/model
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - gateway
+          - health
