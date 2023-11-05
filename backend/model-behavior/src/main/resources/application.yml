@@ -1,0 +1,19 @@
+server:
+  port: ${SERVER_PORT}
+spring:
+  rabbitmq:
+    host: ${RMQ_HOST}
+    port: ${RMQ_PASSWORD}
+    password: ${RMQ_PASSWORD}
+    username: ${RMQ_USERNAME}
+  liquibase:
+    enabled: true
+    change-log: liquibase/master.xml
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+  jpa:
+    hibernate:
+      ddl-auto: validate
