@@ -90,12 +90,17 @@ model_response {
     int response_id
     int dialog_evaluation
     boolean offer_purchase
-    string[] stop_themes
     int request_id
+}
+
+stop_theme {
+    int model_response
+    string content
 }
 
 dialog ||--|{ message: contains
 model_response ||--|| user_feedback: given
 model_request ||--|| dialog: refers
 model_request ||--|| model_response: corresponds
+model_response ||--o{ stop_theme: "may contain"
 ```
