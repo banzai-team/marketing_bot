@@ -1,6 +1,7 @@
 package banz.ai.marketing.bot.modelbehavior.controller;
 
 import banz.ai.marketing.bot.commons.UserFeedbackDTO;
+import banz.ai.marketing.bot.modelbehavior.AbstractIntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockserver.client.MockServerClient;
@@ -8,11 +9,8 @@ import org.mockserver.verify.VerificationTimes;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.testcontainers.containers.MockServerContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.RabbitMQContainer;
@@ -23,22 +21,13 @@ import org.testcontainers.shaded.org.awaitility.Awaitility;
 import org.testcontainers.utility.DockerImageName;
 
 import java.time.Duration;
-import java.time.temporal.TemporalUnit;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
-})
-@Testcontainers
-class UserFeedbackListenerTest {
+class UserFeedbackListenerIT extends AbstractIntegrationTest {
 
-    static String RMQ_IMAGE_NAME = "rabbitmq:3-management";
-    static String MOCKSERVER_IMAGE_NAME = "mockserver/mockserver:5.15.0";
-    static String POSTGRES_IMAGE_NAME = "postgres:15-alpine";
     static String DATABASE_NAME = "behavior_db";
     static String BEHAVIOR_QUEUE = "behavior-queue";
     static String FEEDBACK_QUEUE = "feedback-queue";
@@ -145,4 +134,8 @@ class UserFeedbackListenerTest {
                 });
     }
 
+    @Test
+    void shouldHandleConditionWhenModelIsNotAvailableAndLeaveMessageInRmq() {
+        // TODO implement
+    }
 }
