@@ -6,15 +6,15 @@ WORKDIR /build/commons
 RUN mvn install
 
 WORKDIR /build
-COPY ./model-interceptor/pom.xml ./pom.xml
+COPY ./model-behavior/pom.xml ./pom.xml
 
 RUN mvn install --fail-never
-COPY ./model-interceptor/src ./src
+COPY ./model-behavior/src ./src
 
 RUN mvn package -DskipTests
 
 FROM eclipse-temurin:17-jre-alpine
 
-COPY --from=builder /build/target/model-interceptor-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY --from=builder /build/target/model-behavior-0.0.1-SNAPSHOT.jar /app/app.jar
 
 ENTRYPOINT java -jar /app/app.jar

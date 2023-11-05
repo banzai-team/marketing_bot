@@ -31,6 +31,5 @@ public class ModelBehaviorListener {
             logger.error("Invalid model behavior received::%s".formatted(message), exception);
         }
         channel.basicAck(tag, false);
-        // System.out.printf("Received from myQueue : %s ", new String(message.getBytes()));
     }
 }
