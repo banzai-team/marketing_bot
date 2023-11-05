@@ -1,13 +1,19 @@
 package banz.ai.marketing.bot.commons;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ModelResponse {
 
     private boolean offerPurchase;
-    private int dialogPositivity;
-    private List<String> stopThemes;
+    private int dialogEvaluation;
+    private List<String> stopTopics;
 }

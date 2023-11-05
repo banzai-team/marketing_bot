@@ -5,16 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ModelRequest {
+public class UserFeedbackDTO {
 
-    private long dialogId;
-    private List<String> messages;
-    private boolean isOperator;
-    private String text;
+    long userId;
+    long modelResponseId;
+    boolean isCorrect;
+
 }
