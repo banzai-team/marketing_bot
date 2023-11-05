@@ -67,15 +67,35 @@ dialog {
 
 message {
     int message_id
+    int dialog_id
     int ordinal_number
     string content
 }
 
-model_verdict {
-    int dialog_estimation
-    boolean offer_purchase
+user_feedback {
+    int feedback_id
+    int user_id
+    int model_resposne_id
+    boolean is_correct
 }
 
-dialog ||--o{ message: contains
+model_request {
+    int request_id
+    int dialog_id
+    boolean is_operator
+    string text
+}
 
+model_response {
+    int response_id
+    int dialog_evaluation
+    boolean offer_purchase
+    string[] stop_themes
+    int request_id
+}
+
+dialog ||--|{ message: contains
+model_response ||--|| user_feedback: given
+model_request ||--|| dialog: refers
+model_request ||--|| model_response: corresponds
 ```
