@@ -28,7 +28,6 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @EnableReactiveMethodSecurity
 public class SecurityConfig {
 
-    @Order(100)
     @Bean
     SecurityWebFilterChain customSecurityFilterChain(ServerHttpSecurity http, ReactiveAuthenticationManager authenticationManager) {
         http
