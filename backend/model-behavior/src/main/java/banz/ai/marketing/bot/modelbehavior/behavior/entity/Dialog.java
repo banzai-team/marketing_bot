@@ -22,6 +22,14 @@ public class Dialog {
     @Column
     private Date createdAt;
 
+    @OneToMany(mappedBy = "dialog", fetch = FetchType.LAZY)
+    private List<ModelRequest> modelRequests = new ArrayList<>();
+
+    public void addModelRequest(ModelRequest mr) {
+        mr.setDialog(this);
+        modelRequests.add(mr);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

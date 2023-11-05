@@ -15,6 +15,7 @@ import java.util.Objects;
 public class ModelResponse {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "model_response_id")
     private Long id;
 
@@ -28,7 +29,7 @@ public class ModelResponse {
     @JoinColumn(name = "model_request_id")
     private ModelRequest modelRequest;
 
-    @OneToMany(mappedBy = "modelResponse")
+    @OneToMany(mappedBy = "modelResponse", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StopTopic> stopTopics = new ArrayList<>();
 
     public void addStopTopic(StopTopic stopTopic) {

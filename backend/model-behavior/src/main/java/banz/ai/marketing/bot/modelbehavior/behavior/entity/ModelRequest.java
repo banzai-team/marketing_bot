@@ -15,6 +15,7 @@ import java.util.Objects;
 public class ModelRequest {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "model_request_id")
     private Long id;
 
@@ -24,14 +25,14 @@ public class ModelRequest {
     @Column(name = "additional_text")
     private String text;
 
-    @OneToOne(mappedBy = "modelRequest")
+    @OneToOne(mappedBy = "modelRequest", cascade = CascadeType.ALL)
     private ModelResponse modelResponse;
 
     @ManyToOne
     @JoinColumn(name = "dialog_id")
     private Dialog dialog;
 
-    @OneToMany(mappedBy = "modelRequest", orphanRemoval = true)
+    @OneToMany(mappedBy = "modelRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ModelRequestMessage> messages = new ArrayList<>();
 
     public void addMessage(ModelRequestMessage message) {

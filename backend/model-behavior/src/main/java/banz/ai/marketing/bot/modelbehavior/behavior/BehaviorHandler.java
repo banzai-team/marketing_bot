@@ -33,11 +33,12 @@ public class BehaviorHandler {
             dialog = dialogRepository.getReferenceById(modelBehavior.getModelRequest().getDialogId());
         } else {
             dialog = new Dialog();
+            dialog.setId(modelBehavior.getModelRequest().getDialogId());
             dialog.setCreatedAt(new Date());
         }
         var modelRequest = new ModelRequest();
         var modelResponse = new ModelResponse();
-        modelRequest.setDialog(dialog);
+        dialog.addModelRequest(modelRequest);
         modelRequest.setText(modelBehavior.getModelRequest().getText());
         modelRequest.setOperator(modelBehavior.getModelRequest().isOperator());
         IntStream.range(0, modelBehavior.getModelRequest().getMessages().size())

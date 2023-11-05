@@ -4,7 +4,7 @@
 
         <dropTable tableName="dialog_message" cascadeConstraints="true"/>
         <createTable tableName="model_request_message">
-            <column name="message_id" type="bigint" autoIncrement="${autoIncrement}">
+            <column name="message_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="model_request_id" type="bigint"/>
