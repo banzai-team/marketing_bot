@@ -13,6 +13,7 @@ import java.util.Objects;
 public class StopTopic {
 
     @Id
+    @Column(name = "stop_topic_id")
     private Long id;
 
     @Column
