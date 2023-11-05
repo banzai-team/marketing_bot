@@ -1,11 +1,16 @@
 package banz.ai.marketing.bot.modelbehavior.behavior.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Objects;
 
 @Entity
-public class DialogMessage {
+@Table(name = "model_request_message")
+@Getter
+@Setter
+public class ModelRequestMessage {
 
     @Id
     @Column(name = "message_id")
@@ -18,14 +23,14 @@ public class DialogMessage {
     private String content;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "dialog_id")
-    private Dialog dialog;
+    @JoinColumn(name = "model_request_id")
+    private ModelRequest modelRequest;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DialogMessage that = (DialogMessage) o;
+        ModelRequestMessage that = (ModelRequestMessage) o;
         return Objects.equals(id, that.id);
     }
 

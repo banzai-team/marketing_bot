@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,7 +29,12 @@ public class ModelResponse {
     private ModelRequest modelRequest;
 
     @OneToMany(mappedBy = "modelResponse")
-    private List<StopTopic> stopTopics;
+    private List<StopTopic> stopTopics = new ArrayList<>();
+
+    public void addStopTopic(StopTopic stopTopic) {
+        stopTopic.setModelResponse(this);
+        stopTopics.add(stopTopic);
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -61,13 +61,12 @@ erDiagram
 dialog {
     int dialog_id
     date created_at
-    date modified_at
     string meta
 }
 
-message {
+model_request_message {
     int message_id
-    int dialog_id
+    int model_request_id
     int ordinal_number
     string content
 }
@@ -75,7 +74,7 @@ message {
 user_feedback {
     int feedback_id
     int user_id
-    int model_resposne_id
+    int model_response_id
     boolean is_correct
 }
 
@@ -98,7 +97,7 @@ stop_theme {
     string content
 }
 
-dialog ||--|{ message: contains
+model_request ||--|{ model_request_message: contains
 model_response ||--|| user_feedback: given
 model_request ||--|| dialog: refers
 model_request ||--|| model_response: corresponds

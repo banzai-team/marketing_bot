@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,6 +26,18 @@ public class ModelRequest {
 
     @OneToOne(mappedBy = "modelRequest")
     private ModelResponse modelResponse;
+
+    @ManyToOne
+    @JoinColumn(name = "dialog_id")
+    private Dialog dialog;
+
+    @OneToMany(mappedBy = "modelRequest", orphanRemoval = true)
+    private List<ModelRequestMessage> messages = new ArrayList<>();
+
+    public void addMessage(ModelRequestMessage message) {
+        message.setModelRequest(this);
+        messages.add(message);
+    }
 
     @Override
     public boolean equals(Object o) {

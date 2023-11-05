@@ -1,13 +1,18 @@
 package banz.ai.marketing.bot.modelbehavior.behavior.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "dialog")
+@Getter
+@Setter
 public class Dialog {
 
     @Id
@@ -16,9 +21,6 @@ public class Dialog {
 
     @Column
     private Date createdAt;
-
-    @OneToMany(mappedBy = "dialog", orphanRemoval = true)
-    private List<DialogMessage> messages;
 
     @Override
     public boolean equals(Object o) {
