@@ -28,14 +28,20 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{secrets.SBC_ACCESS_KEY}}
           AWS_SECRET_ACCESS_KEY: ${{secrets.SBC_SECRET_KEY}}
+          SBC_ACCESS_KEY: ${{secrets.SBC_ACCESS_KEY}}
+          SBC_SECRET_KEY: ${{secrets.SBC_SECRET_KEY}}
         run: terraform init
       - name: Plan terraform
         env:
+          AWS_ACCESS_KEY_ID: ${{secrets.SBC_ACCESS_KEY}}
+          AWS_SECRET_ACCESS_KEY: ${{secrets.SBC_SECRET_KEY}}
           SBC_ACCESS_KEY: ${{secrets.SBC_ACCESS_KEY}}
           SBC_SECRET_KEY: ${{secrets.SBC_SECRET_KEY}}
         run: terraform plan
       - name: Deploy terraform
         env:
+          AWS_ACCESS_KEY_ID: ${{secrets.SBC_ACCESS_KEY}}
+          AWS_SECRET_ACCESS_KEY: ${{secrets.SBC_SECRET_KEY}}
           SBC_ACCESS_KEY: ${{secrets.SBC_ACCESS_KEY}}
           SBC_SECRET_KEY: ${{secrets.SBC_SECRET_KEY}}
         run: terraform apply -auto-approve
