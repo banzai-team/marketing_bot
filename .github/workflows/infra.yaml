@@ -57,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./sber/staging
+        working-directory: ./infra/sber/staging
     steps:
       # Download previously shared build
       - name: Checkout the repository to the runner
