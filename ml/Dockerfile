@@ -1,12 +1,14 @@
 FROM python:3.10-slim as base
 
 WORKDIR /app
-COPY app/requirements.txt ./
+COPY requirements.txt ./
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 COPY app .
 
 RUN mkdir -p /app/models
+COPY ./models /app/models
+
 
 # Образ для разработки
 FROM base as dev

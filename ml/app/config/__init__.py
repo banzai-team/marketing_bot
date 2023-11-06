@@ -1,1 +1,1 @@
-from .config import PATH
+from .config import TOXISITY_MODEL_PATH
