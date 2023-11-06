@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'infra/**'
+      - '.github/workflows/infra.yaml'
     branches:
       - main
 
@@ -25,8 +26,8 @@ jobs:
       # Copy the files from build folder to the S3 bucket
       - name: Init terraform
         env:
-          SBC_ACCESS_KEY: ${{secrets.SBC_ACCESS_KEY}}
-          SBC_SECRET_KEY: ${{secrets.SBC_SECRET_KEY}}
+          AWS_ACCESS_KEY_ID: ${{secrets.SBC_ACCESS_KEY}}
+          AWS_SECRET_ACCESS_KEY: ${{secrets.SBC_SECRET_KEY}}
         run: terraform init
       - name: Plan terraform
         env:
