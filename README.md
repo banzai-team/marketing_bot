@@ -12,7 +12,9 @@
     Brief information about dialog: creation date and collection of requests performed for the dialog.
 * ### `GET /dialogs/:dialogId/requests/:requestId`
     Provides complete model request information (dialogId, messages, operator flag, text) and model response information (dialog evaluation, stop topics and offer purchase flag).
-* ### `POST /users/invite`
+* ### `POST /api/user/auth`
+    Verifies provided user credentials with those recorded in database
+* ### `POST /api/user/invite`
     Invites a user using specified email
 
 
@@ -116,4 +118,32 @@ model_response ||--|| user_feedback: given
 model_request }|--|| dialog: refers
 model_request ||--|| model_response: corresponds
 model_response ||--o{ stop_theme: "may contain"
+```
+
+User Auth
+
+```mermaid
+    flowchart TD
+    
+    user_invited(["User invited"])
+    verify_user_creds(["Verify user credentials"])
+    user_microservice["Users service"]
+    notification_queue>"Notification queue"]
+    invitation_message(["Invitation message"])
+    invitation_accepted_cb(["Invitation accepted"])
+    verify_user_result(["Credentials verification result"])
+
+    subgraph events
+        user_invited
+        verify_user_creds
+        invitation_accepted_cb
+    end
+
+    user_invited ----> user_microservice
+    verify_user_creds ----> user_microservice
+    user_microservice --|200 OK / 401 Unauthorized|----> verify_user_result
+    user_microservice ----> invitation_message
+    invitation_message -..-> notification_queue
+    invitation_accepted_cb ----> user_microservice
+
 ```
