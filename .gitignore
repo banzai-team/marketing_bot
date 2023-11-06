@@ -1,3 +1,6 @@
 */venv
 target/
 .idea/
+*.iml
+*.ipynb_checkpoints
+*.ipynb
