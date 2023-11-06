@@ -9,9 +9,7 @@
 * ### `GET /dialogs`
     Lists dialogs
 * ### `GET /dialogs/:dialogId`
-    Brief information about dialog: creation date and collection of request.
-* ### `GET /dialogs/:dialogId/requests`
-    Provides brief list of requests made for a dialog.
+    Brief information about dialog: creation date and collection of requests performed for the dialog.
 * ### `GET /dialogs/:dialogId/requests/:requestId`
     Provides complete model request information (dialogId, messages, operator flag, text) and model response information (dialog evaluation, stop topics and offer purchase flag).
 * ### `POST /users/invite`
