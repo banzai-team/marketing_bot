@@ -120,13 +120,13 @@ module "cluster" {
 
   cluster_nodes = {
     "sber-k8s-nginx-node" = {
-      name                     = "ingress-nodes"
-      os                       = "CentOS 7.6"
-      flavor_id                = "c7n.large.4"
-      availability_zone        = local.azs[0]
-      key_pair                 = sbercloud_compute_keypair.keypair.name
-      type                     = "vm"
-      subnet_id = module.vpc.subnets["public_subnet"].ipv4_subnet_id
+      name              = "ingress-nodes"
+      os                = "CentOS 7.6"
+      flavor_id         = "c7n.large.4"
+      availability_zone = local.azs[0]
+      key_pair          = sbercloud_compute_keypair.keypair.name
+      type              = "vm"
+      subnet_id         = module.vpc.subnets["public_subnet"].ipv4_subnet_id
 
       root_volume = [
         {
@@ -142,16 +142,16 @@ module "cluster" {
         }
       ]
 
-      #      node_taints = {
-      #        scope = {
-      #          value : "ingress"
-      #          effect : "NoSchedule"
-      #        }
-      #      }
-      #      node_labels = {
-      #        env   = var.environment
-      #        scope = "ingress"
-      #      }
+      node_taints = {
+        scope = {
+          value : "ingress"
+          effect : "NoSchedule"
+        }
+      }
+      node_labels = {
+        env   = var.environment
+        scope = "ingress"
+      }
     }
   }
 
@@ -170,7 +170,7 @@ module "cluster" {
       scale_down_cooldown_time = 100
       priority                 = 1
       type                     = "vm"
-      subnet_id = module.vpc.subnets["public_subnet"].ipv4_subnet_id
+      subnet_id                = module.vpc.subnets["public_subnet"].ipv4_subnet_id
 
       root_volume = [
         {
@@ -199,7 +199,7 @@ module "cluster" {
     }
 
     "sber-k8s-private-ng" = {
-      subnet_id = module.vpc.subnets["private_subnet"].ipv4_subnet_id
+      subnet_id          = module.vpc.subnets["private_subnet"].ipv4_subnet_id
       name               = "private-pool"
       os                 = "CentOS 7.6"
       initial_node_count = 1
