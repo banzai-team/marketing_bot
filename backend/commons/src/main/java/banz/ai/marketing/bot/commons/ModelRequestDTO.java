@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ModelRequest {
+public class ModelRequestDTO {
 
     private long dialogId;
     private List<String> messages;

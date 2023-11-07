@@ -13,8 +13,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class ModelBehaviorDTO {
 
-    private ModelRequest modelRequest;
-    private ModelResponse modelResponse;
+    private ModelRequestDTO modelRequest;
+    private ModelResponseDTO modelResponse;
     private Date capturedAt;
     private String meta;
 }
