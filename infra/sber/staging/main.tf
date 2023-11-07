@@ -186,16 +186,16 @@ module "cluster" {
         }
       ]
 
-      #      node_taints = {
-      #        scope = {
-      #          value : "ingress"
-      #          effect : "NoSchedule"
-      #        }
-      #      }
-      #      node_labels = {
-      #        env   = var.environment
-      #        scope = "ingress"
-      #      }
+      node_taints = {
+        scope = {
+          value : "apps"
+          effect : "NoSchedule"
+        }
+      }
+      node_labels = {
+        env   = var.environment
+        scope = "apps"
+      }
     }
 
     "sber-k8s-private-ng" = {
@@ -228,10 +228,6 @@ module "cluster" {
       ]
 
       node_taints = {
-        #        target = {
-        #          value : "apps"
-        #          effect : "NoSchedule"
-        #        }
       }
       node_labels = {
         env   = var.environment
