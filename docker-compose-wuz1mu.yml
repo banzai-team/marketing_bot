@@ -1,0 +1,81 @@
+version: '3.9'
+
+services:
+  api-gateway:
+    container_name: api-gateway
+    build: 
+      context: ./backend/api-gateway
+    ports:
+      - 8080:8080
+    environment:
+      SERVER_PORT: 8080
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_URI: http://model-interceptor:8081
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_ID: model
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_PREDICATES: Path=/api/model/*
+    
+  model-interceptor:
+    container_name: model-interceptor
+    build: 
+      context: ./backend
+      dockerfile: model-interceptor/Dockerfile
+    environment:
+      SERVER_PORT: 8081
+      RMQ_HOST: rmq
+      RMQ_PORT: 5672
+      RMQ_USERNAME: ${RMQ_USERNAME}
+      RMQ_PASSWORD: ${RMQ_PASSWORD}
+      RMQ_ROUTING_KEY: ${RMQ_BEHAVIOR_QUEUE}
+    depends_on:
+      - rmq
+
+  model-behavior:
+    container_name: model-behavior
+    build: 
+      context: ./backend
+      dockerfile: model-behavior/Dockerfile
+    environment:
+      SERVER_PORT: 8082
+      RMQ_HOST: rmq
+      RMQ_PORT: 5672
+      RMQ_USERNAME: ${RMQ_USERNAME}
+      RMQ_PASSWORD: ${RMQ_PASSWORD}
+      RMQ_FEEDBACK_QUEUE: ${RMQ_FEEDBACK_QUEUE}
+      RMQ_BEHAVIOR_QUEUE: ${RMQ_BEHAVIOR_QUEUE}
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: ${BEHAVIOR_DB_USER}
+      DB_PASSWORD: ${BEHAVIOR_DB_PASSWORD}
+      DB_NAME: ${BEHAVIOR_DB_NAME}
+    depends_on:
+      - rmq
+
+  model:
+    container_name: model
+    build:
+      context: ./ml
+      target: dev
+    ports:
+      # Swagger
+      - 8082:8080
+    volumes:
+      - ./ml/models:/models
+    
+  db:
+    container_name: model-behavior-db
+    image: postgres:15-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: ${BEHAVIOR_DB_USER}
+      POSTGRES_PASSWORD: ${BEHAVIOR_DB_PASSWORD}
+      POSTGRES_DB: ${BEHAVIOR_DB_NAME}
+    restart: always
+
+  rmq:
+    image: rabbitmq:3.10.7-management
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RMQ_USERNAME}
+      RABBITMQ_DEFAULT_PASS: ${RMQ_PASSWORD}
