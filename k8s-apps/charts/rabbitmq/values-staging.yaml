@@ -1,4 +1,6 @@
 rabbitmq:
+  global:
+    storageClass: csi-disk
   persistence:
     storageClass: csi-disk
     annotations:
