@@ -1,8 +1,8 @@
 import React from 'react';
-import {useFormik} from 'formik';
+import {FormikValues, useFormik} from 'formik';
 
 const Chats: React.FC = () => {
-    const formik = useFormik<{
+    const formik: FormikValues = useFormik<{
         message: string,
     }>({
         initialValues: {

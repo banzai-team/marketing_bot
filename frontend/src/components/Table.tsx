@@ -4,7 +4,7 @@ import {Column, flexRender, getCoreRowModel, useReactTable} from '@tanstack/reac
 type TableProps = {
     data: any[],
     columns: Array<any | Column<Record<string, unknown>>>;
-    renderSubComponent: (any) => void;
+    renderSubComponent: (arg: any) => React.ReactNode;
 }
 
 const Table: React.FC<TableProps> = ({data, columns, renderSubComponent}) => {
