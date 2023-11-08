@@ -68,7 +68,8 @@ jobs:
           tag="$DOCKER_IMAGE_REPO_ADDR/$DOCKER_REGISTRY/banzai-frontend:${{github.sha}}"
           latest_tag="$DOCKER_IMAGE_REPO_ADDR/$DOCKER_REGISTRY/banzai-frontend:latest"
           docker build . -t $tag -t $latest_tag
-          docker push $tag $latest_tag
+          docker push $tag
+          docker push $latest_tag
         env:
           DOCKER_IMAGE_REPO_ADDR: swr.ru-moscow-1.hc.sbercloud.ru
           DOCKER_REGISTRY: gazprom-mrkt
