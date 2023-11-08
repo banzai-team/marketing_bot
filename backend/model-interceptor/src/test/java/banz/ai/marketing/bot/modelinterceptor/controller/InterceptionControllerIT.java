@@ -85,9 +85,9 @@ class InterceptionControllerIT {
                                 .withBody(json(
                                         """
                                         {
-                                            "offerPurchase": true,
-                                            "dialogPositivity": 5,
-                                            "stopThemes": [
+                                            "offer_confidence": true,
+                                            "sentimemt_loggit": 5.0,
+                                            "stop_topics": [
                                                 "foo", "bar"
                                             ]
                                         }
@@ -99,12 +99,12 @@ class InterceptionControllerIT {
                         .content(json(
                                 """
                                    {
-                                       "dialogId": 9,
+                                       "id_sequence": 9,
                                        "messages": [
                                            "bam",
                                            "bim"
                                        ],
-                                       "isOperator": false,
+                                       "is_operator": false,
                                        "text": "Smth"
                                    }
                                """

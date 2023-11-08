@@ -6,7 +6,6 @@ import banz.ai.marketing.bot.modelbehavior.behavior.entity.ModelResponse;
 import banz.ai.marketing.bot.modelbehavior.behavior.entity.*;
 import banz.ai.marketing.bot.modelbehavior.behavior.repository.DialogRepository;
 import banz.ai.marketing.bot.modelbehavior.behavior.repository.ModelRequestRepository;
-import banz.ai.marketing.bot.modelbehavior.behavior.repository.ModelResponseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +15,7 @@ import java.util.stream.IntStream;
 
 @Repository
 @RequiredArgsConstructor
-public class ModelBehaviorJPARepository implements ModelBehaviorDomainRepository {
+public class ModelBehaviorJPADomainRepository implements ModelBehaviorDomainRepository {
 
   private final DialogRepository dialogRepository;
   private final ModelRequestRepository requestRepository;

@@ -20,7 +20,7 @@ public class ModelResponse {
     private Long id;
 
     @Column(name = "dialog_evaluation")
-    private int dialogEvaluation;
+    private float dialogEvaluation;
 
     @Column(name = "offer_purchase")
     private boolean offerPurchase;
