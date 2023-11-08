@@ -3,13 +3,13 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'ml/**'
-      - '.github/workflows/ml-service.yaml'
+      - 'backend/user-feedback/**'
+      - '.github/workflows/backend-user-feedback.yaml'
     branches:
       - main
   pull_request:
     paths:
-      - 'ml/**'
+      - 'backend/user-feedback/**'
 permissions:
   contents: write
 
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./ml
+        working-directory: ./backend/user-feedback
     steps:
       - name: Clone repository
         uses: actions/checkout@v3
@@ -52,7 +52,7 @@ jobs:
           DOCKER_REGISTRY: gazprom-mrkt
       - run: |
           echo "Packaging docker image ..."
-          tag="$DOCKER_IMAGE_REPO_ADDR/$DOCKER_REGISTRY/banzai-ml:${{github.sha}}"
+          tag="$DOCKER_IMAGE_REPO_ADDR/$DOCKER_REGISTRY/banzai-user-feedback:${{github.sha}}"
           docker build . -t $tag
           docker push $tag
         env:

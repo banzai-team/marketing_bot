@@ -3,13 +3,13 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'ml/**'
-      - '.github/workflows/ml-service.yaml'
+      - 'backend/model-behavior/**'
+      - '.github/workflows/model-behavior.yaml'
     branches:
       - main
   pull_request:
     paths:
-      - 'ml/**'
+      - 'backend/model-behavior/**'
 permissions:
   contents: write
 
@@ -18,7 +18,7 @@ jobs:
   #    runs-on: ubuntu-latest
   #    defaults:
   #      run:
-  #        working-directory: ./backend/user-feedback
+  #        working-directory: ./backend/model-behavior
   #    steps:
   #      - name: Clone repository
   #        uses: actions/checkout@v3
@@ -28,7 +28,7 @@ jobs:
   #        with:
   #          cache: 'npm'
   #          node-version: 18.x
-  #          cache-dependency-path: ./backend/user-feedback/package-lock.json
+  #          cache-dependency-path: ./backend/model-behavior/package-lock.json
   #      - run: npm ci
   #      - name: Build app
   #        run: npm run build
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./ml
+        working-directory: ./backend/model-behavior
     steps:
       - name: Clone repository
         uses: actions/checkout@v3
@@ -52,13 +52,13 @@ jobs:
           DOCKER_REGISTRY: gazprom-mrkt
       - run: |
           echo "Packaging docker image ..."
-          tag="$DOCKER_IMAGE_REPO_ADDR/$DOCKER_REGISTRY/banzai-ml:${{github.sha}}"
+          tag="$DOCKER_IMAGE_REPO_ADDR/$DOCKER_REGISTRY/banzai-model-behavior:${{github.sha}}"
           docker build . -t $tag
           docker push $tag
         env:
           DOCKER_REGISTRY: swr.ru-moscow-1.hc.sbercloud.ru/gazprom-mrkt
 #      - name: Commit report
-#        working-directory: k8s-apps/banzai-user-feedback/
+#        working-directory: k8s-apps/banzai-model-behavior/
 #        run: |
 #          git pull
 #          echo -e "image: \n  tag: ${{ github.sha }}" > values-production.yaml
