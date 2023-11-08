@@ -31,7 +31,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </li>
                 <li>
                     <NavLink
-                        to="test"
+                        to={Routes.CHATS}
                         className="px-6 py-4 font-bold"
                         onClick={onSelect}
                     >

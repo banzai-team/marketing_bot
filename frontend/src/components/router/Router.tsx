@@ -3,6 +3,7 @@ import {BrowserRouter, Outlet, RouteObject, useRoutes} from 'react-router-dom';
 
 import Layout from "~/components/Layout";
 import MainLayout from "~/components/MainLayout";
+import Chats from '~/components/Chats';
 
 const Loading = () => (
     <div className="w-full h-full flex justify-center items-center">
@@ -17,6 +18,7 @@ const LoginScreen = lazy(() => import('~/screens/LoginPage'));
 export const Routes = {
     ROOT: "/",
     LOGIN: "login",
+    CHATS: "chats"
 };
 
 export const Router = () => {
@@ -53,6 +55,10 @@ const InnerRouter = () => {
                 {
                     path: '*',
                     element: <Page404Screen />,
+                },
+                {
+                    path: 'chats',
+                    element: <Chats />,
                 },
             ],
         },
