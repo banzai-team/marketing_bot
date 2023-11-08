@@ -1,4 +1,4 @@
-package banz.ai.marketing.bot.modelbehavior.behavoir.exception;
+package banz.ai.marketing.bot.modelbehavior.behavior.exception;
 
 public class InvalidModelBehaviorException extends RuntimeException {
     public InvalidModelBehaviorException() {

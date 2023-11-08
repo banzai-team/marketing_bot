@@ -1,8 +1,9 @@
-package banz.ai.marketing.bot.modelbehavior.behavoir.model;
+package banz.ai.marketing.bot.modelbehavior.behavior.model;
 
 import banz.ai.marketing.bot.commons.ModelRequestDTO;
 import banz.ai.marketing.bot.commons.ModelResponseDTO;
-import banz.ai.marketing.bot.modelbehavior.behavoir.exception.InvalidModelBehaviorException;
+import banz.ai.marketing.bot.modelbehavior.behavior.ModelBehaviorAggregate;
+import banz.ai.marketing.bot.modelbehavior.behavior.exception.InvalidModelBehaviorException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;

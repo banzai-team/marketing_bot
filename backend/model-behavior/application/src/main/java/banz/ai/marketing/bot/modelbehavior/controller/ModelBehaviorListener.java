@@ -2,7 +2,7 @@ package banz.ai.marketing.bot.modelbehavior.controller;
 
 import banz.ai.marketing.bot.commons.ModelBehaviorDTO;
 import banz.ai.marketing.bot.modelbehavior.behavior.BehaviorHandler;
-import banz.ai.marketing.bot.modelbehavior.behavoir.exception.InvalidModelBehaviorException;
+import banz.ai.marketing.bot.modelbehavior.behavior.exception.InvalidModelBehaviorException;
 import com.rabbitmq.client.Channel;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
