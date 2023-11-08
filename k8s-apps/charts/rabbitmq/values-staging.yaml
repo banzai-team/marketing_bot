@@ -24,11 +24,15 @@ rabbitmq:
     periodSeconds: 30
     failureThreshold: 3
     successThreshold: 1
-#  nodeSelector:
-#    scope: apps
-#
-#  tolerations:
-#    - key: "target"
-#      operator: "Equal"
-#      value: "apps"
-#      effect: "NoSchedule"
+  nodeSelector:
+    scope: apps
+
+  tolerations:
+    - key: "scope"
+      operator: "Equal"
+      value: "apps"
+      effect: "NoSchedule"
+    - key: "scope"
+      operator: "Equal"
+      value: "apps"
+      effect: "NoExecute"
