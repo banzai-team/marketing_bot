@@ -76,27 +76,7 @@ module "vpc" {
   tags = {
     env = var.environment
   }
-
-  # default_route_table_routes = [
-  #   {
-  #     destination = "10.0.x.x/0"
-  #     type        = "xxx"
-  #     nexthop     = "xxxxx-xxx-xxx"
-  #   },
-  # ]
 }
-
-#resource "sbercloud_vpc_eip" "cluster_eip" {
-#  publicip {
-#    type = "5_bgp"
-#  }
-#  bandwidth {
-#    name        = "test"
-#    size        = 8
-#    share_type  = "PER"
-#    charge_mode = "traffic"
-#  }
-#}
 
 resource "sbercloud_compute_keypair" "keypair" {
   name       = "sshkey-1"
@@ -126,7 +106,7 @@ module "cluster" {
       availability_zone = local.azs[0]
       key_pair          = sbercloud_compute_keypair.keypair.name
       type              = "vm"
-      subnet_id         = module.vpc.subnets["public_subnet"].ipv4_subnet_id
+      subnet_id         = module.vpc.subnets["public_subnet"].id
 
       root_volume = [
         {
@@ -142,16 +122,17 @@ module "cluster" {
         }
       ]
 
-      node_taints = {
-        scope = {
-          value : "ingress"
-          effect : "NoSchedule"
-        }
-      }
-      node_labels = {
-        env   = var.environment
-        scope = "ingress"
-      }
+#      node_taints = [
+#        {
+#          key = "scope"
+#          value : "ingress"
+#          effect : "NoSchedule"
+#        }
+#      ]
+#      node_labels = {
+#        env   = var.environment
+#        scope = "ingress"
+#      }
     }
   }
 
@@ -170,7 +151,7 @@ module "cluster" {
       scale_down_cooldown_time = 100
       priority                 = 1
       type                     = "vm"
-      subnet_id                = module.vpc.subnets["public_subnet"].ipv4_subnet_id
+      subnet_id                = module.vpc.subnets["public_subnet"].id
 
       root_volume = [
         {
@@ -186,12 +167,18 @@ module "cluster" {
         }
       ]
 
-      node_taints = {
-        scope = {
+      node_taints = [
+        {
+          key = "scope"
           value : "apps"
           effect : "NoSchedule"
+        },
+        {
+          key = "scope"
+          value : "apps"
+          effect : "NoExecute"
         }
-      }
+      ]
       node_labels = {
         env   = var.environment
         scope = "apps"
@@ -199,7 +186,7 @@ module "cluster" {
     }
 
     "sber-k8s-private-ng" = {
-      subnet_id          = module.vpc.subnets["private_subnet"].ipv4_subnet_id
+      subnet_id          = module.vpc.subnets["private_subnet"].id
       name               = "private-pool"
       os                 = "CentOS 7.6"
       initial_node_count = 1

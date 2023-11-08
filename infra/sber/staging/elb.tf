@@ -36,30 +36,47 @@ resource "sbercloud_lb_listener" "listener" {
   loadbalancer_id = sbercloud_lb_loadbalancer.elb.id
 }
 
-resource "sbercloud_lb_pool" "group" {
-  name        = "group"
-  protocol    = "HTTP"
-  lb_method   = "ROUND_ROBIN"
-  listener_id = sbercloud_lb_listener.listener.id
+resource "sbercloud_lb_listener" "listener_lb" {
+  name            = "listener_http"
+  protocol        = "HTTP"
+  protocol_port   = 443
+  loadbalancer_id = sbercloud_lb_loadbalancer.elb.id
 }
 
-resource "sbercloud_lb_monitor" "health_check" {
-  name           = "health_check"
-  type           = "HTTP"
-  url_path       = "/"
-  expected_codes = "200-202"
-  delay          = 10
-  timeout        = 5
-  max_retries    = 3
-  pool_id        = sbercloud_lb_pool.group.id
-}
-
-resource "sbercloud_lb_member" "members" {
-  for_each = module.cluster.nodes
-
-  address       = each.value.private_ip
-  protocol_port = 80
-  weight        = 1
-  pool_id       = sbercloud_lb_pool.group.id
-  subnet_id     = module.vpc.subnets["private_subnet"].subnet_id
-}
+#resource "sbercloud_lb_pool" "group" {
+#  name        = "group"
+#  protocol    = "HTTP"
+#  lb_method   = "ROUND_ROBIN"
+#  listener_id = sbercloud_lb_listener.listener.id
+#}
+#
+#resource "sbercloud_lb_monitor" "health_check" {
+#  name           = "health_check"
+#  type           = "HTTP"
+#  url_path       = "/"
+#  expected_codes = "200-202"
+#  delay          = 10
+#  timeout        = 5
+#  max_retries    = 3
+#  pool_id        = sbercloud_lb_pool.group.id
+#}
+#
+#resource "sbercloud_lb_member" "members" {
+#  for_each = module.cluster.nodes
+#
+#  address       = each.value.private_ip
+#  protocol_port = 80
+#  weight        = 1
+#  pool_id       = sbercloud_lb_pool.group.id
+#  subnet_id     = module.vpc.subnets["public_subnet"].subnet_id
+#}
+#
+#resource "sbercloud_lb_member" "members_ssl" {
+#  for_each = module.cluster.nodes
+#
+#  address       = each.value.private_ip
+#  protocol_port = 443
+#  weight        = 1
+#  pool_id       = sbercloud_lb_pool.group.id
+#  subnet_id     = module.vpc.subnets["public_subnet"].subnet_id
+#}

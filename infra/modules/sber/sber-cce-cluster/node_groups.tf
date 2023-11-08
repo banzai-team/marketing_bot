@@ -4,9 +4,9 @@ resource "sbercloud_cce_node_pool" "cluster_node_pool" {
   name = each.value["name"]
 
   dynamic "taints" {
-    for_each = lookup(each.value, "node_taints", {})
+    for_each = lookup(each.value, "node_taints", [])
     content {
-      key    = taints.key
+      key    = taints.value.key
       value  = taints.value.value
       effect = taints.value.effect
     }
@@ -16,6 +16,7 @@ resource "sbercloud_cce_node_pool" "cluster_node_pool" {
 
   initial_node_count = each.value.initial_node_count
 
+  subnet_id = each.value["subnet_id"]
   os                       = each.value.os
   flavor_id                = each.value.flavor_id
   availability_zone        = lookup(each.value, "availability_zone", null)

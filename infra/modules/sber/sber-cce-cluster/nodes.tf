@@ -7,13 +7,14 @@ resource "sbercloud_cce_node" "cluster_node" {
   dynamic "taints" {
     for_each = lookup(each.value, "node_taints", {})
     content {
-      key    = taints.key
+      key    = taints.value.key
       value  = taints.value.value
       effect = taints.value.effect
     }
   }
   labels     = lookup(each.value, "node_labels", {})
   cluster_id = sbercloud_cce_cluster.cluster.id
+  subnet_id = each.value["subnet_id"]
 
   os                       = each.value.os
   flavor_id                = each.value.flavor_id
