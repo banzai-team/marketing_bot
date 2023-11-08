@@ -1,8 +1,8 @@
 package banz.ai.marketing.bot.modelinterceptor.controller;
 
 import banz.ai.marketing.bot.commons.ApiError;
-import banz.ai.marketing.bot.commons.ModelRequest;
-import banz.ai.marketing.bot.commons.ModelResponse;
+import banz.ai.marketing.bot.commons.ModelRequestDTO;
+import banz.ai.marketing.bot.commons.ModelResponseDTO;
 import banz.ai.marketing.bot.modelinterceptor.core.ModelCallWrapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 @RestController
-@RequestMapping("api/model-interceptor")
+@RequestMapping("api/model")
 @RequiredArgsConstructor
 public class InterceptionController {
 
     private final ModelCallWrapper wrapper;
 
-    @PostMapping("invoke")
-    public ResponseEntity<ModelResponse> doInterceptModelCall(@RequestBody ModelRequest modelRequest) {
+    @PostMapping("evaluate")
+    public ResponseEntity<ModelResponseDTO> doInterceptModelCall(@RequestBody ModelRequestDTO modelRequest) {
         return ResponseEntity.ok().body(wrapper.wrap(modelRequest));
     }
 

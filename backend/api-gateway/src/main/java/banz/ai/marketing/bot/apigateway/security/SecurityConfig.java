@@ -37,6 +37,8 @@ public class SecurityConfig {
                                 .pathMatchers("api/feedback/**").authenticated()
                                 .anyExchange().permitAll()
                 )
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .cors(ServerHttpSecurity.CorsSpec::disable)
                 .authenticationManager(authenticationManager)
                 .httpBasic(Customizer.withDefaults());
 

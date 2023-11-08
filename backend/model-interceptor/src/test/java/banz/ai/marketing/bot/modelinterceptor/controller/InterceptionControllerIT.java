@@ -94,7 +94,7 @@ class InterceptionControllerIT {
                                         """
                                 ))
                 );
-        this.mockMvc.perform(post("/api/model-interceptor/invoke")
+        this.mockMvc.perform(post("/api/model/evaluate")
                         .header(HttpHeaders.CONTENT_TYPE, "application/json")
                         .content(json(
                                 """
