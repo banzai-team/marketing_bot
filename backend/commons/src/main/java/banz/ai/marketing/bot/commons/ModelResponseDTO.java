@@ -5,16 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ModelBehaviorDTO {
+public class ModelResponseDTO {
 
-    private ModelRequestDTO modelRequest;
-    private ModelResponseDTO modelResponse;
-    private Date capturedAt;
-    private String meta;
+    private boolean offerPurchase;
+    private int dialogEvaluation;
+    private List<String> stopTopics;
 }
