@@ -1,11 +1,26 @@
 # Marketing bot
 
-# Microservices diagram
+## API
+* ### `POST /api/model/evaluate`
+    Endpoint used to run the model.
+* ### `POST /request/:requestId/feedback`
+    Allows user to send a feedback for a specific model response which can be used to train model. 
+    Currently only negative feedback will be used. 
+* ### `GET /dialogs`
+    Lists dialogs
+* ### `GET /dialogs/:dialogId`
+    Brief information about dialog: creation date and collection of requests performed for the dialog.
+* ### `GET /dialogs/:dialogId/requests/:requestId`
+    Provides complete model request information (dialogId, messages, operator flag, text) and model response information (dialog evaluation, stop topics and offer purchase flag).
+* ### `POST /users/invite`
+    Invites a user using specified email
+
+
+## Diagrams
+
+### Microservices
 
 ```mermaid
----
-title: Microservices decomposition 
----
 flowchart TD
 client(["Client"])
 api_gateway["API gateway"]
@@ -52,10 +67,9 @@ style model_behavior_db fill:#555
 style feendback_db fill:#555
 ```
 
+### Domain ER diagram 
+
 ```mermaid
----
-title: Domain ER diagram 
----
 erDiagram
 
 dialog {
@@ -99,7 +113,7 @@ stop_theme {
 
 model_request ||--|{ model_request_message: contains
 model_response ||--|| user_feedback: given
-model_request ||--|| dialog: refers
+model_request }|--|| dialog: refers
 model_request ||--|| model_response: corresponds
 model_response ||--o{ stop_theme: "may contain"
 ```

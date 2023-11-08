@@ -1,32 +1,41 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
-import {HeartIcon, HomeIcon, ArrowRightOnRectangleIcon} from '@heroicons/react/24/solid'
+import {ChatBubbleLeftRightIcon, HomeIcon, ArrowRightOnRectangleIcon} from '@heroicons/react/24/solid'
 
 import {Routes} from "~/components/router/Router";
 
+type SidebarProps = {
+    idSidebar: string,
+    onSelect: () => void
+}
 
-const Sidebar: React.FC = () => {
+const Sidebar: React.FC<SidebarProps> = ({
+    idSidebar,
+    onSelect
+}) => {
     return (
         <div className="drawer-side">
-            <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay" />
+            <label htmlFor={idSidebar} aria-label="close sidebar" className="drawer-overlay" />
 
             <ul className="menu p-0 py-6 w-60 shadow-lg min-h-full bg-base-100">
-                <img src="logo.svg" className="pb-4" />
+                <img src="logo.svg" className="pb-4 ml-6"  width={150} />
                 <li>
 
                     <NavLink
                         to={Routes.ROOT}
                         className="px-6 py-4 font-bold"
+                        onClick={onSelect}
                     >
                         <HomeIcon className="h-5 w-5" /> Home
                     </NavLink>
                 </li>
                 <li>
                     <NavLink
-                        to="/test"
+                        to="test"
                         className="px-6 py-4 font-bold"
+                        onClick={onSelect}
                     >
-                        <HeartIcon className="h-5 w-5" /> Test
+                        <ChatBubbleLeftRightIcon className="h-5 w-5" /> Chats
                     </NavLink>
                 </li>
 

@@ -1,23 +1,9 @@
-output "main_sg_id" {
-  value = yandex_vpc_security_group.k8s-main-sg.id
+output "cluster_id" {
+  description = "The ID of cluster"
+  value       = try(sbercloud_cce_cluster.cluster.id, "")
 }
 
-output "name" {
-  value = yandex_kubernetes_cluster.cluster.name
-}
-
-output "apps_sg_id" {
-  value = yandex_vpc_security_group.apps.id
-}
-
-output "public_sg_id" {
-  value = yandex_vpc_security_group.k8s-public-services.id
-}
-
-output "id" {
-  value = yandex_kubernetes_cluster.cluster.id
-}
-
-output "master" {
-  value = yandex_kubernetes_cluster.cluster.master
+output "nodes" {
+  description = "The List of cluster_nodes"
+  value       = sbercloud_cce_node.cluster_node
 }

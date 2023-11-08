@@ -28,8 +28,24 @@ h1 {
   @apply text-accent;
 }
 
+.menu li > .active {
+  @apply bg-primary !important;
+}
+
+.menu li > *:not(.active):hover {
+  @apply bg-primary-content !important;
+}
+
+.btn-ghost:hover {
+  @apply bg-primary-content !important;
+}
+
 .page-title {
   @apply text-accent;
   @apply text-4xl;
   @apply font-bold;
+}
+
+.table thead {
+  @apply bg-primary-content;
 }
