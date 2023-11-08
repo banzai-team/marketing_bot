@@ -2,12 +2,13 @@ gitRepo: git@github.com:banzai-team/marketing_bot.git
 env: staging
 
 argo-cd:
-  ingress:
-    enabled: true
-    annotations:
-      kubernetes.io/ingress.class: nginx
-    hosts:
-      - gazprom.banzai-predict.site
+  server:
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+      hosts:
+        - gazprom.banzai-predict.site
   configs:
     cm:
       admin.enabled: true
