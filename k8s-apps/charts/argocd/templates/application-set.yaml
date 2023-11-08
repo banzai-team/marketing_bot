@@ -10,6 +10,8 @@ spec:
         revision: HEAD
         directories:
           - path: "k8s-apps/charts/*"
+          - path: "k8s-apps/charts/ingress-nginx"
+            exclude: true
   template:
     metadata:
       name: '{{print "{{path.basename}}"}}'
