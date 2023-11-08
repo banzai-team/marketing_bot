@@ -48,7 +48,7 @@ jobs:
         env:
           DOCKER_LOGIN_USER: ${{secrets.SBC_ACCESS_KEY}}
           DOCKER_LOGIN_KEY: ${{secrets.DOCKER_LOGIN_KEY}}
-          DOCKER_IMAGE_REPO_ADDR: swr.ru-moscow-1.hc.sbercloud.ru
+          DOCKER_REGISTRY: swr.ru-moscow-1.hc.sbercloud.ru
       - run: |
           echo "Packaging docker image ..."
           tag="$DOCKER_REGISTRY/banzai-api-gateway:${{github.sha}}"
