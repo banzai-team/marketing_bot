@@ -21,4 +21,4 @@ queues:
   feedback: ${RMQ_FEEDBACK_QUEUE}
   behavior: ${RMQ_BEHAVIOR_QUEUE}
 model:
-  url: http://model
+  url: ${MODEL_URL}

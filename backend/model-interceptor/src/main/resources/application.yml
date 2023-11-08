@@ -8,4 +8,4 @@ spring:
     template:
       routing-key: ${RMQ_ROUTING_KEY}
 model:
-  url: http://model
+  url: ${MODEL_URL}

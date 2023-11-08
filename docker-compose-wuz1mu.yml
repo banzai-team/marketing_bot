@@ -6,9 +6,9 @@ services:
     build: 
       context: ./backend/api-gateway
     ports:
-      - 8080:8080
+      - 8083:8083
     environment:
-      SERVER_PORT: 8080
+      SERVER_PORT: 8083
       SPRING_CLOUD_GATEWAY_ROUTES[0]_URI: http://model-interceptor:8081
       SPRING_CLOUD_GATEWAY_ROUTES[0]_ID: model
       SPRING_CLOUD_GATEWAY_ROUTES[0]_PREDICATES: Path=/api/model/*
@@ -25,6 +25,7 @@ services:
       RMQ_USERNAME: ${RMQ_USERNAME}
       RMQ_PASSWORD: ${RMQ_PASSWORD}
       RMQ_ROUTING_KEY: ${RMQ_BEHAVIOR_QUEUE}
+      MODEL_URL: http://model:8080/v1
     depends_on:
       - rmq
 
@@ -46,6 +47,7 @@ services:
       DB_USERNAME: ${BEHAVIOR_DB_USER}
       DB_PASSWORD: ${BEHAVIOR_DB_PASSWORD}
       DB_NAME: ${BEHAVIOR_DB_NAME}
+      MODEL_URL: http://model:8080/v1
     depends_on:
       - rmq
 
@@ -56,9 +58,10 @@ services:
       target: dev
     ports:
       # Swagger
-      - 8082:8080
+      - 8080:8080
     volumes:
       - ./ml/models:/models
+      - ./ml:/app
     
   db:
     container_name: model-behavior-db
