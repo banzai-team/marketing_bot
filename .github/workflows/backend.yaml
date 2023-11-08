@@ -44,7 +44,7 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v3
-      - run: docker login --username ru-moscow-1@$DOCKER_LOGIN_USER -p $DOCKER_LOGIN_KEY $DOCKER_IMAGE_REPO_ADDR
+      - run: echo $DOCKER_LOGIN_KEY > docker login --username ru-moscow-1@$DOCKER_LOGIN_USER --password-stdin $DOCKER_IMAGE_REPO_ADDR
         env:
           DOCKER_LOGIN_KEY: ${{secrets.DOCKER_LOGIN_KEY}}
           DOCKER_IMAGE_REPO_ADDR: swr.ru-moscow-1.hc.sbercloud.ru
