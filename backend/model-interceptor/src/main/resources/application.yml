@@ -3,8 +3,9 @@ server:
 spring:
   rabbitmq:
     host: ${RMQ_HOST}
-    port: ${RMQ_PASSWORD}
-    password: ${RMQ_PASSWORD}
     username: ${RMQ_USERNAME}
+    password: ${RMQ_PASSWORD}
     template:
       routing-key: ${RMQ_ROUTING_KEY}
+model:
+  url: http://model

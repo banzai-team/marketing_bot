@@ -1,16 +1,17 @@
 FROM maven:3.9.5-eclipse-temurin-17-alpine AS builder
 
 WORKDIR /build
+
+COPY ./model-interceptor/pom.xml ./pom.xml
+RUN mvn install --fail-never
+
 COPY ./commons ./commons
 WORKDIR /build/commons
 RUN mvn install
 
 WORKDIR /build
-COPY ./model-interceptor/pom.xml ./pom.xml
 
-RUN mvn install --fail-never
 COPY ./model-interceptor/src ./src
-
 RUN mvn package -DskipTests
 
 FROM eclipse-temurin:17-jre-alpine
