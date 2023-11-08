@@ -66,7 +66,8 @@ jobs:
       - run: |
           echo "Packaging docker image ..."
           tag="$DOCKER_IMAGE_REPO_ADDR/$DOCKER_REGISTRY/banzai-frontend:${{github.sha}}"
-          docker build . -t $tag
+          latest_tag="$DOCKER_IMAGE_REPO_ADDR/$DOCKER_REGISTRY/banzai-frontend:latest"
+          docker build . -t $tag -t $latest_tag
           docker push $tag
         env:
           DOCKER_IMAGE_REPO_ADDR: swr.ru-moscow-1.hc.sbercloud.ru
