@@ -1,8 +1,8 @@
-package banz.ai.marketing.bot.modelbehavior.behavoir.model;
+package banz.ai.marketing.bot.modelbehavior.behavior;
 
 import banz.ai.marketing.bot.commons.ModelRequestDTO;
 import banz.ai.marketing.bot.commons.ModelResponseDTO;
-import banz.ai.marketing.bot.modelbehavior.behavoir.exception.InvalidModelBehaviorException;
+import banz.ai.marketing.bot.modelbehavior.behavior.exception.InvalidModelBehaviorException;
 
 import java.util.List;
 import java.util.Objects;

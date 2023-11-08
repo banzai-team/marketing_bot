@@ -1,23 +1,25 @@
-package banz.ai.marketing.bot.modelbehavior.behavoir.model;
+package banz.ai.marketing.bot.modelbehavior.behavior;
 
 
 import banz.ai.marketing.bot.commons.ModelRequestDTO;
 import banz.ai.marketing.bot.commons.ModelResponseDTO;
-import banz.ai.marketing.bot.modelbehavior.behavoir.exception.InvalidModelBehaviorException;
+import banz.ai.marketing.bot.modelbehavior.behavior.exception.InvalidModelBehaviorException;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ModelBehavior {
 
-  long dialogId;
-  ModelRequest request;
+  final long dialogId;
+  final ModelRequest request;
   ModelResponse response;
-  Date capturedAt;
+  final Date capturedAt;
 
   void setResponse(ModelResponse response) {
 
@@ -27,6 +29,7 @@ public class ModelBehavior {
     this.dialogId = dialogId;
     this.request = request;
     this.response = response;
+    this.capturedAt = new Date();
   }
 
   static class Builder {
@@ -46,7 +49,8 @@ public class ModelBehavior {
               modelRequest.getMessages().stream()
                       .map(s -> new Message(request, s))
                       .collect(Collectors.toList()),
-              modelRequest.getText()
+              modelRequest.getText(),
+              modelRequest.isOperator()
       );
       this.capturedAt = new Date();
     }
@@ -61,7 +65,9 @@ public class ModelBehavior {
       }
       response = new ModelResponse(dialogId,
               modelResponse.getDialogEvaluation(),
-              CollectionUtils.isEmpty(modelResponse.getStopTopics()) ? Collections.emptyList() : modelResponse.getStopTopics());
+              CollectionUtils.isEmpty(modelResponse.getStopTopics()) ? Collections.emptyList() : modelResponse.getStopTopics(),
+              modelResponse.isOfferPurchase()
+      );
       return this;
     }
 

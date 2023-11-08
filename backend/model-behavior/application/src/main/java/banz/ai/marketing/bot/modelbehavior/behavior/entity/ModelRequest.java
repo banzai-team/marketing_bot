@@ -35,6 +35,11 @@ public class ModelRequest {
     @OneToMany(mappedBy = "modelRequest", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ModelRequestMessage> messages = new ArrayList<>();
 
+    public void setModelResponse(ModelResponse modelResponse) {
+        this.modelResponse = modelResponse;
+        modelResponse.setModelRequest(this);
+    }
+
     public void addMessage(ModelRequestMessage message) {
         message.setModelRequest(this);
         messages.add(message);

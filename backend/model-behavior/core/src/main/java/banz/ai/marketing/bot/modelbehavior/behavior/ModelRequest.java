@@ -1,6 +1,6 @@
-package banz.ai.marketing.bot.modelbehavior.behavoir.model;
+package banz.ai.marketing.bot.modelbehavior.behavior;
 
-import banz.ai.marketing.bot.modelbehavior.behavoir.exception.InvalidModelBehaviorException;
+import banz.ai.marketing.bot.modelbehavior.behavior.exception.InvalidModelBehaviorException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +16,7 @@ public class ModelRequest {
   final List<Message> messages;
   final String text;
   private ModelResponse response;
+  final boolean isOperator;
 
   public void setResponse(ModelResponse response) {
     if (Objects.isNull(response)) {
