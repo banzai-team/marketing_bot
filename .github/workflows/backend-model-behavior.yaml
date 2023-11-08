@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend/model-behavior
+        working-directory: ./backend
     steps:
       - name: Clone repository
         uses: actions/checkout@v3
@@ -53,7 +53,7 @@ jobs:
       - run: |
           echo "Packaging docker image ..."
           tag="$DOCKER_IMAGE_REPO_ADDR/$DOCKER_REGISTRY/banzai-model-behavior:${{github.sha}}"
-          docker build . -t $tag
+          docker build ./model-behavior -t $tag
           docker push $tag
         env:
           DOCKER_IMAGE_REPO_ADDR: swr.ru-moscow-1.hc.sbercloud.ru
