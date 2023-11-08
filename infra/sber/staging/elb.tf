@@ -29,19 +29,19 @@ resource "sbercloud_networking_eip_associate" "elb_eip_associate" {
   port_id   = sbercloud_lb_loadbalancer.elb.vip_port_id
 }
 
-resource "sbercloud_lb_listener" "listener" {
-  name            = "listener_http"
-  protocol        = "HTTP"
-  protocol_port   = 80
-  loadbalancer_id = sbercloud_lb_loadbalancer.elb.id
-}
-
-resource "sbercloud_lb_listener" "listener_lb" {
-  name            = "listener_http"
-  protocol        = "HTTP"
-  protocol_port   = 443
-  loadbalancer_id = sbercloud_lb_loadbalancer.elb.id
-}
+#resource "sbercloud_lb_listener" "listener" {
+#  name            = "listener_http"
+#  protocol        = "HTTP"
+#  protocol_port   = 80
+#  loadbalancer_id = sbercloud_lb_loadbalancer.elb.id
+#}
+#
+#resource "sbercloud_lb_listener" "listener_lb" {
+#  name            = "listener_http"
+#  protocol        = "HTTP"
+#  protocol_port   = 443
+#  loadbalancer_id = sbercloud_lb_loadbalancer.elb.id
+#}
 
 #resource "sbercloud_lb_pool" "group" {
 #  name        = "group"
