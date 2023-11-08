@@ -1,6 +1,6 @@
 FROM node:18-alpine AS build
 # Add a work directory
-#WORKDIR /app
+WORKDIR /app
 # Cache and Install dependencies
 COPY package.json .
 COPY package-lock.json .
