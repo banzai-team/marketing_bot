@@ -20,9 +20,9 @@ const MainLayout: React.FC = () => {
                     checked={isDrawerOpen}
                     onChange={toggle}
                 />
-                <div className="drawer-content ">
+                <div className="drawer-content bg-neutral-content">
                     <Header idSidebar={idSidebar} />
-                    <div className="py-4 px-6 bg-base-100">
+                    <div className="py-4 px-6">
                         <Outlet />
                     </div>
                 </div>

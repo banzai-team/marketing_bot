@@ -3,7 +3,6 @@ import { Head } from '~/components/shared/Head';
 import Table from "~/components/Table";
 import {createColumnHelper, Row} from "@tanstack/react-table";
 
-import {ChevronDownIcon} from '@heroicons/react/24/solid'
 import ExpandedButton from "~/components/ExpandedButton";
 
 
@@ -41,12 +40,10 @@ const Index: React.FC = () => {
     const columns = [
         columnHelper.accessor('firstName', {
             cell: ({row, getValue}) => (
-                <div>
-                    <>
-                        <ExpandedButton onClick={row.getToggleExpandedHandler()} isExpanded={row.getIsExpanded()}/>
-                        {getValue()}
-                    </>
-                </div>
+                <>
+                    <ExpandedButton onClick={row.getToggleExpandedHandler()} isExpanded={row.getIsExpanded()}/>
+                    {getValue()}
+                </>
             ),
         }),
         columnHelper.accessor(row => row.lastName, {

@@ -17,7 +17,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         <div className="drawer-side">
             <label htmlFor={idSidebar} aria-label="close sidebar" className="drawer-overlay" />
 
-            <ul className="menu p-0 py-6 w-60 shadow-lg min-h-full bg-base-100">
+            <ul className="menu p-0 py-6 w-48 shadow-lg min-h-full bg-base-100">
                 <img src="logo.svg" className="pb-4 ml-6"  width={150} />
                 <li>
 

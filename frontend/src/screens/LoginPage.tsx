@@ -9,7 +9,7 @@ const Login: React.FC = () => {
     return (
         <>
             <Head title="Login" />
-            <h1 className="mb-6">Добро пожаловать!</h1>
+            <h1 className="mb-6 section-title">Добро пожаловать!</h1>
             <form>
                 <label className="label">
                     <span className="label-text text-secondary">Логин</span>
