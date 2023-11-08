@@ -2,7 +2,7 @@ rabbitmq:
   persistence:
     storageClass: csi-disk
     annotations:
-      - everest.io/disk-volume-type: SAS
+      everest.io/disk-volume-type: SAS
   clustering:
     enabled: false
   auth:
