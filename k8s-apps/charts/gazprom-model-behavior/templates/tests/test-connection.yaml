@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "gazprom-model-behavior.fullname" . }}-test-connection"
+  labels:
+    {{- include "gazprom-model-behavior.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "gazprom-model-behavior.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

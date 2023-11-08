@@ -4,7 +4,6 @@ services:
     image: banzai/gazprom-frontend
     build:
       context: frontend
-      target: development
 #    volumes:
 #      - ./src:/app/src
     ports:
