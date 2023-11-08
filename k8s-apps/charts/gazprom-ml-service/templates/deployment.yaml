@@ -20,6 +20,13 @@ spec:
       labels:
         {{- include "gazprom-ml-service.selectorLabels" . | nindent 8 }}
     spec:
+      initContainers:
+        - name: copy
+          image: busybox:1.28
+          command: [ "/bin/sh", "-c", "wget -qO- https://gazprom-model-storage.obs.ru-moscow-1.hc.sbercloud.ru/toxicity.zip | busybox unzip -" ]
+          volumeMounts:
+            - mountPath: /toxicity
+              name: data
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -33,18 +40,21 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /models
+              name: data
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+{{/*          livenessProbe:*/}}
+{{/*            httpGet:*/}}
+{{/*              path: /*/}}
+{{/*              port: http*/}}
+{{/*          readinessProbe:*/}}
+{{/*            httpGet:*/}}
+{{/*              path: /*/}}
+{{/*              port: http*/}}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -59,3 +69,6 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - emptyDir: {}
+          name: data
