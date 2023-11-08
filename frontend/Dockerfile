@@ -1,5 +1,4 @@
-FROM node:14-alpine AS development
-ENV NODE_ENV development
+FROM node:18-alpine AS development
 # Add a work directory
 #WORKDIR /app
 # Cache and Install dependencies
@@ -11,4 +10,11 @@ COPY . .
 # Expose port
 EXPOSE 3000
 # Start the app
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "run", "build" ]
+
+FROM ubuntu
+RUN apt-get update
+RUN apt-get install nginx -y
+COPY --from=build /app/dist /var/www/html/
+EXPOSE 80
+CMD ["nginx","-g","daemon off;"]
