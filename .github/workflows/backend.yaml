@@ -44,14 +44,14 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v3
-      - run: echo $DOCKER_LOGIN_KEY > docker login --username ru-moscow-1@$DOCKER_LOGIN_USER --password-stdin $DOCKER_IMAGE_REPO_ADDR
+      - run: echo $DOCKER_LOGIN_KEY | docker login --username ru-moscow-1@$DOCKER_LOGIN_USER --password-stdin $DOCKER_IMAGE_REPO_ADDR
         env:
+          DOCKER_LOGIN_USER: ${{secrets.SBC_ACCESS_KEY}}
           DOCKER_LOGIN_KEY: ${{secrets.DOCKER_LOGIN_KEY}}
           DOCKER_IMAGE_REPO_ADDR: swr.ru-moscow-1.hc.sbercloud.ru
-          DOCKER_LOGIN_USER: ${{secrets.SBC_ACCESS_KEY}}
       - run: |
           echo "Packaging docker image ..."
-          tag="$DOCKER_REGISTRY/banzai-api-gateway:${{ github.sha	}}"
+          tag="$DOCKER_REGISTRY/banzai-api-gateway:${{github.sha}}"
           docker build . -t $tag
           docker push $tag
         env:
