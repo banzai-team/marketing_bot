@@ -9,6 +9,16 @@ services:
 #      - ./src:/app/src
     ports:
       - 4000:80
+  ml:
+    build:
+      context: ./ml
+      dockerfile: ./ml/Dockerfile
+      target: dev
+    ports:
+      # Swagger
+      - 8080:8080
+    volumes:
+      - ./ml/models:/models
 #  rabbitmq:
 #    image: rabbitmq:3-management-alpine
 #    container_name: 'rabbitmq'
