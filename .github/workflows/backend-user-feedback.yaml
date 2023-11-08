@@ -1,4 +1,4 @@
-name: Backend CI workflow
+name: "Service user feedback CI workflow"
 on:
   workflow_dispatch:
   push:
