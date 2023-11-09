@@ -3,7 +3,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package banz.ai.marketing.bot.userfeedback.api;
+package banz.ai.marketing.bot.userfeedback.controller;
 
 import banz.ai.marketing.bot.commons.UserFeedbackDTO;
 import banz.ai.marketing.bot.userfeedback.dto.ApiError;

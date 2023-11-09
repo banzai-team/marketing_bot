@@ -1,6 +1,6 @@
 package banz.ai.marketing.bot.modelbehavior.feedback;
 
-import banz.ai.marketing.bot.commons.UserFeedbackDTO;
+import banz.ai.marketing.bot.commons.mq.UserFeedbackToApplyDTO;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ public class FeedbackHandler {
     private static Logger logger = LoggerFactory.getLogger(FeedbackHandler.class);
     private final FeedbackModelClient client;
 
-    public void handleUserFeedback(UserFeedbackDTO userFeedback) {
+    public void handleUserFeedback(UserFeedbackToApplyDTO userFeedback) {
         // ignore positive feedback
         if (userFeedback.isCorrect()) {
             logger.debug("User's feedback is positive. Ignoring it.");
