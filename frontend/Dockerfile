@@ -14,5 +14,7 @@ FROM ubuntu
 RUN apt-get update
 RUN apt-get install nginx -y
 COPY --from=build /app/dist /var/www/html/
+COPY nginx/default.conf.template /etc/nginx/templates/default.conf.template
+
 EXPOSE 80
 CMD ["nginx","-g","daemon off;"]
