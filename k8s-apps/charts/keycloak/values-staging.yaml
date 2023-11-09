@@ -1,4 +1,4 @@
-keycloak:
+#keycloak:
 #  nodeSelector:
 #    scope: apps
 #
