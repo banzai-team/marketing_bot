@@ -1,0 +1,9 @@
+keycloak:
+  nodeSelector:
+    scope: ingress
+
+  tolerations:
+    - key: "scope"
+      operator: "Equal"
+      value: "ingress"
+      effect: "NoSchedule"
