@@ -14,7 +14,7 @@ spec:
   source:
     repoURL: {{ .Values.gitRepo }}
     targetRevision: HEAD
-    path: gazprom-api-gateway
+    path: k8s-apps/charts/gazprom-api-gateway
     helm:
       valueFiles:
         - values.yaml
