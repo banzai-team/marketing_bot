@@ -2,5 +2,12 @@ ingress:
   enabled: true
   annotations:
     kubernetes.io/ingress.class: nginx
+  tls:
+  #    - hosts:
+  #        - gazprom.banzai-predict.site
+  #      secretName: letsencrypt-dns
   hosts:
-    - gazprom-api.banzai-predict.site
+    - host: gazprom-api.banzai-predict.site
+      paths:
+        - path: /
+          pathType: Prefix
