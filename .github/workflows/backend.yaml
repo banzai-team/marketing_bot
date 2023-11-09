@@ -54,8 +54,9 @@ jobs:
           echo "Packaging docker image ..."
           image="$DOCKER_IMAGE_REPO_ADDR/$DOCKER_REGISTRY/banzai-api-gateway"
           tag="$image:${{github.sha}}"
-          docker build . -t $tag
-          docker push $tag
+          latest_tag="$image:latest"
+          docker build . -t $tag -t $latest_tag
+          docker push $image
         env:
           DOCKER_IMAGE_REPO_ADDR: swr.ru-moscow-1.hc.sbercloud.ru
           DOCKER_REGISTRY: gazprom-mrkt
