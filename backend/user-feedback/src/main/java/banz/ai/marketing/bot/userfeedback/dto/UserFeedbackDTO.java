@@ -1,4 +1,4 @@
-package banz.ai.marketing.bot.commons;
+package banz.ai.marketing.bot.userfeedback.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserFeedbackDTO {
 
-    long userId;
-    long modelResponseId;
-    boolean isCorrect;
-
+  private long userId;
+  private long modelRequestId;
+  private boolean isCorrect;
 }

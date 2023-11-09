@@ -17,8 +17,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-queues:
-  feedback: ${RMQ_FEEDBACK_QUEUE}
-  behavior: ${RMQ_BEHAVIOR_QUEUE}
-model:
-  url: ${MODEL_URL}
+  jackson:
+    date-format: banz.ai.marketing.bot.userfeedback.RFC3339DateFormat
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false

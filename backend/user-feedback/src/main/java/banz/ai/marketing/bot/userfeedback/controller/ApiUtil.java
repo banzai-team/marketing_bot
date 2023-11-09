@@ -1,4 +1,4 @@
-package banz.ai.marketing.bot.userfeedback.api;
+package banz.ai.marketing.bot.userfeedback.controller;
 
 import org.springframework.web.context.request.NativeWebRequest;
 

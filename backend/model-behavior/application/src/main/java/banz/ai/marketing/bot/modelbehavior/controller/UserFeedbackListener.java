@@ -1,6 +1,6 @@
 package banz.ai.marketing.bot.modelbehavior.controller;
 
-import banz.ai.marketing.bot.commons.UserFeedbackDTO;
+import banz.ai.marketing.bot.commons.mq.UserFeedbackToApplyDTO;
 import banz.ai.marketing.bot.modelbehavior.feedback.FeedbackHandler;
 import com.rabbitmq.client.Channel;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class UserFeedbackListener {
     private final FeedbackHandler feedbackHandler;
 
     @RabbitListener(queues = "${queues.feedback}", ackMode = "MANUAL")
-    public void processFeedback(UserFeedbackDTO message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws IOException {
+    public void processFeedback(UserFeedbackToApplyDTO message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws IOException {
         logger.debug("Received feedback message: %s".formatted(message));
         feedbackHandler.handleUserFeedback(message);
         channel.basicAck(tag, false);

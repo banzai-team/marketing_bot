@@ -1,6 +1,6 @@
 package banz.ai.marketing.bot.modelbehavior.controller;
 
-import banz.ai.marketing.bot.commons.UserFeedbackDTO;
+import banz.ai.marketing.bot.commons.mq.UserFeedbackToApplyDTO;
 import banz.ai.marketing.bot.modelbehavior.AbstractIntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -82,10 +82,10 @@ class UserFeedbackListenerIT extends AbstractIntegrationTest {
 
     @Test
     public void shouldReceiveNegativeFeedbackAndInvokeModelLearning() throws InterruptedException {
-        var feedbackDTO = new UserFeedbackDTO();
-        feedbackDTO.setCorrect(false);
-        feedbackDTO.setUserId(105L);
-        feedbackDTO.setModelResponseId(20L);
+        var feedbackDTO = UserFeedbackToApplyDTO.builder()
+                .isCorrect(false)
+                .userId(105L)
+                .modelRequestId(20L);
         mockServerClient
                 .when(request().withMethod("POST").withPath("/invoke-relearning"))
                 .respond(response().withStatusCode(200));
@@ -109,10 +109,10 @@ class UserFeedbackListenerIT extends AbstractIntegrationTest {
 
     @Test
     public void shouldReceivePositiveFeedbackWithoutModelLearningInvocation() {
-        var feedbackDTO = new UserFeedbackDTO();
-        feedbackDTO.setCorrect(true);
-        feedbackDTO.setUserId(105L);
-        feedbackDTO.setModelResponseId(20L);
+        var feedbackDTO = UserFeedbackToApplyDTO.builder()
+        .isCorrect(true)
+        .userId(105L)
+        .modelRequestId(20L);
         mockServerClient
                 .when(request().withMethod("POST").withPath("/invoke-relearning"))
                 .respond(response().withStatusCode(200));
