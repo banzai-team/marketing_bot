@@ -33,6 +33,10 @@ public class Feedback {
   @Column(name = "applied_at", nullable = true)
   private Date appliedAt;
 
+  @Enumerated(EnumType.STRING)
+  @Column(name = "status")
+  private FeedbackStatus status;
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
