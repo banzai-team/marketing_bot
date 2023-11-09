@@ -52,9 +52,11 @@ jobs:
           DOCKER_REGISTRY: gazprom-mrkt
       - run: |
           echo "Packaging docker image ..."
-          tag="$DOCKER_IMAGE_REPO_ADDR/$DOCKER_REGISTRY/banzai-user-feedback:${{github.sha}}"
-          docker build -f ./user-feedback/Dockerfile . -t $tag
-          docker push $tag
+          image="$DOCKER_IMAGE_REPO_ADDR/$DOCKER_REGISTRY/banzai-user-feedback"
+          tag="$image:${{github.sha}}"
+          latest_tag="$image:latest"
+          docker build -f ./user-feedback/Dockerfile . -t $tag -t $latest_tag
+          docker push $image
         env:
           DOCKER_IMAGE_REPO_ADDR: swr.ru-moscow-1.hc.sbercloud.ru
           DOCKER_REGISTRY: gazprom-mrkt
