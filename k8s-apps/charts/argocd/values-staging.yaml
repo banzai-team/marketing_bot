@@ -57,5 +57,5 @@ apps:
     container: banzai-model-behavior
   gazprom-model-interceptor:
     container: banzai-model-interceptor
-  gazprom-user-feedback:
-    container: banzai-user-feedback
+#  gazprom-user-feedback:
+#    container: banzai-user-feedback
