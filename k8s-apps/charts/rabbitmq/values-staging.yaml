@@ -1,7 +1,7 @@
 rabbitmq:
   persistence:
     storageClass: csi-disk
-    enabled: true
+    enabled: false
   clustering:
     enabled: false
   auth:
@@ -23,6 +23,7 @@ rabbitmq:
     periodSeconds: 30
     failureThreshold: 3
     successThreshold: 1
+
   nodeSelector:
     scope: apps
 
