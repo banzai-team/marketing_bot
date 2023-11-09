@@ -9,6 +9,7 @@ import banz.ai.marketing.bot.userfeedback.exception.FeedbackNotFoundException;
 import banz.ai.marketing.bot.userfeedback.repository.FeedbackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,9 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class FeedbackService {
+
+  @Value("${queues.feedback-post}")
+  String feedbackPostQueue;
 
   private final FeedbackRepository feedbackRepository;
   private final RabbitTemplate rabbitTemplate;
@@ -39,7 +43,7 @@ public class FeedbackService {
             .modelRequestId(feedback.getModelRequestId())
             .build();
 
-    rabbitTemplate.convertAndSend(mqMessage);
+    rabbitTemplate.convertAndSend(feedbackPostQueue, mqMessage);
   }
 
   @Transactional
