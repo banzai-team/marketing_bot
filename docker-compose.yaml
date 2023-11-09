@@ -1,9 +1,8 @@
 services:
   app:
-    container_name: app-dev
-    image: banzai/gazprom-frontend
-    build:
-      context: frontend
+    image: swr.ru-moscow-1.hc.sbercloud.ru/gazprom-mrkt/banzai-frontend:latest
+#    build:
+#      context: frontend
 #    volumes:
 #      - ./src:/app/src
     ports:

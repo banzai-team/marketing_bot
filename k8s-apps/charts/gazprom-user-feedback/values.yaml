@@ -8,7 +8,7 @@ image:
   repository: swr.ru-moscow-1.hc.sbercloud.ru/gazprom-mrkt/banzai-user-feedback
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: latest
 
 imagePullSecrets: []
 nameOverride: ""
