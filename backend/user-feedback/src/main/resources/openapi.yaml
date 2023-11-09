@@ -16,7 +16,7 @@ paths:
         required: true
       responses:
         "201":
-          description: feedback succesfully posted
+          description: feedback successfully posted
         "400":
           content:
             application/json:

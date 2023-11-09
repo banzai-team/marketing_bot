@@ -5,75 +5,67 @@
  */
 package banz.ai.marketing.bot.userfeedback.api;
 
+import banz.ai.marketing.bot.commons.UserFeedbackDTO;
 import banz.ai.marketing.bot.userfeedback.dto.ApiError;
-import banz.ai.marketing.bot.userfeedback.dto.PostModelFeedbackRequest;
-import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import jakarta.annotation.Generated;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-11-04T21:45:58.716213200+07:00[Asia/Novosibirsk]")
 @Validated
 @Tag(name = "feedback", description = "the feedback API")
 public interface FeedbackApi {
 
-    default Optional<NativeWebRequest> getRequest() {
-        return Optional.empty();
-    }
+  default Optional<NativeWebRequest> getRequest() {
+    return Optional.empty();
+  }
 
-    /**
-     * POST /feedback : API to post model verdict feedback
-     *
-     * @param postModelFeedbackRequest  (required)
-     * @return feedback succesfully posted (status code 201)
-     *         or error in feedback published (status code 400)
-     *         or internal server logic error (status code 500)
-     */
-    @Operation(
-        operationId = "postModelFeedback",
-        summary = "API to post model verdict feedback",
-        responses = {
-            @ApiResponse(responseCode = "201", description = "feedback succesfully posted"),
-            @ApiResponse(responseCode = "400", description = "error in feedback published", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))
-            }),
-            @ApiResponse(responseCode = "500", description = "internal server logic error", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.POST,
-        value = "/feedback",
-        produces = { "application/json" },
-        consumes = { "application/json" }
-    )
-    default ResponseEntity<Void> postModelFeedback(
-        @Parameter(name = "PostModelFeedbackRequest", description = "", required = true) @Valid @RequestBody PostModelFeedbackRequest postModelFeedbackRequest
-    ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  /**
+   * POST /feedback : API to post model verdict feedback
+   *
+   * @param userFeedbackDTO (required)
+   * @return feedback successfully posted (status code 201)
+   * or error in feedback published (status code 400)
+   * or internal server logic error (status code 500)
+   */
+  @Operation(
+          operationId = "postModelFeedback",
+          summary = "API to post model verdict feedback",
+          responses = {
+                  @ApiResponse(responseCode = "201", description = "feedback successfully posted"),
+                  @ApiResponse(responseCode = "400", description = "error in feedback published", content = {
+                          @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))
+                  }),
+                  @ApiResponse(responseCode = "500", description = "internal server logic error", content = {
+                          @Content(mediaType = "application/json", schema = @Schema(implementation = ApiError.class))
+                  })
+          }
+  )
+  @RequestMapping(
+          method = RequestMethod.POST,
+          value = "/feedback",
+          produces = {"application/json"},
+          consumes = {"application/json"}
+  )
+  default ResponseEntity<Void> postModelFeedback(
+          @Parameter(name = "UserFeedbackDTO", description = "", required = true) @Valid @RequestBody UserFeedbackDTO userFeedbackDTO
+  ) {
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
-    }
+  }
 
 }
