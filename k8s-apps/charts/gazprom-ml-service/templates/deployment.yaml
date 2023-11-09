@@ -23,7 +23,7 @@ spec:
       initContainers:
         - name: copy
           image: busybox:1.28
-          command: [ "/bin/sh", "-c", "wget -qO- https://gazprom-model-storage.obs.ru-moscow-1.hc.sbercloud.ru/toxicity.zip | busybox unzip -" ]
+          command: [ "/bin/sh", "-c", "wget -qO- https://gazprom-model-storage.obs.ru-moscow-1.hc.sbercloud.ru/toxisity.zip | busybox unzip -" ]
           volumeMounts:
             - mountPath: /toxicity
               name: models
