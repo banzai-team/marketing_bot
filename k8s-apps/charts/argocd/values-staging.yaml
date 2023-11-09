@@ -45,3 +45,17 @@ argo-cd:
 #        kubernetes.io/ingress.class: nginx
 #      hosts:
 #        - argocd.ewolke.io
+
+apps:
+  gazprom-api-gateway:
+    container: banzai-api-gateway
+  gazprom-frontend:
+    container: banzai-frontend
+  gazprom-ml-service:
+    container: banzai-ml
+  gazprom-model-behavior:
+    container: banzai-model-behavior
+  gazprom-model-interceptor:
+    container: banzai-model-interceptor
+  gazprom-user-feedback:
+    container: banzai-user-feedback

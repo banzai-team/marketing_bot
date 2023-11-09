@@ -1,10 +1,11 @@
+{{- range $app, $config := .Values.apps }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd-image-updater.argoproj.io/image-list: gazprom-api-gateway=swr.ru-moscow-1.hc.sbercloud.ru/gazprom-mrkt/gazprom-api-gateway:latest
-    argocd-image-updater.argoproj.io/gazprom-api-gateway.update-strategy: latest
-  name: gazprom-api-gateway
+    argocd-image-updater.argoproj.io/image-list: {{ $app }}=swr.ru-moscow-1.hc.sbercloud.ru/gazprom-mrkt/{{ $config.container }}:latest
+    argocd-image-updater.argoproj.io/{{ $app }}.update-strategy: latest
+  name: {{ $app }}
 spec:
   project: "default"
   syncPolicy:
@@ -14,11 +15,12 @@ spec:
   source:
     repoURL: {{ .Values.gitRepo }}
     targetRevision: HEAD
-    path: k8s-apps/charts/gazprom-api-gateway
-    helm:
+    path: k8s-apps/charts/{ $app    helm:
       valueFiles:
         - values.yaml
         - values-{{ .Values.env }}.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: gazprom-api-gateway
+    namespace: {{ $app }}
+---
+{{- end }}
