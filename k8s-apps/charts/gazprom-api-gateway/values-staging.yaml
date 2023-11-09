@@ -12,3 +12,10 @@ ingress:
         - path: /
           pathType: Prefix
 config:
+  SERVER_PORT: 80
+  SPRING_CLOUD_GATEWAY_ROUTES[0]_URI: "gazprom-model-interceptor.gazprom-model-interceptor:8080"
+  SPRING_CLOUD_GATEWAY_ROUTES[0]_ID: model
+  SPRING_CLOUD_GATEWAY_ROUTES[0]_PREDICATES: Path=/api/model/*
+  SPRING_CLOUD_GATEWAY_ROUTES[1]_URI: "gazprom-user-feedback.gazprom-user-feedback:8080"
+  SPRING_CLOUD_GATEWAY_ROUTES[1]_ID: user-feedback
+  SPRING_CLOUD_GATEWAY_ROUTES[1]_PREDICATES: Path=/api/feedback/*
