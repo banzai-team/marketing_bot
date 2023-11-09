@@ -18,23 +18,23 @@ public class Feedback {
   @Column(name = "feedback_id")
   private Long id;
 
-  @Column(name = "model_request_id")
+  @Column(name = "model_request_id", nullable = false)
   private Long modelRequestId;
 
-  @Column(name = "user_id")
+  @Column(name = "user_id", nullable = false)
   private Long userId;
 
-  @Column(name = "is_correct")
+  @Column(name = "is_correct", nullable = false)
   private boolean isCorrect;
 
-  @Column(name = "created_at")
+  @Column(name = "created_at", nullable = false)
   private Date createdAt;
 
-  @Column(name = "applied_at", nullable = true)
+  @Column(name = "applied_at")
   private Date appliedAt;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "status")
+  @Column(name = "status", nullable = false)
   private FeedbackStatus status;
 
   @Override

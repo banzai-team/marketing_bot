@@ -3,7 +3,7 @@
 ## API
 * ### `POST /api/model/evaluate`
     Endpoint used to run the model.
-* ### `POST /request/:requestId/feedback`
+* ### `POST /api/feedback/`
     Allows user to send a feedback for a specific model response which can be used to train model. 
     Currently only negative feedback will be used. 
 * ### `GET /dialogs`

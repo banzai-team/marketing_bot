@@ -5,8 +5,8 @@
  */
 package banz.ai.marketing.bot.userfeedback.controller;
 
-import banz.ai.marketing.bot.commons.UserFeedbackDTO;
 import banz.ai.marketing.bot.userfeedback.dto.ApiError;
+import banz.ai.marketing.bot.userfeedback.dto.UserFeedbackDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -57,7 +57,7 @@ public interface FeedbackApi {
   )
   @RequestMapping(
           method = RequestMethod.POST,
-          value = "/feedback",
+          value = "/api/feedback",
           produces = {"application/json"},
           consumes = {"application/json"}
   )
