@@ -13,12 +13,12 @@ spec:
     syncOptions:
       - CreateNamespace=true
   source:
-    repoURL: {{ .Values.gitRepo }}
+    repoURL: {{ $.Values.gitRepo }}
     targetRevision: HEAD
     path: k8s-apps/charts/{ $app    helm:
       valueFiles:
         - values.yaml
-        - values-{{ .Values.env }}.yaml
+        - values-{{ $.Values.env }}.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: {{ $app }}
