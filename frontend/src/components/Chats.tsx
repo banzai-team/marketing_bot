@@ -1,17 +1,27 @@
 import React from 'react';
 import {FormikValues, useFormik} from 'formik';
+import {useMutation} from 'react-query';
+import {sendMessage} from '~/domain/api';
 
 const Chats: React.FC = () => {
+    const send = useMutation(sendMessage);
+
+    if (send.isLoading) {
+        console.log('loading');
+    }
+
     const formik: FormikValues = useFormik<{
         message: string,
     }>({
         initialValues: {
             message: "",
         },
-        onSubmit: async (values) => formik.resetForm(),
-       
+        /*onSubmit: async (values) => formik.resetForm(),*/
+        onSubmit: async (values) => {
+            send.mutate({ messages: ['Hello'] });
+        }
     });
-    
+
     return <div className="h-screen flex items-center justify-center">
         <form onSubmit={formik.handleSubmit} className="bg-base-100 border border-gray-200 shadow py-20 px-10 w-2/4">
             <textarea
