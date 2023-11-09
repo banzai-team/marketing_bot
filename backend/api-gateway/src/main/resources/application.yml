@@ -6,6 +6,10 @@ spring:
           uri: http://model-interceptor
           predicates:
             - Path=/api/model/*
+        - id: feedback
+          uri: http://feedback
+          predicates:
+            - Path=/api/model/*
 management:
   endpoint:
     gateway:

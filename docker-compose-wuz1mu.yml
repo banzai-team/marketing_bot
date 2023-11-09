@@ -19,9 +19,12 @@ services:
       - 8083:8083
     environment:
       SERVER_PORT: 8083
-      SPRING_CLOUD_GATEWAY_ROUTES[0]_URI: http://model-interceptor:8081
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_URI: http://model-interceptor:8080
       SPRING_CLOUD_GATEWAY_ROUTES[0]_ID: model
       SPRING_CLOUD_GATEWAY_ROUTES[0]_PREDICATES: Path=/api/model/*
+      SPRING_CLOUD_GATEWAY_ROUTES[1]_URI: http://user-feedback:8080
+      SPRING_CLOUD_GATEWAY_ROUTES[1]_ID: user-feedback
+      SPRING_CLOUD_GATEWAY_ROUTES[1]_PREDICATES: Path=/api/feedback/*
     
   model-interceptor:
     container_name: model-interceptor
@@ -29,7 +32,6 @@ services:
       context: ./backend
       dockerfile: model-interceptor/Dockerfile
     environment:
-      SERVER_PORT: 8081
       RMQ_HOST: rmq
       RMQ_PORT: 5672
       RMQ_USERNAME: ${RMQ_USERNAME}
@@ -45,7 +47,6 @@ services:
       context: ./backend
       dockerfile: model-behavior/Dockerfile
     environment:
-      SERVER_PORT: 8082
       RMQ_HOST: rmq
       RMQ_PORT: 5672
       RMQ_USERNAME: ${RMQ_USERNAME}
@@ -58,6 +59,25 @@ services:
       DB_PASSWORD: ${BEHAVIOR_DB_PASSWORD}
       DB_NAME: ${BEHAVIOR_DB_NAME}
       MODEL_URL: http://model:8080/v1
+    depends_on:
+      - rmq
+  
+  user-feedback:
+    container_name: user-feedback
+    build: 
+      context: ./backend
+      dockerfile: user-feedback/Dockerfile
+    environment:
+      RMQ_HOST: rmq
+      RMQ_PORT: 5672
+      RMQ_USERNAME: ${RMQ_USERNAME}
+      RMQ_PASSWORD: ${RMQ_PASSWORD}
+      RMQ_FEEDBACK_POST_QUEUE: ${RMQ_FEEDBACK_QUEUE}
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: ${FEEDBACK_DB_USER}
+      DB_PASSWORD: ${FEEDBACK_DB_PASSWORD}
+      DB_NAME: ${FEEDBACK_DB_NAME}
     depends_on:
       - rmq
 
