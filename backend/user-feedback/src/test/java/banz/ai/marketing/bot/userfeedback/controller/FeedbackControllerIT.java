@@ -113,6 +113,6 @@ class FeedbackControllerIT {
     registry.add("spring.replica.datasource.url", () -> postgreSQLContainer.getJdbcUrl());
     registry.add("spring.replica.datasource.username", () -> postgreSQLContainer.getUsername());
     registry.add("spring.replica.datasource.password", () -> postgreSQLContainer.getPassword());
-    registry.add("spring.rabbitmq.template.routing-key", () -> FEEDBACK_QUEUE);
+    registry.add("queues.feedback-post", () -> FEEDBACK_QUEUE);
   }
 }
