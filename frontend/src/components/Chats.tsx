@@ -14,27 +14,35 @@ const Chats: React.FC = () => {
         message: string,
         isOperator: boolean,
         id: number,
+        text: string;
     }>({
         initialValues: {
             message: "",
             isOperator: true,
             id: 0,
+            text: ""
         },
         /*onSubmit: async (values) => formik.resetForm(),*/
         onSubmit: async (values) => {
-            send.mutate({ messages: ['Hello'] });
+            send.mutate({ messages: values.message, isOperator: values.isOperator, id: values.id, text: values.text });
         }
     });
-    
+
     const isOperator = formik.getFieldProps("isOperator");
 
     return <div className="h-screen flex items-center justify-center">
         <form onSubmit={formik.handleSubmit} className="bg-base-100 border border-gray-200 shadow py-20 px-10 w-4/5 md:w-2/4">
             <textarea
                 rows="4"
-                className="block p-2.5 mb-2.5 w-full text-gray-900 bg-gray-50 border border-gray-300 rounded-sm focus:ring-blue-500 focus:border-blue-500"
+                className="block p-2.5 mb-4 w-full text-gray-900 bg-gray-50 border border-gray-300 rounded-sm focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Сообщение..."
                 {...formik.getFieldProps("message")}
+            />
+            <input
+                type="text"
+                className="input input-bordered w-full bg-gray-50 mb-4"
+                placeholder="Текст..."
+                {...formik.getFieldProps("text")}
             />
             <div className="flex items-center mb-4">
                 <input type="number" placeholder="id" className="input input-bordered w-28 mr-3 bg-gray-50" {...formik.getFieldProps("id")}/>
@@ -49,3 +57,4 @@ const Chats: React.FC = () => {
 };
 
 export default Chats;
+

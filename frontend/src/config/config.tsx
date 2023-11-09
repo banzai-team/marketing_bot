@@ -1,3 +1,3 @@
 export const config = {
-  apiUrl: "http://localhost:3000"
+  apiUrl: 'http://gazprom-api.banzai-predict.site' ?? "http://localhost:3000"
 }

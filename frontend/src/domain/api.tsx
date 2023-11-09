@@ -3,19 +3,24 @@ import {config} from '~/config/config';
 
 export type SendMessagePayload = {
   messages: any;
+  isOperator: boolean;
+  id: number;
+  text: string;
 };
 
 export function sendMessage(payload: SendMessagePayload) {
-  const form = new FormData();
+  const params = {
+    is_operator: payload.isOperator,
+    messages: payload.messages,
+    id_sequence: payload.id,
+    text: payload.text,
+  }
 
-  form.append("is_operator", 'true');
-  form.append("messages", payload.messages);
-  form.append("id_sequence", '88');
-  form.append("files", 'Test text');
-
-  return axios.post(`${config.apiUrl}/api/model/evaluate-application/json`, form, {
+  return axios.post(`${config.apiUrl}/api/model/evaluate`, params, {
     headers: {
-      'Content-Type': `multipart/form-data;`,
+      'Content-Type': `application/json`,
+      'Authorization': `Basic ${+btoa('user:12345')}`,
     },
   });
 }
+
