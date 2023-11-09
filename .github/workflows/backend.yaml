@@ -52,7 +52,8 @@ jobs:
           DOCKER_REGISTRY: gazprom-mrkt
       - run: |
           echo "Packaging docker image ..."
-          tag="$DOCKER_IMAGE_REPO_ADDR/$DOCKER_REGISTRY/banzai-api-gateway:${{github.sha}}"
+          image="$DOCKER_IMAGE_REPO_ADDR/$DOCKER_REGISTRY/banzai-api-gateway"
+          tag="$image:${{github.sha}}"
           docker build . -t $tag
           docker push $tag
         env:
