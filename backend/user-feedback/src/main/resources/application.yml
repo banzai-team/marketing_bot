@@ -23,3 +23,9 @@ spring:
       WRITE_DATES_AS_TIMESTAMPS: false
 queues:
   feedback-post: ${RMQ_FEEDBACK_POST_QUEUE}
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health

@@ -22,3 +22,9 @@ queues:
   behavior: ${RMQ_BEHAVIOR_QUEUE}
 model:
   url: ${MODEL_URL}
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
