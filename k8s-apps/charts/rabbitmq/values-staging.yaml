@@ -1,7 +1,6 @@
 rabbitmq:
   persistence:
     storageClass: csi-disk
-    enabled: false
   clustering:
     enabled: false
   auth:
