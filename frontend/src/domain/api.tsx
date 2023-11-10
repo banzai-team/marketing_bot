@@ -19,7 +19,7 @@ export function sendMessage(payload: SendMessagePayload) {
   return axios.post(`${config.apiUrl}/api/model/evaluate`, params, {
     headers: {
       'Content-Type': `application/json`,
-      'Authorization': `Basic ${+btoa('user:12345')}`,
+      'Authorization': `Basic ${btoa('user:12345')}`,
     },
   });
 }
