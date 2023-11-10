@@ -14,8 +14,6 @@ spec:
             exclude: true
           - path: "k8s-apps/charts/gazprom-*"
             exclude: true
-          - path: "k8s-apps/charts/key*"
-            exclude: true
   template:
     metadata:
       name: '{{print "{{path.basename}}"}}'
