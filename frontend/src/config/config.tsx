@@ -1,3 +1,9 @@
+declare global {
+  interface Window {
+    API_URL?: string;
+  }
+}
+
 export const config = {
-  apiUrl: 'http://gazprom-api.banzai-predict.site' ?? "http://localhost:3000"
+  apiUrl: window.API_URL || import.meta.env.VITE_API_URL || "/api"
 }

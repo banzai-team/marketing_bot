@@ -13,3 +13,7 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
+
+extraEnv:
+  - name: API_URL
+    value: https://gazprom-api.banzai-predict.site
