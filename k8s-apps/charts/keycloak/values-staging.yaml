@@ -18,11 +18,11 @@ keycloak:
     auth:
       password: "7u8KILKBIB"
       postgresPassword: "6DONa6Q6mW"
-#  extraEnvVars:
-#    - name: KC_PROXY
-#      value: edge
-#    - name: KC_HOSTNAME_STRICT
-#      value: "false"
+  extraEnvVars:
+    - name: KC_PROXY
+      value: edge
+    - name: KC_HOSTNAME_STRICT
+      value: "false"
   ingress:
     enabled: true
     annotations:

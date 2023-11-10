@@ -18,7 +18,7 @@ import FeedbackPanel from "~/components/FeedbackPanel";
 
 
 const Index: React.FC = () => {
-    const [rowSelection, setRowSelection] = React.useState([])
+    const [rowSelection, setRowSelection] = React.useState<string[]>([])
 
     const isLoading = false;
     // const {data: dialogs, isLoading} = useQuery(["getDialogs"], () => getDialogs());
@@ -172,7 +172,7 @@ const Index: React.FC = () => {
                         <div className="font-bold mr-4">Cтоп-темы:</div>
                         <div>
                             {row.original.stop_theme ? (
-                                row.original.stop_theme.map((theme, key) =>(
+                                row.original.stop_theme.map((theme: string, key: number) =>(
                                     <div key={key}>{theme}</div>
                                 ))
                             ) : "-"}
