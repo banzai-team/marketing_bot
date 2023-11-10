@@ -13,6 +13,7 @@
 #      effect: "NoExecute"
 
 keycloak:
+  proxy: edge
   postgresql:
     auth:
       password: "7u8KILKBIB"
