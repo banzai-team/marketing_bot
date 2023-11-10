@@ -20,6 +20,8 @@ keycloak:
   extraEnvVars:
     - name: KC_PROXY
       value: edge
+    - name: KC_HOSTNAME_STRICT
+      value: "false"
   ingress:
     enabled: true
     annotations:
