@@ -34,3 +34,4 @@ keycloak:
               pathType: Prefix
   extraEnv:
     KEYCLOAK_LOGLEVEL: DEBUG
+    KC_PROXY: "edge"
