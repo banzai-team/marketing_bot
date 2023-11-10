@@ -17,9 +17,17 @@ keycloak:
     auth:
       password: "7u8KILKBIB"
       postgresPassword: "6DONa6Q6mW"
+  extraEnvVars:
+    - name: KC_PROXY
+      value: edge
   ingress:
     enabled: true
     annotations:
+#      nginx.ingress.kubernetes.io/configuration-snippet: |
+#        more_set_headers "Host              $http_host";
+#        more_set_headers "X-Real-IP         $remote_addr";
+#        more_set_headers "X-Forwarded-Proto $scheme";
+#        more_set_headers "X-Forwarded-For   $proxy_add_x_forwarded_for";
       cert-manager.io/cluster-issuer: "letsencrypt-prod-dns"
       kubernetes.io/ingress.class: nginx
     hostname: gazprom-auth.banzai-predict.site
