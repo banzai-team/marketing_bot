@@ -28,8 +28,8 @@ keycloak:
   ingress:
     enabled: true
     annotations:
-      nginx.ingress.kubernetes.io/cors-allow-origin: "*"
-      nginx.ingress.kubernetes.io/cors-allow-method: "GET, PUT, POST, DELETE, PATCH, OPTIONS"
+#      nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+#      nginx.ingress.kubernetes.io/cors-allow-method: "GET, PUT, POST, DELETE, PATCH, OPTIONS"
       nginx.ingress.kubernetes.io/configuration-snippet: |
         more_set_headers "Host              $http_host";
         more_set_headers "X-Real-IP         $remote_addr";
