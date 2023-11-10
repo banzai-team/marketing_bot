@@ -1,13 +1,12 @@
 import { createContext, ReactNode, useContext, useReducer } from "react";
-import { User } from "firebase/auth";
 import { AuthProvider as OidcProvider, useAuth } from "react-oidc-context";
 import { oidcConfig } from "~/config/config";
 
-type AuthActions = { type: 'SIGN_IN', payload: { user: User } } | { type: 'SIGN_OUT' }
+type AuthActions = { type: 'SIGN_IN', payload: { user: unknown } } | { type: 'SIGN_OUT' }
 
 type AuthState = {
   state: 'SIGNED_IN'
-  currentUser: User;
+  currentUser: unknown;
 } | {
   state: 'SIGNED_OUT'
 } | {
