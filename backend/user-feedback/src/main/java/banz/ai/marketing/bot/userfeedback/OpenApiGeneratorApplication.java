@@ -6,14 +6,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
 
 @SpringBootApplication(
     nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
 @ComponentScan(
-    basePackages = {"banz.ai.marketing.bot.userfeedback", "banz.ai.marketing.bot.userfeedback.api" , "banz.ai.marketing.bot.userfeedback.config"},
+    basePackages = {"banz.ai.marketing.bot.userfeedback", "banz.ai.marketing.bot.userfeedback.controller", "banz.ai.marketing.bot.userfeedback.config"},
     nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
 public class OpenApiGeneratorApplication {

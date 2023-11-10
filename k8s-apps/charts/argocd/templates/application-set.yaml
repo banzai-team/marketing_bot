@@ -12,6 +12,8 @@ spec:
           - path: "k8s-apps/charts/*"
           - path: "k8s-apps/charts/ingress-nginx"
             exclude: true
+          - path: "k8s-apps/charts/gazprom-*"
+            exclude: true
   template:
     metadata:
       name: '{{print "{{path.basename}}"}}'

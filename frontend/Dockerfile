@@ -1,14 +1,15 @@
-FROM node:14-alpine AS development
-ENV NODE_ENV development
+FROM node:18-alpine AS build
 # Add a work directory
-#WORKDIR /app
+WORKDIR /app
 # Cache and Install dependencies
 COPY package.json .
 COPY package-lock.json .
 RUN npm install
 # Copy app files
 COPY . .
-# Expose port
-EXPOSE 3000
 # Start the app
-CMD [ "npm", "run", "dev" ]
+RUN npm run build
+
+FROM nginx:1.19-alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx/default.conf.template /etc/nginx/templates/default.conf.template

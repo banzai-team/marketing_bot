@@ -6,6 +6,10 @@ spring:
           uri: http://model-interceptor
           predicates:
             - Path=/api/model/*
+        - id: feedback
+          uri: http://feedback
+          predicates:
+            - Path=/api/model/*
 management:
   endpoint:
     gateway:
@@ -17,4 +21,4 @@ management:
           - gateway
           - health
 server:
-  port: ${SERVER_PORT}
+  port: ${SERVER_PORT:8080}

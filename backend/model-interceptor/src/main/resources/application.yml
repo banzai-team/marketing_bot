@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT}
+  port: ${SERVER_PORT:8080}
 spring:
   rabbitmq:
     host: ${RMQ_HOST}
@@ -8,4 +8,10 @@ spring:
     template:
       routing-key: ${RMQ_ROUTING_KEY}
 model:
-  url: http://model
+  url: ${MODEL_URL}
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health

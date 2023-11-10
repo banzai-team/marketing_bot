@@ -1,64 +1,72 @@
 name: Backend CI workflow
 on:
+  workflow_dispatch:
   push:
     paths:
-      - 'backend/predictor-gateway/**'
+      - 'backend/api-gateway/**'
+      - '.github/workflows/backend.yaml'
     branches:
       - main
   pull_request:
     paths:
-      - 'backend/predictor-gateway/**'
+      - 'backend/api-gateway/**'
 permissions:
   contents: write
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend/predictor-gateway
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v3
-
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v3
-        with:
-          cache: 'npm'
-          node-version: 18.x
-          cache-dependency-path: ./backend/predictor-gateway/package-lock.json
-      - run: npm ci
-      - name: Build app
-        run: npm run build
+  #  build:
+  #    runs-on: ubuntu-latest
+  #    defaults:
+  #      run:
+  #        working-directory: ./backend/api-gateway
+  #    steps:
+  #      - name: Clone repository
+  #        uses: actions/checkout@v3
+  #
+  #      - name: Use Node.js 18.x
+  #        uses: actions/setup-node@v3
+  #        with:
+  #          cache: 'npm'
+  #          node-version: 18.x
+  #          cache-dependency-path: ./backend/api-gateway/package-lock.json
+  #      - run: npm ci
+  #      - name: Build app
+  #        run: npm run build
 
   deploy-container:
     if: github.ref == 'refs/heads/main'
-    needs:
-      - build
+    #    needs:
+    #      - build
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend/predictor-gateway
+        working-directory: ./backend/api-gateway
     steps:
       - name: Clone repository
         uses: actions/checkout@v3
-      - run: echo $YANDEX_AUTH_KEY | docker login --username json_key --password-stdin cr.yandex
+      - run: echo $DOCKER_LOGIN_KEY | docker login --username ru-moscow-1@$DOCKER_LOGIN_USER --password-stdin $DOCKER_IMAGE_REPO_ADDR
         env:
-          YANDEX_AUTH_KEY: ${{ secrets.YANDEX_AUTH_KEY }}
+          DOCKER_LOGIN_USER: ${{secrets.SBC_ACCESS_KEY}}
+          DOCKER_LOGIN_KEY: ${{secrets.DOCKER_LOGIN_KEY}}
+          DOCKER_IMAGE_REPO_ADDR: swr.ru-moscow-1.hc.sbercloud.ru
+          DOCKER_REGISTRY: gazprom-mrkt
       - run: |
           echo "Packaging docker image ..."
-          tag="$DOCKER_REGISTRY/banzai-predictor-gateway:${{ github.sha	}}"
-          docker build . -t $tag
-          docker push $tag
+          image="$DOCKER_IMAGE_REPO_ADDR/$DOCKER_REGISTRY/banzai-api-gateway"
+          tag="$image:${{github.sha}}"
+          latest_tag="$image:latest"
+          docker build . -t $tag -t $latest_tag
+          docker push $image
         env:
-          DOCKER_REGISTRY: cr.yandex/crpifuncdv6j95trtdq8
-      - name: Commit report
-        working-directory: k8s-apps/banzai-predictor-gateway/
-        run: |
-          git pull
-          echo -e "image: \n  tag: ${{ github.sha }}" > values-production.yaml
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add values-production.yaml
-          git commit -m "bump backend version"
-          git push
+          DOCKER_IMAGE_REPO_ADDR: swr.ru-moscow-1.hc.sbercloud.ru
+          DOCKER_REGISTRY: gazprom-mrkt
+#      - name: Commit report
+#        working-directory: k8s-apps/banzai-api-gateway/
+#        run: |
+#          git pull
+#          echo -e "image: \n  tag: ${{ github.sha }}" > values-production.yaml
+#          git config user.name github-actions
+#          git config user.email github-actions@github.com
+#          git add values-production.yaml
+#          git commit -m "bump backend version"
+#          git push

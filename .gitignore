@@ -4,3 +4,5 @@ target/
 *.iml
 *.ipynb_checkpoints
 *.ipynb
+*dataset/
+*models/

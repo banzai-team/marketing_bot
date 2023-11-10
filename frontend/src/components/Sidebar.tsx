@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
-import {ChatBubbleLeftRightIcon, HomeIcon, ArrowRightOnRectangleIcon} from '@heroicons/react/24/solid'
+import {ChatBubbleLeftRightIcon, HomeIcon, ArrowRightOnRectangleIcon} from '@heroicons/react/24/outline'
 
 import {Routes} from "~/components/router/Router";
 
@@ -17,7 +17,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         <div className="drawer-side">
             <label htmlFor={idSidebar} aria-label="close sidebar" className="drawer-overlay" />
 
-            <ul className="menu p-0 py-6 w-60 shadow-lg min-h-full bg-base-100">
+            <ul className="menu p-0 py-6 w-48 shadow-lg min-h-full bg-base-100">
                 <img src="logo.svg" className="pb-4 ml-6"  width={150} />
                 <li>
 
@@ -31,7 +31,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </li>
                 <li>
                     <NavLink
-                        to="test"
+                        to={Routes.CHATS}
                         className="px-6 py-4 font-bold"
                         onClick={onSelect}
                     >
@@ -39,7 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     </NavLink>
                 </li>
 
-                <div className="divider"></div>
+                <div className="divider" />
 
                 <li>
                     <NavLink

@@ -1,0 +1,56 @@
+.feedback-badge {
+    min-width: 50px;
+    border: none;
+    /*@apply font-bold;*/
+}
+
+.feedback-5 {
+    background: #B40000;
+    @apply text-white;
+}
+
+.feedback-4 {
+    background: #D61D1D;
+    @apply text-white;
+}
+
+.feedback-3 {
+    background: #E94F4F;
+    @apply text-base-200;
+}
+
+.feedback-2 {
+    background: #ED8888;
+    @apply text-base-200;
+}
+
+.feedback-1 {
+    background: #FFB4B4;
+}
+
+.feedback0 {
+    background: #DDD8D8;
+}
+
+.feedback1 {
+    background: #A9F2C4;
+}
+
+.feedback2 {
+    background: #84E3A7;
+}
+
+.feedback3 {
+    background: #5CD488;
+    @apply text-white;
+}
+
+.feedback4 {
+    background: #28C260;
+    @apply text-white;
+}
+
+.feedback5 {
+    background: #17A049;
+    @apply text-white;
+}

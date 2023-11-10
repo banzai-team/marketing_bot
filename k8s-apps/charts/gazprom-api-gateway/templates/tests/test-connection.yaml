@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "gazprom-api-gateway.fullname" . }}-test-connection"
+  labels:
+    {{- include "gazprom-api-gateway.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "gazprom-api-gateway.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

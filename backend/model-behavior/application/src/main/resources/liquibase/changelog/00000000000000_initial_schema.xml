@@ -29,7 +29,7 @@
             <column name="model_response_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" />
             </column>
-            <column name="dialog_evaluation" type="int"/>
+            <column name="dialog_evaluation" type="real"/>
             <column name="offer_purchase" type="boolean" />
             <column name="model_request_id" type="bigint" />
         </createTable>

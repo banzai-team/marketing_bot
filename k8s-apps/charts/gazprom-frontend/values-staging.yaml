@@ -1,0 +1,15 @@
+ingress:
+  enabled: true
+#  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod-dns"
+    kubernetes.io/ingress.class: nginx
+  tls:
+    - hosts:
+        - gazprom.banzai-predict.site
+      secretName: letsencrypt-dns
+  hosts:
+    - host: gazprom.banzai-predict.site
+      paths:
+        - path: /
+          pathType: Prefix

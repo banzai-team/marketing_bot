@@ -4,13 +4,16 @@ import {Column, flexRender, getCoreRowModel, useReactTable} from '@tanstack/reac
 type TableProps = {
     data: any[],
     columns: Array<any | Column<Record<string, unknown>>>;
-    renderSubComponent: (any) => void;
+    renderSubComponent: (arg: any) => React.ReactNode;
 }
 
 const Table: React.FC<TableProps> = ({data, columns, renderSubComponent}) => {
     const [expanded, setExpanded] = React.useState({})
 
     const table = useReactTable<any>({
+        // defaultColumn: {
+        //     size: 100,
+        // },
         data,
         columns,
         state: {
@@ -28,7 +31,14 @@ const Table: React.FC<TableProps> = ({data, columns, renderSubComponent}) => {
             {table.getHeaderGroups().map(headerGroup => (
                 <tr key={headerGroup.id}>
                     {headerGroup.headers.map(header => (
-                        <th key={header.id}>
+                        <th
+                            style={header.getSize ? {
+                                width: `${header.getSize()}px` || undefined,
+                                maxWidth: `${header.getSize()}px` || undefined,
+                                // width: `${header.column.columnDef.meta.width}px` || undefined,
+                            } : {}}
+                            key={header.id}
+                        >
                             {header.isPlaceholder
                                 ? null
                                 : flexRender(
@@ -43,7 +53,7 @@ const Table: React.FC<TableProps> = ({data, columns, renderSubComponent}) => {
             <tbody>
             {table.getRowModel().rows.map(row => {
                 return (
-                    <>
+                    <React.Fragment key={`row-${row.id}`}>
                         <tr key={row.id}>
                             {row.getVisibleCells().map(cell => {
                                 return (
@@ -64,7 +74,7 @@ const Table: React.FC<TableProps> = ({data, columns, renderSubComponent}) => {
                                 </td>
                             </tr>
                         )}
-                    </>
+                    </React.Fragment>
                 )
             })}
             </tbody>
