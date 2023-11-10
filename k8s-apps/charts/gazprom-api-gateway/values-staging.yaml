@@ -20,3 +20,6 @@ config:
   SPRING_CLOUD_GATEWAY_ROUTES_1_URI: "gazprom-user-feedback.gazprom-user-feedback:8080"
   SPRING_CLOUD_GATEWAY_ROUTES_1_ID: user-feedback
   SPRING_CLOUD_GATEWAY_ROUTES_1_PREDICATES: Path=/api/feedback/*
+  KEYCLOAK_ISSUER_URI: https://gazprom-auth.banzai-predict.site/realms/gazprom-mrkt
+  KEYCLOAK_CLIENT_ID: gateway-client
+  KEYCLOAK_CLIENT_SECRET: A3DILZlTQ9Q6XOF48PiTxH1r2zsufpAb
