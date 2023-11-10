@@ -32,3 +32,5 @@ keycloak:
           paths:
             - path: /auth/admin
               pathType: Prefix
+  extraEnv:
+    KEYCLOAK_LOGLEVEL: DEBUG
