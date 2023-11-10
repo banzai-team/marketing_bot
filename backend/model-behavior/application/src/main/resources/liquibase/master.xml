@@ -2,5 +2,6 @@
 
     <include file="./changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="true" />
     <include file="./changelog/20231105171300_change_message_relation.xml" relativeToChangelogFile="true" />
+    <include file="./changelog/20231110151200_move_feedback.xml" relativeToChangelogFile="true" />
 
 </databaseChangeLog>
