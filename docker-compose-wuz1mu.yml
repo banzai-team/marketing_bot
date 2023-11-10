@@ -16,6 +16,9 @@ services:
       SPRING_CLOUD_GATEWAY_ROUTES[1]_URI: http://model-behavior:8080
       SPRING_CLOUD_GATEWAY_ROUTES[1]_ID: model-behavior
       SPRING_CLOUD_GATEWAY_ROUTES[1]_PREDICATES: Path=/api/feedback/**
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/banzai-realm/${KEYCLOAK_BANZAI_REALM}
+      KEYCLOAK_CLIENT_ID: ${KEYCLOAK_BANZAI_CLIENT_ID}
+      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_BANZAI_CLIENT_SECRET}
     
   model-interceptor:
     container_name: model-interceptor
@@ -66,6 +69,15 @@ services:
       - ./ml/models:/models
       - ./ml:/app
     
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:22.0.5
+    ports:
+      - "9001:8080"
+    environment:
+      KEYCLOAK_ADMIN_USER: ${KEYCLOAK_ADMIN_USER}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+
   db:
     container_name: model-behavior-db
     image: postgres:15-alpine
