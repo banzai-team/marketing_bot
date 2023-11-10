@@ -1,4 +1,4 @@
-package banz.ai.marketing.bot.modelbehavior.behavior.repository;
+package banz.ai.marketing.bot.modelbehavior.query.repository;
 
 import banz.ai.marketing.bot.modelbehavior.behavior.entity.*;
 import banz.ai.marketing.bot.modelbehavior.feedback.entity.QFeedback;
@@ -20,8 +20,10 @@ public class CustomModelRequestRepositoryImpl implements CustomModelRequestRepos
     JPQLQuery<ModelRequest> query = new JPAQuery<>(entityManager);
 
     var result = query.from(QModelRequest.modelRequest)
+            .leftJoin(QModelRequest.modelRequest.messages, QModelRequestMessage.modelRequestMessage)
             .innerJoin(QModelRequest.modelRequest.dialog, QDialog.dialog)
             .leftJoin(QModelRequest.modelRequest.modelResponse, QModelResponse.modelResponse)
+            .leftJoin(QModelRequest.modelRequest.modelResponse.stopTopics, QStopTopic.stopTopic)
             .leftJoin(QModelResponse.modelResponse.feedbacks, QFeedback.feedback)
             .limit(pageable.getPageSize())
             .offset(pageable.getOffset())

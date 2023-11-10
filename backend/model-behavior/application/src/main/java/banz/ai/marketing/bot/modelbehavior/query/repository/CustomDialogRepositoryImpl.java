@@ -1,4 +1,4 @@
-package banz.ai.marketing.bot.modelbehavior.behavior.repository;
+package banz.ai.marketing.bot.modelbehavior.query.repository;
 
 import banz.ai.marketing.bot.modelbehavior.behavior.entity.Dialog;
 import banz.ai.marketing.bot.modelbehavior.behavior.entity.QDialog;

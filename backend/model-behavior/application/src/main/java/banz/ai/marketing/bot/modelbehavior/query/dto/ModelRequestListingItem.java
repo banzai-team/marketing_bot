@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ModelRequestListingItem {
 
-  private ModelRequestDTO request;
-  private ModelResponseDTO response;
-  private List<UserFeedbackDTO> feedback;
+  private ModelRequestListItemDTO request;
+  private ModelResponseListItemDTO response;
 }

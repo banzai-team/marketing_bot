@@ -48,11 +48,20 @@ class QueryControllerTest extends AbstractIntegrationTest {
                     .header(HttpHeaders.CONTENT_TYPE, "application/json"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.content[0].request.text").value("hello"))
+            .andExpectAll(
+                    jsonPath("$.content[0].request.text").value("hello"),
+                    jsonPath("$.content[0].request.messages").isArray(),
+                    jsonPath("$.content[0].request.messages[0]").value("Hello"),
+                    jsonPath("$.content[0].request.messages[1]").value("What is your name?"),
+                    jsonPath("$.content[0].request.messages[2]").value("John"),
+                    jsonPath("$.content[0].response.offerPurchase").value(true),
+                    jsonPath("$.content[0].response.dialogEvaluation").value(0.5),
+                    jsonPath("$.content[0].response.feedbacks").isArray(),
+                    jsonPath("$.content[0].response.feedbacks[0].correct").value(false),
+                    jsonPath("$.content[0].response.feedbacks[1].correct").value(true)
+
+            )
             .andReturn();
-
-    var content = response.getResponse().getContentAsString();
-
   }
 
   static String DATABASE_NAME = "behavior_db";
