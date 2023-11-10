@@ -28,6 +28,7 @@ keycloak:
   ingress:
     enabled: true
     annotations:
+      nginx.ingress.kubernetes.io/enable-cors: "true"
 #      nginx.ingress.kubernetes.io/cors-allow-origin: "*"
 #      nginx.ingress.kubernetes.io/cors-allow-method: "GET, PUT, POST, DELETE, PATCH, OPTIONS"
       nginx.ingress.kubernetes.io/configuration-snippet: |
