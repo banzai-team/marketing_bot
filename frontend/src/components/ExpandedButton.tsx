@@ -10,7 +10,7 @@ const ExpandedButton: React.FC<ExpandedButtonProps> = ({onClick, isExpanded}) =>
     return (
         <button
             onClick={onClick}
-            className="btn btn-xs btn-ghost mr-2"
+            className="btn btn-xs btn-ghost mr-1"
         >
             {/* TODO: add transition */}
             {isExpanded ? <ChevronDownIcon className="h-3 w-3" /> : <ChevronRightIcon className="h-3 w-3" />}

@@ -11,7 +11,7 @@ const MainLayout: React.FC = () => {
     const toggle = () => setDrawerOpen(!isDrawerOpen);
 
     return (
-        <div className="w-full h-full ">
+        <div className="w-full h-full bg-neutral-content ">
             <div className="drawer lg:drawer-open md:drawer-open">
                 <input
                     id={idSidebar}
@@ -20,9 +20,9 @@ const MainLayout: React.FC = () => {
                     checked={isDrawerOpen}
                     onChange={toggle}
                 />
-                <div className="drawer-content bg-neutral-content">
+                <div className="drawer-content relative">
                     <Header idSidebar={idSidebar} />
-                    <div className="py-4 px-6">
+                    <div className="py-4 px-6 ">
                         <Outlet />
                     </div>
                 </div>

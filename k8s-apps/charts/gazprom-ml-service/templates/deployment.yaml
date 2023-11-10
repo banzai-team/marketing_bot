@@ -23,9 +23,9 @@ spec:
       initContainers:
         - name: copy
           image: busybox:1.28
-          command: [ "/bin/sh", "-c", "wget -qO- https://gazprom-model-storage.obs.ru-moscow-1.hc.sbercloud.ru/toxicity.zip | busybox unzip -" ]
+          command: [ "/bin/sh", "-c", "wget -q https://gazprom-model-storage.obs.ru-moscow-1.hc.sbercloud.ru/toxisity.zip && unzip toxisity.zip" ]
           volumeMounts:
-            - mountPath: /toxicity
+            - mountPath: /toxisity
               name: models
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -41,7 +41,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
-            - mountPath: /models
+            - mountPath: /app/models
               name: models
           ports:
             - name: http

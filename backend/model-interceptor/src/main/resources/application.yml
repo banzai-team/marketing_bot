@@ -9,3 +9,9 @@ spring:
       routing-key: ${RMQ_ROUTING_KEY}
 model:
   url: ${MODEL_URL}
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health

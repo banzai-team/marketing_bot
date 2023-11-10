@@ -1,0 +1,10 @@
+config:
+  SERVER_PORT: 8080
+  RMQ_HOST: rabbitmq.rabbitmq
+  RMQ_PORT: 5672
+  RMQ_USERNAME: user
+  RMQ_PASSWORD: pass
+  RMQ_ROUTING_KEY: behavior-queue
+  MODEL_URL: "gazprom-ml-service.gazprom-ml-service:8080/v1"
+service:
+  port: 8080

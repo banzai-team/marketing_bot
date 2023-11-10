@@ -1,0 +1,4 @@
+config:
+
+service:
+  port: 8080
