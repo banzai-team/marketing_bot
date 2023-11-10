@@ -15,6 +15,7 @@
 keycloak:
   postgresql:
     auth:
+      password: "7u8KILKBIB"
       postgresPassword: "6DONa6Q6mW"
   ingress:
     enabled: true
