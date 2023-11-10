@@ -6,7 +6,7 @@ import Header from "~/components/Header";
 
 
 const MainLayout: React.FC = () => {
-    const idSidebar = "my-drawer-2";
+    const idSidebar: string = "my-drawer-2";
     const [isDrawerOpen, setDrawerOpen] = useState(false);
     const toggle = () => setDrawerOpen(!isDrawerOpen);
 

@@ -1,12 +1,10 @@
 import React from 'react';
-import {Bars3Icon, XMarkIcon} from '@heroicons/react/24/solid'
 import FeedbackButtons from "~/components/FeedbackButtons/FeedbackButtons";
 
-type HeaderProps = {
-    idSidebar: string
+type FeedbackPanelProps = {
 }
 
-const Header: React.FC<HeaderProps> = ({ idSidebar }) => {
+const FeedbackPanel: React.FC<FeedbackPanelProps> = () => {
     return (
         <div
             className="absolute bottom-2 left-20 right-20 bg-secondary-content text-white rounded-full card p-4 flex flex-row justify-center items-center z-10">
@@ -17,4 +15,4 @@ const Header: React.FC<HeaderProps> = ({ idSidebar }) => {
     );
 };
 
-export default Header;
+export default FeedbackPanel;
