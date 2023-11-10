@@ -20,6 +20,6 @@ keycloak:
       kubernetes.io/ingress.class: nginx
     hostname: gazprom-auth.banzai-predict.site
     tls: true
-  extraEnvVars:
-    KEYCLOAK_LOGLEVEL: DEBUG
-    KC_PROXY: "edge"
+#  extraEnvVars:
+#    KEYCLOAK_LOGLEVEL: DEBUG
+#    KC_PROXY: "edge"
