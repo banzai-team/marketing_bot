@@ -1,5 +1,6 @@
-import React, {lazy, Suspense} from 'react';
-import {BrowserRouter, Outlet, RouteObject, useRoutes} from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { BrowserRouter, RouteObject, useRoutes } from 'react-router-dom';
+import { useAuth } from "react-oidc-context";
 
 import Layout from "~/components/Layout";
 import MainLayout from "~/components/MainLayout";
@@ -24,6 +25,24 @@ export const Routes = {
 };
 
 export const Router = () => {
+    // const auth = useAuth();
+    // const [hasTriedSignin, setHasTriedSignin] = React.useState(false);
+    //
+    // // automatically sign-in
+    // React.useEffect(() => {
+    //     if (!hasAuthParams() &&
+    //       !auth.isAuthenticated && !auth.activeNavigator && !auth.isLoading &&
+    //       !hasTriedSignin
+    //     ) {
+    //         auth.signinRedirect();
+    //         setHasTriedSignin(true);
+    //     }
+    // }, [auth, hasTriedSignin]);
+    const auth = useAuth();
+
+    if (auth.isLoading) {
+        return "Loading"
+    }
     return (
         <BrowserRouter>
             <InnerRouter />

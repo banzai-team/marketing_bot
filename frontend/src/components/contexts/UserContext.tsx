@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext, useReducer } from "react";
 import { User } from "firebase/auth";
-import { AuthProvider as OidcProvider } from "react-oidc-context";
+import { AuthProvider as OidcProvider, useAuth } from "react-oidc-context";
+import { oidcConfig } from "~/config/config";
 
 type AuthActions = { type: 'SIGN_IN', payload: { user: User } } | { type: 'SIGN_OUT' }
 
@@ -38,12 +39,6 @@ export const AuthContext = createContext<AuthContextProps>({
   }
 });
 
-const oidcConfig = {
-  authority: "https://gazprom-auth.banzai-predict.site/realms/gazprom-mrkt",
-  client_id: "webapp",
-  redirect_uri: "http://localhost:5173",
-};
-
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(AuthReducer, { state: 'UNKNOWN' })
 
@@ -63,22 +58,5 @@ const useAuthState = () => {
   };
 };
 
-const useSignIn = () => {
-  const { dispatch } = useContext(AuthContext)
-  return {
-    signIn: (user: User) => {
-      dispatch({ type: "SIGN_IN", payload: { user } })
-    }
-  }
-}
 
-const useSignOut = () => {
-  const { dispatch } = useContext(AuthContext)
-  return {
-    signOut: () => {
-      dispatch({ type: "SIGN_OUT" })
-    }
-  }
-}
-
-export { useAuthState, useSignIn, useSignOut, AuthProvider };
+export { useAuthState, useAuth, AuthProvider };
