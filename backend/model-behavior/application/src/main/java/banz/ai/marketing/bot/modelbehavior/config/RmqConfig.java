@@ -10,32 +10,28 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RmqConfig {
 
-    @Value("${spring.rabbitmq.host}")
-    private String host;
-
-    @Value("${spring.rabbitmq.port:5672}")
-    private int port;
-
-    @Value("${spring.rabbitmq.username}")
-    private String username;
-
-    @Value("${spring.rabbitmq.password}")
-    private String password;
-
     @Bean
     MessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 
-    @Value("${queues.feedback}")
-    String feedbackQueue;
+    @Value("${queues.feedback-post}")
+    String feedbackPostQueue;
+
+    @Value("${queues.feedback-response}")
+    String feedbackResponseQueue;
 
     @Value("${queues.behavior}")
     String behaviorQueue;
 
     @Bean
-    public Queue feedbackQueue() {
-        return new Queue(feedbackQueue, true, false, false);
+    public Queue feedbackPostQueue() {
+        return new Queue(feedbackPostQueue, true, false, false);
+    }
+
+    @Bean
+    public Queue feedbackResponseQueue() {
+        return new Queue(feedbackResponseQueue, true, false, false);
     }
 
     @Bean

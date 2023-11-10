@@ -21,7 +21,7 @@ public class UserFeedbackListener {
 
     private final FeedbackHandler feedbackHandler;
 
-    @RabbitListener(queues = "${queues.feedback}", ackMode = "MANUAL")
+    @RabbitListener(queues = "${queues.feedback-post}", ackMode = "MANUAL")
     public void processFeedback(UserFeedbackToApplyDTO message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws IOException {
         logger.debug("Received feedback message: %s".formatted(message));
         feedbackHandler.handleUserFeedback(message);

@@ -1,16 +1,7 @@
 version: '3.9'
 
 services:
-  app:
-    container_name: app-dev
-    image: banzai/gazprom-frontend
-    build:
-      context: frontend
-      target: development
-    #    volumes:
-    #      - ./src:/app/src
-    ports:
-      - "4000:80"
+
   api-gateway:
     container_name: api-gateway
     build: 
@@ -21,10 +12,10 @@ services:
       SERVER_PORT: 8083
       SPRING_CLOUD_GATEWAY_ROUTES[0]_URI: http://model-interceptor:8080
       SPRING_CLOUD_GATEWAY_ROUTES[0]_ID: model
-      SPRING_CLOUD_GATEWAY_ROUTES[0]_PREDICATES: Path=/api/model/*
-      SPRING_CLOUD_GATEWAY_ROUTES[1]_URI: http://user-feedback:8080
-      SPRING_CLOUD_GATEWAY_ROUTES[1]_ID: user-feedback
-      SPRING_CLOUD_GATEWAY_ROUTES[1]_PREDICATES: Path=/api/feedback/*
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_PREDICATES: Path=/api/model/**
+      SPRING_CLOUD_GATEWAY_ROUTES[1]_URI: http://model-behavior:8080
+      SPRING_CLOUD_GATEWAY_ROUTES[1]_ID: model-behavior
+      SPRING_CLOUD_GATEWAY_ROUTES[1]_PREDICATES: Path=/api/feedback/**
     
   model-interceptor:
     container_name: model-interceptor
@@ -51,33 +42,15 @@ services:
       RMQ_PORT: 5672
       RMQ_USERNAME: ${RMQ_USERNAME}
       RMQ_PASSWORD: ${RMQ_PASSWORD}
-      RMQ_FEEDBACK_QUEUE: ${RMQ_FEEDBACK_QUEUE}
       RMQ_BEHAVIOR_QUEUE: ${RMQ_BEHAVIOR_QUEUE}
+      RMQ_FEEDBACK_POST_QUEUE: ${RMQ_FEEDBACK_POST_QUEUE}
+      RMQ_FEEDBACK_RESPONSE_QUEUE: ${RMQ_FEEDBACK_RESPONSE_QUEUE}
       DB_HOST: db
       DB_PORT: 5432
       DB_USERNAME: ${BEHAVIOR_DB_USER}
       DB_PASSWORD: ${BEHAVIOR_DB_PASSWORD}
       DB_NAME: ${BEHAVIOR_DB_NAME}
       MODEL_URL: http://model:8080/v1
-    depends_on:
-      - rmq
-  
-  user-feedback:
-    container_name: user-feedback
-    build: 
-      context: ./backend
-      dockerfile: user-feedback/Dockerfile
-    environment:
-      RMQ_HOST: rmq
-      RMQ_PORT: 5672
-      RMQ_USERNAME: ${RMQ_USERNAME}
-      RMQ_PASSWORD: ${RMQ_PASSWORD}
-      RMQ_FEEDBACK_POST_QUEUE: ${RMQ_FEEDBACK_QUEUE}
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USERNAME: ${FEEDBACK_DB_USER}
-      DB_PASSWORD: ${FEEDBACK_DB_PASSWORD}
-      DB_NAME: ${FEEDBACK_DB_NAME}
     depends_on:
       - rmq
 

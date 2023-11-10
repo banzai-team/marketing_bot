@@ -1,100 +1,68 @@
 package banz.ai.marketing.bot.modelbehavior.controller;
 
-import banz.ai.marketing.bot.commons.mq.UserFeedbackToApplyDTO;
 import banz.ai.marketing.bot.modelbehavior.AbstractIntegrationTest;
+import jakarta.persistence.EntityManagerFactory;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.mockito.ArgumentMatchers;
 import org.mockserver.client.MockServerClient;
-import org.mockserver.verify.VerificationTimes;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.MockServerContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.shaded.org.awaitility.Awaitility;
 import org.testcontainers.utility.DockerImageName;
 
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.mockserver.model.HttpRequest.request;
-import static org.mockserver.model.HttpResponse.response;
+@Sql(scripts = {"classpath:init-query-test.sql"})
+class QueryControllerTest extends AbstractIntegrationTest {
 
-class UserFeedbackListenerIT extends AbstractIntegrationTest {
-
+  private MockMvc mockMvc;
   @Autowired
-  private RabbitTemplate rabbitTemplate;
+  private WebApplicationContext webApplicationContext;
 
   @BeforeEach
   void setUp() {
-    mockServerClient.reset();
+    mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
   }
 
   @Test
-  public void shouldReceiveNegativeFeedbackAndInvokeModelLearning() throws InterruptedException {
-    var feedbackDTO = UserFeedbackToApplyDTO.builder()
-            .isCorrect(false)
-            .userId(105L)
-            .modelResponseId(20L)
-            .build();
-    mockServerClient
-            .when(request().withMethod("POST").withPath("/invoke-relearning"))
-            .respond(response().withStatusCode(200));
+  void shouldReturnListing() throws Exception {
+    var response = this.mockMvc.perform(get("/api/query/model-request?page=0&size=10")
+                    .header(HttpHeaders.CONTENT_TYPE, "application/json"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpectAll(
+                    jsonPath("$.content[0].request.text").value("hello"),
+                    jsonPath("$.content[0].request.messages").isArray(),
+                    jsonPath("$.content[0].request.messages[0]").value("Hello"),
+                    jsonPath("$.content[0].request.messages[1]").value("What is your name?"),
+                    jsonPath("$.content[0].request.messages[2]").value("John"),
+                    jsonPath("$.content[0].response.offerPurchase").value(true),
+                    jsonPath("$.content[0].response.dialogEvaluation").value(0.5),
+                    jsonPath("$.content[0].response.feedbacks").isArray(),
+                    jsonPath("$.content[0].response.feedbacks[0].correct").value(false),
+                    jsonPath("$.content[0].response.feedbacks[1].correct").value(true)
 
-    rabbitTemplate.convertAndSend(FEEDBACK_QUEUE_POST, feedbackDTO);
-
-    Awaitility.await()
-            .ignoreExceptions()
-            .atMost(5, TimeUnit.SECONDS)
-            .with()
-            .pollInterval(Duration.ofSeconds(1))
-            .until(() -> {
-              mockServerClient
-                      .verify(
-                              request().withPath("/invoke-relearning"),
-                              VerificationTimes.exactly(1)
-                      );
-              return true;
-            });
+            )
+            .andReturn();
   }
-
-  @Test
-  public void shouldReceivePositiveFeedbackWithoutModelLearningInvocation() {
-    var feedbackDTO = UserFeedbackToApplyDTO.builder()
-            .isCorrect(true)
-            .userId(105L)
-            .modelResponseId(20L)
-            .build();
-    mockServerClient
-            .when(request().withMethod("POST").withPath("/invoke-relearning"))
-            .respond(response().withStatusCode(200));
-
-    rabbitTemplate.convertAndSend(FEEDBACK_QUEUE_POST, feedbackDTO);
-
-    Awaitility.await()
-            .ignoreExceptions()
-            .atMost(5, TimeUnit.SECONDS)
-            .with()
-            .pollInterval(Duration.ofSeconds(1))
-            .until(() -> {
-              mockServerClient
-                      .verify(
-                              request().withPath("/invoke-relearning"),
-                              VerificationTimes.never()
-                      );
-              return true;
-            });
-  }
-
-  @Test
-  void shouldHandleConditionWhenModelIsNotAvailableAndLeaveMessageInRmq() {
-    // TODO implement
-  }
-
 
   static String DATABASE_NAME = "behavior_db";
   static String BEHAVIOR_QUEUE = "behavior-queue";
@@ -110,7 +78,8 @@ class UserFeedbackListenerIT extends AbstractIntegrationTest {
   @Container
   static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>(DockerImageName.parse(POSTGRES_IMAGE_NAME))
           .withReuse(true)
-          .withDatabaseName(DATABASE_NAME);
+          .withDatabaseName(DATABASE_NAME)
+          ;
   static MockServerClient mockServerClient;
 
   @DynamicPropertySource

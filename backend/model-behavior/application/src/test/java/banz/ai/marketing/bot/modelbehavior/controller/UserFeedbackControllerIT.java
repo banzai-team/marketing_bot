@@ -1,100 +1,93 @@
 package banz.ai.marketing.bot.modelbehavior.controller;
 
-import banz.ai.marketing.bot.commons.mq.UserFeedbackToApplyDTO;
 import banz.ai.marketing.bot.modelbehavior.AbstractIntegrationTest;
+import banz.ai.marketing.bot.modelbehavior.behavior.entity.Dialog;
+import banz.ai.marketing.bot.modelbehavior.behavior.entity.ModelRequest;
+import banz.ai.marketing.bot.modelbehavior.behavior.entity.ModelResponse;
+import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockserver.client.MockServerClient;
-import org.mockserver.verify.VerificationTimes;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.MockServerContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.shaded.org.awaitility.Awaitility;
 import org.testcontainers.utility.DockerImageName;
 
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
+import java.util.Date;
 
-import static org.mockserver.model.HttpRequest.request;
-import static org.mockserver.model.HttpResponse.response;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class UserFeedbackListenerIT extends AbstractIntegrationTest {
+class UserFeedbackControllerIT extends AbstractIntegrationTest {
+
+  private MockMvc mockMvc;
+  @Autowired
+  private WebApplicationContext webApplicationContext;
 
   @Autowired
-  private RabbitTemplate rabbitTemplate;
+  private EntityManagerFactory entityManagerFactory;
 
   @BeforeEach
   void setUp() {
-    mockServerClient.reset();
+    mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
   }
 
   @Test
-  public void shouldReceiveNegativeFeedbackAndInvokeModelLearning() throws InterruptedException {
-    var feedbackDTO = UserFeedbackToApplyDTO.builder()
-            .isCorrect(false)
-            .userId(105L)
-            .modelResponseId(20L)
-            .build();
-    mockServerClient
-            .when(request().withMethod("POST").withPath("/invoke-relearning"))
-            .respond(response().withStatusCode(200));
+  void shouldCreateFeedbackRecordAndPutMessageInRmq() throws Exception {
+    var entityManager = entityManagerFactory.createEntityManager();
+    var req = new ModelRequest();
+    var resp = new ModelResponse();
+    req.setModelResponse(resp);
+    var dialog = new Dialog();
+    dialog.setId(75L);
+    dialog.setCreatedAt(new Date());
+    dialog.addModelRequest(req);
+    entityManager.getTransaction().begin();
+    entityManager.persist(dialog);
+    entityManager.persist(req);
+    entityManager.flush();
+    entityManager.getTransaction().commit();
 
-    rabbitTemplate.convertAndSend(FEEDBACK_QUEUE_POST, feedbackDTO);
+    this.mockMvc.perform(post("/api/feedback")
+                    .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                    .content(
+                            """
+                                        {
+                                           "userId": 99,
+                                           "modelResponseId": %d,
+                                           "isCorrect": false
+                                        }
+                                    """.formatted(resp.getId())))
+            .andDo(print())
+            .andExpect(status().isCreated());
 
-    Awaitility.await()
-            .ignoreExceptions()
-            .atMost(5, TimeUnit.SECONDS)
-            .with()
-            .pollInterval(Duration.ofSeconds(1))
-            .until(() -> {
-              mockServerClient
-                      .verify(
-                              request().withPath("/invoke-relearning"),
-                              VerificationTimes.exactly(1)
-                      );
-              return true;
-            });
+    // TODO check db
+//    Awaitility.await()
+//            .atMost(5, TimeUnit.SECONDS).until(() -> {
+//              var msg = rabbitTemplate.receive(FEEDBACK_QUEUE_POST);
+//              if (Objects.isNull(msg)) {
+//                return false;
+//              }
+//              var msgBody = new String(msg.getBody(), msg.getMessageProperties().getContentEncoding());
+//              var mapper = new ObjectMapper();
+//              var dto = mapper.readValue(msgBody, UserFeedbackToApplyDTO.class);
+//              Assertions.assertEquals(99, dto.getUserId());
+//              Assertions.assertFalse(dto.isCorrect());
+//              Assertions.assertEquals(888, dto.getModelResponseId());
+//
+//              return true;
+//            });
   }
-
-  @Test
-  public void shouldReceivePositiveFeedbackWithoutModelLearningInvocation() {
-    var feedbackDTO = UserFeedbackToApplyDTO.builder()
-            .isCorrect(true)
-            .userId(105L)
-            .modelResponseId(20L)
-            .build();
-    mockServerClient
-            .when(request().withMethod("POST").withPath("/invoke-relearning"))
-            .respond(response().withStatusCode(200));
-
-    rabbitTemplate.convertAndSend(FEEDBACK_QUEUE_POST, feedbackDTO);
-
-    Awaitility.await()
-            .ignoreExceptions()
-            .atMost(5, TimeUnit.SECONDS)
-            .with()
-            .pollInterval(Duration.ofSeconds(1))
-            .until(() -> {
-              mockServerClient
-                      .verify(
-                              request().withPath("/invoke-relearning"),
-                              VerificationTimes.never()
-                      );
-              return true;
-            });
-  }
-
-  @Test
-  void shouldHandleConditionWhenModelIsNotAvailableAndLeaveMessageInRmq() {
-    // TODO implement
-  }
-
 
   static String DATABASE_NAME = "behavior_db";
   static String BEHAVIOR_QUEUE = "behavior-queue";

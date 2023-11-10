@@ -1,0 +1,34 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet id="20231110151200" author="wuz1mu">
+        <createTable tableName="user_feedback">
+            <column name="feedback_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="model_response_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_correct" type="bool">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="applied_at" type="timestamp">
+                <constraints nullable="true" />
+            </column>
+            <column name="status" type="varchar">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addForeignKeyConstraint  baseColumnNames="model_response_id"
+                                  baseTableName="user_feedback"
+                                  constraintName="fk_feedback_model_response"
+                                  referencedColumnNames="model_response_id"
+                                  referencedTableName="model_response"
+                                  onDelete="CASCADE"
+        />
+    </changeSet>
+</databaseChangeLog>
