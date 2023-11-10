@@ -13,6 +13,9 @@
 #      effect: "NoExecute"
 
 keycloak:
+  postgresql:
+    auth:
+      postgresPassword: "6DONa6Q6mW"
   ingress:
     enabled: true
     annotations:
@@ -23,3 +26,4 @@ keycloak:
 #  extraEnvVars:
 #    KEYCLOAK_LOGLEVEL: DEBUG
 #    KC_PROXY: "edge"
+
