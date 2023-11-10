@@ -2,9 +2,11 @@ import React from 'react';
 import {Head} from '~/components/shared/Head';
 import Table from "~/components/Table";
 import {createColumnHelper, Row} from "@tanstack/react-table";
-import {PlusSmallIcon} from '@heroicons/react/24/solid'
+import {PlusSmallIcon, UserCircleIcon} from '@heroicons/react/24/solid'
 
 import ExpandedButton from "~/components/ExpandedButton";
+import PositiveNegativeFeedback from "~/components/PositiveNegativeFeedback/PositiveNegativeFeedback";
+import FeedbackButtons from "~/components/FeedbackButtons/FeedbackButtons";
 
 
 const Index: React.FC = () => {
@@ -14,8 +16,15 @@ const Index: React.FC = () => {
             firstName: "Test 1",
             lastName: "Test 11",
             age: "111",
+            feedback: "-5",
             subRows: [{
-                message: "Expanded data"
+                messages: [
+                    "Где информация о вкладе 13% in",
+                    "Hello! out",
+                    "Hello! 2 in",
+                    "Hello! 3 out",
+                    "Hello! 4 in",
+                ]
             }]
         },
         {
@@ -23,18 +32,78 @@ const Index: React.FC = () => {
             firstName: "Test 2",
             lastName: "Test 22",
             age: "222",
+            feedback: "-4",
             subRows: [{
-                message: "Expanded data"
+                messages: [
+                    "Hello! out",
+                    "Hello! 2 in",
+                    "Hello! 3 out",
+                    "Hello! 4 in",
+                ]
             }]
         },
         {
             id: "3",
             firstName: "Test 3",
             lastName: "Test 33",
+            feedback: "-3",
             age: "333",
-            subRows: [{
-                message: "Expanded data"
-            }]
+        },
+        {
+            id: "3",
+            firstName: "Test 3",
+            lastName: "Test 33",
+            feedback: "-2",
+            age: "333",
+        },
+        {
+            id: "3",
+            firstName: "Test 3",
+            lastName: "Test 33",
+            feedback: "-1",
+            age: "333",
+        },
+        {
+            id: "3",
+            firstName: "Test 3",
+            lastName: "Test 33",
+            feedback: "0",
+            age: "333",
+        },
+        {
+            id: "3",
+            firstName: "Test 3",
+            lastName: "Test 33",
+            feedback: "1",
+            age: "333",
+        },
+        {
+            id: "3",
+            firstName: "Test 3",
+            lastName: "Test 33",
+            feedback: "2",
+            age: "333",
+        },
+        {
+            id: "3",
+            firstName: "Test 3",
+            lastName: "Test 33",
+            feedback: "3",
+            age: "333",
+        },
+        {
+            id: "3",
+            firstName: "Test 3",
+            lastName: "Test 33",
+            feedback: "4",
+            age: "333",
+        },
+        {
+            id: "3",
+            firstName: "Test 3",
+            lastName: "Test 33",
+            feedback: "5",
+            age: "333",
         }
     ];
 
@@ -65,23 +134,62 @@ const Index: React.FC = () => {
         columnHelper.accessor('firstName', {
             cell: info => info.renderValue(),
         }),
-        columnHelper.accessor(row => row.lastName, {
-            id: 'lastName',
-            cell: info => <i>{info.getValue()}</i>,
-            header: () => <span>Last Name</span>,
+        columnHelper.accessor("feedback", {
+            cell: info => <PositiveNegativeFeedback point={info.renderValue()} />,
+            header: "Oценка настроения",
         }),
         columnHelper.accessor('age', {
-            header: () => 'Age',
-            cell: info => info.renderValue(),
+            header: "Оценка",
+            cell: info => <FeedbackButtons />,
         })
     ]
 
     // TODO: add type
     const renderSubComponent = ({row}: { row: Row<any> }) => {
+        const data = row.original.subRows[0].messages;
+
+        if (!data) {
+            return null;
+        }
+
         return (
-            <pre style={{fontSize: '10px'}}>
-      <code>{JSON.stringify(row.original, null, 2)}</code>
-    </pre>
+            <div>
+                {data.map((message, key) => {
+                    if (message.trim().endsWith("in")) {
+                        return (
+                            <div className="chat chat-start" key={`message-${key}`}>
+                                <div className="chat-image avatar">
+                                    <div className="w-12 rounded-full bg-base-100">
+                                        <UserCircleIcon className="h-12 w-12" />
+                                    </div>
+                                </div>
+                                <div className="chat-header">
+                                    User
+                                </div>
+                                <div className="chat-bubble">
+                                    {message.substring(0, message.lastIndexOf('in'))}
+                                </div>
+                            </div>
+                        )
+                    }
+
+                    return (
+                        <div className="chat chat-end" key={`message-${key}`}>
+                            <div className="chat-image avatar">
+                                <div className="w-10 rounded-full">
+                                    <img src="gazprombank-1.svg" />
+                                </div>
+                            </div>
+                            <div className="chat-header">
+                                Operator
+                            </div>
+                            <div className="chat-bubble chat-bubble-primary">
+                                {message.substring(0, message.lastIndexOf('out'))}
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
         )
     }
 
@@ -97,7 +205,7 @@ const Index: React.FC = () => {
               </button>
           </div>
           <div className="card bg-base-100 shadow-xl overflow-hidden mt-6">
-              <Table data={data} columns={columns} renderSubComponent={renderSubComponent}/>
+              <Table data={data} columns={columns} renderSubComponent={renderSubComponent} />
           </div>
       </>
   );
