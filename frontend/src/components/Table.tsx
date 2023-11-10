@@ -67,7 +67,7 @@ const Table: React.FC<TableProps> = ({data, columns, renderSubComponent}) => {
                             })}
                         </tr>
                         {row.getIsExpanded() && renderSubComponent && (
-                            <tr>
+                            <tr className="shadow-inner">
                                 {/* 2nd row is a custom 1 cell row */}
                                 <td colSpan={row.getVisibleCells().length}>
                                     {renderSubComponent({row})}

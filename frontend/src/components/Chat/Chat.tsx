@@ -8,7 +8,7 @@ type ChatProps = {
 
 const Chat: React.FC<ChatProps> = ({ data }) => {
     return (
-        <>
+        <div className="flex-1">
             {data.map((message, key) => {
                 if (message.trim().endsWith("in")) {
                     return (
@@ -44,7 +44,7 @@ const Chat: React.FC<ChatProps> = ({ data }) => {
                     </div>
                 )
             })}
-        </>
+        </div>
 
     );
 };
