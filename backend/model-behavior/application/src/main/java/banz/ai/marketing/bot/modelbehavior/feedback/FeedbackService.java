@@ -30,7 +30,7 @@ public class FeedbackService {
   @Transactional
   public void postFeedback(UserFeedbackDTO userFeedbackDTO) {
     if (!responseRepository.existsById(userFeedbackDTO.getModelResponseId())) {
-      throw new NotFoundException();
+      throw new NotFoundException("Specified response was not found");
     }
     var response = responseRepository.getReferenceById(userFeedbackDTO.getModelResponseId());
     var feedback = new Feedback();
@@ -54,7 +54,7 @@ public class FeedbackService {
   @Transactional
   public void handleFeedbackApplied(UserFeedbackApplyResultDTO result) {
     if (!feedbackRepository.existsById(result.getFeedbackId())) {
-      throw new NotFoundException();
+      throw new NotFoundException("Specified feedback was not found");
     }
     // TODO handle errors
     var feedback = feedbackRepository.getReferenceById(result.getFeedbackId());

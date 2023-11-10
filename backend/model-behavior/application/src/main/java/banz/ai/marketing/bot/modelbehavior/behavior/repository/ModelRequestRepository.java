@@ -10,7 +10,8 @@ import org.springframework.data.querydsl.binding.QuerydslBindings;
 
 public interface ModelRequestRepository extends JpaRepository<ModelRequest, Long>,
         QuerydslPredicateExecutor<ModelRequest>,
-        QuerydslBinderCustomizer<QModelRequest> {
+        QuerydslBinderCustomizer<QModelRequest>,
+        CustomModelRequestRepository {
     default void customize(QuerydslBindings bindings, QModelRequest root) {
     }
 }
