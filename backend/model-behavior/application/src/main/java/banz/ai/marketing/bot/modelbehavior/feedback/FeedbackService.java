@@ -1,8 +1,10 @@
 package banz.ai.marketing.bot.modelbehavior.feedback;
 
+import banz.ai.marketing.bot.commons.mq.UserFeedbackApplyResultDTO;
 import banz.ai.marketing.bot.commons.mq.UserFeedbackToApplyDTO;
 import banz.ai.marketing.bot.modelbehavior.behavior.repository.ModelResponseRepository;
 import banz.ai.marketing.bot.modelbehavior.dto.UserFeedbackDTO;
+import banz.ai.marketing.bot.modelbehavior.exception.NotFoundException;
 import banz.ai.marketing.bot.modelbehavior.feedback.entity.Feedback;
 import banz.ai.marketing.bot.modelbehavior.feedback.entity.FeedbackStatus;
 import banz.ai.marketing.bot.modelbehavior.feedback.repository.FeedbackRepository;
@@ -27,8 +29,8 @@ public class FeedbackService {
 
   @Transactional
   public void postFeedback(UserFeedbackDTO userFeedbackDTO) {
-    if (responseRepository.existsById(userFeedbackDTO.getModelResponseId())) {
-      throw new RuntimeException();
+    if (!responseRepository.existsById(userFeedbackDTO.getModelResponseId())) {
+      throw new NotFoundException();
     }
     var response = responseRepository.getReferenceById(userFeedbackDTO.getModelResponseId());
     var feedback = new Feedback();
@@ -47,5 +49,17 @@ public class FeedbackService {
             .build();
 
     rabbitTemplate.convertAndSend(feedbackPostQueue, mqMessage);
+  }
+
+  @Transactional
+  public void handleFeedbackApplied(UserFeedbackApplyResultDTO result) {
+    if (!feedbackRepository.existsById(result.getFeedbackId())) {
+      throw new NotFoundException();
+    }
+    // TODO handle errors
+    var feedback = feedbackRepository.getReferenceById(result.getFeedbackId());
+    feedback.setAppliedAt(result.getAppliedAt());
+    feedback.setStatus(FeedbackStatus.APPLIED);
+    feedbackRepository.save(feedback);
   }
 }

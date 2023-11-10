@@ -33,7 +33,7 @@ public class ModelResponse {
     @OneToMany(mappedBy = "modelResponse", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StopTopic> stopTopics = new ArrayList<>();
 
-    @OneToMany(mappedBy = "modelResponse", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "modelResponse", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Feedback> feedbacks = new ArrayList<>();
 
     public void addStopTopic(StopTopic stopTopic) {
