@@ -23,6 +23,8 @@ keycloak:
       value: edge
     - name: KC_HOSTNAME_STRICT
       value: "false"
+    - name: KC_LOG_LEVEL
+      value: "DEBUG"
   ingress:
     enabled: true
     annotations:
