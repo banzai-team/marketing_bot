@@ -8,6 +8,11 @@ export type SendMessagePayload = {
   text: string;
 };
 
+export type SendFeedbackPayload = {
+  id: string;
+  feedback: boolean;
+};
+
 export function sendMessage(payload: SendMessagePayload) {
   const params = {
     is_operator: payload.isOperator,
@@ -26,5 +31,19 @@ export function sendMessage(payload: SendMessagePayload) {
 
 export function getDialogs() {
   return axios.get(`${config.apiUrl}/dialogs`);
+}
+
+export function sendFeedback(payload: SendFeedbackPayload) {
+  const params = {
+    id: payload.id,
+    feedback: payload.feedback,
+  }
+
+  return axios.post(`${config.apiUrl}/api/feedback`, params, {
+    headers: {
+      'Content-Type': `application/json`,
+      'Authorization': `Basic ${btoa('user:12345')}`,
+    },
+  });
 }
 

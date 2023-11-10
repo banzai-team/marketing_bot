@@ -1,15 +1,35 @@
 import React from 'react';
 import "./FeedbackButtons.css";
+import {useMutation} from 'react-query';
+import {sendFeedback} from '~/domain/api';
 
-type FeedbackButtonsProps = {}
+type FeedbackButtonsProps = {
+    chatIds: string | Array<string>;
+}
 
-const FeedbackButtons: React.FC<FeedbackButtonsProps> = () => {
+const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ chatIds }) => {
+    const send = useMutation(sendFeedback);
+    
+    const sendFeedbackRequest = (chatIds: string | Array<string>, feedback: boolean): void => {
+        if (Array.isArray(chatIds)) {
+            chatIds.forEach(id => send.mutate({id, feedback}));
+        } else {
+            send.mutate({id: chatIds, feedback});
+        }
+    };
+    
     return (
         <>
-            <button className="btn btn-sm btn-ghost mr-1 text-2xl feedback-btn">
+            <button
+                className="btn btn-sm btn-ghost mr-1 text-2xl feedback-btn"
+                onClick={() => sendFeedbackRequest(chatIds, true)}
+            >
                 👍
             </button>
-            <button className="btn btn-sm btn-ghost text-2xl feedback-btn">
+            <button
+                className="btn btn-sm btn-ghost text-2xl feedback-btn"
+                onClick={() => sendFeedbackRequest(chatIds, false)}
+            >
                 👎
             </button>
         </>
