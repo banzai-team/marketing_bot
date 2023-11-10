@@ -26,7 +26,7 @@ spec:
           image: busybox:1.28
           envFrom:
             - configMapRef:
-                name: {{ include "gazprom-api-gateway.fullname" . }}
+                name: {{ include "gazprom-ml-service.fullname" . }}
           command: [ "/bin/sh", "-c", "wget -q -O model.zip $MODEL_URL && unzip model.zip" ]
           volumeMounts:
             - mountPath: /model
