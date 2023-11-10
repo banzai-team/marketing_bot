@@ -199,7 +199,7 @@ const Index: React.FC = () => {
       <>
           <Head title="Main page" />
           {
-              rowSelection.length ? <FeedbackPanel chatIds={rowSelection} /> : null
+              rowSelection.length ? <FeedbackPanel chatIds={rowSelection} cleanChatIds={setRowSelection} /> : null
           }
           <div className="flex justify-between">
               <div className="page-title">Home Page</div>

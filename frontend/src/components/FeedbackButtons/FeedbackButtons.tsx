@@ -5,14 +5,16 @@ import {sendFeedback} from '~/domain/api';
 
 type FeedbackButtonsProps = {
     chatIds: string | Array<string>;
+    cleanChatIds?: (chatIds: Array<string>) => void;
 }
 
-const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ chatIds }) => {
+const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ chatIds, cleanChatIds }) => {
     const send = useMutation(sendFeedback);
     
     const sendFeedbackRequest = (chatIds: string | Array<string>, feedback: boolean): void => {
         if (Array.isArray(chatIds)) {
             chatIds.forEach(id => send.mutate({id, feedback}));
+            cleanChatIds && cleanChatIds([]);
         } else {
             send.mutate({id: chatIds, feedback});
         }
