@@ -2,11 +2,14 @@ import React from 'react';
 import {Head} from '~/components/shared/Head';
 import Table from "~/components/Table";
 import {createColumnHelper, Row} from "@tanstack/react-table";
-import {PlusSmallIcon, UserCircleIcon} from '@heroicons/react/24/solid'
+import {PlusSmallIcon } from '@heroicons/react/24/outline'
 
 import ExpandedButton from "~/components/ExpandedButton";
 import PositiveNegativeFeedback from "~/components/PositiveNegativeFeedback/PositiveNegativeFeedback";
 import FeedbackButtons from "~/components/FeedbackButtons/FeedbackButtons";
+import {cutUnknownDirection} from "~/utils/MessagesUtils";
+import Chat from "~/components/Chat/Chat";
+import OfferPurchase from "~/components/OfferPurchase";
 
 
 const Index: React.FC = () => {
@@ -17,93 +20,47 @@ const Index: React.FC = () => {
             lastName: "Test 11",
             age: "111",
             feedback: "-5",
-            subRows: [{
-                messages: [
-                    "Где информация о вкладе 13% in",
-                    "Hello! out",
-                    "Hello! 2 in",
-                    "Hello! 3 out",
-                    "Hello! 4 in",
-                ]
-            }]
+            offer_purchase: true,
+            stop_theme: ["test", "test2"],
+            messages: [
+                "Где информация о вкладе 13% in",
+                "Hello! out",
+                "Hello! 2 in",
+                "Hello! 3 out",
+                "Hello! 4 in",
+            ],
+            subRows: [true]
         },
         {
             id: "2",
             firstName: "Test 2",
             lastName: "Test 22",
             age: "222",
-            feedback: "-4",
-            subRows: [{
-                messages: [
-                    "Hello! out",
-                    "Hello! 2 in",
-                    "Hello! 3 out",
-                    "Hello! 4 in",
-                ]
-            }]
-        },
-        {
-            id: "3",
-            firstName: "Test 3",
-            lastName: "Test 33",
-            feedback: "-3",
-            age: "333",
-        },
-        {
-            id: "3",
-            firstName: "Test 3",
-            lastName: "Test 33",
-            feedback: "-2",
-            age: "333",
-        },
-        {
-            id: "3",
-            firstName: "Test 3",
-            lastName: "Test 33",
-            feedback: "-1",
-            age: "333",
-        },
-        {
-            id: "3",
-            firstName: "Test 3",
-            lastName: "Test 33",
-            feedback: "0",
-            age: "333",
-        },
-        {
-            id: "3",
-            firstName: "Test 3",
-            lastName: "Test 33",
             feedback: "1",
-            age: "333",
-        },
-        {
-            id: "3",
-            firstName: "Test 3",
-            lastName: "Test 33",
-            feedback: "2",
-            age: "333",
-        },
-        {
-            id: "3",
-            firstName: "Test 3",
-            lastName: "Test 33",
-            feedback: "3",
-            age: "333",
-        },
-        {
-            id: "3",
-            firstName: "Test 3",
-            lastName: "Test 33",
-            feedback: "4",
-            age: "333",
+            offer_purchase: true,
+            messages: [
+                "Hello! out",
+                "Hello! 2 in",
+                "Hello! 3 out",
+                "Hello! 4 in",
+                "Чтобы открыть вклад в приложении нажмите «+» в разделе «Вклады» на главной странице. Чтобы открыть вклад в приложении нажмите «+» в разделе «Вклады» на главной странице out",
+            ],
+            subRows: [true]
         },
         {
             id: "3",
             firstName: "Test 3",
             lastName: "Test 33",
             feedback: "5",
+            offer_purchase: false,
             age: "333",
+            messages: [
+                "Hello! out",
+                "Hello! 2 in",
+                "Hello! 3 out",
+                "Hello! 4 in",
+            ],
+            subRows: [true]
         }
     ];
 
@@ -131,12 +88,32 @@ const Index: React.FC = () => {
                 </div>
             ),
         }),
-        columnHelper.accessor('firstName', {
-            cell: info => info.renderValue(),
+        columnHelper.accessor('messages', {
+            header: "Чат",
+            cell: info => {
+                const messages = info.renderValue();
+                if (!messages) {
+                    return "-";
+                }
+
+                return (
+                    <div className="truncate w-96">
+                        {cutUnknownDirection(messages[messages.length-1])}
+                    </div>
+                );
+            }
+        }),
+        columnHelper.accessor('stop_theme', {
+            header: "Кол-во стоп-тем",
+            cell: info => info.renderValue() ? info.renderValue().length : "0"
+        }),
+        columnHelper.accessor('offer_purchase', {
+            header: "Предложение",
+            cell: info => <OfferPurchase hasOffer={info.renderValue()} />
         }),
         columnHelper.accessor("feedback", {
-            cell: info => <PositiveNegativeFeedback point={info.renderValue()} />,
             header: "Oценка настроения",
+            cell: info => <PositiveNegativeFeedback point={info.renderValue()} />,
         }),
         columnHelper.accessor('age', {
             header: "Оценка",
@@ -146,49 +123,25 @@ const Index: React.FC = () => {
 
     // TODO: add type
     const renderSubComponent = ({row}: { row: Row<any> }) => {
-        const data = row.original.subRows[0].messages;
+        const data = row.original.messages;
 
         if (!data) {
             return null;
         }
 
         return (
-            <div>
-                {data.map((message, key) => {
-                    if (message.trim().endsWith("in")) {
-                        return (
-                            <div className="chat chat-start" key={`message-${key}`}>
-                                <div className="chat-image avatar">
-                                    <div className="w-12 rounded-full bg-base-100">
-                                        <UserCircleIcon className="h-12 w-12" />
-                                    </div>
-                                </div>
-                                <div className="chat-header">
-                                    User
-                                </div>
-                                <div className="chat-bubble">
-                                    {message.substring(0, message.lastIndexOf('in'))}
-                                </div>
-                            </div>
-                        )
-                    }
-
-                    return (
-                        <div className="chat chat-end" key={`message-${key}`}>
-                            <div className="chat-image avatar">
-                                <div className="w-10 rounded-full">
-                                    <img src="gazprombank-1.svg" />
-                                </div>
-                            </div>
-                            <div className="chat-header">
-                                Operator
-                            </div>
-                            <div className="chat-bubble chat-bubble-primary">
-                                {message.substring(0, message.lastIndexOf('out'))}
-                            </div>
-                        </div>
-                    )
-                })}
+            <div className="grid grid-cols-2 gap-4">
+                <div><Chat data={data} /></div>
+                <div className="flex">
+                    <div className="font-bold mr-4">Cтоп-темы:</div>
+                    <div>
+                        {row.original.stop_theme ? (
+                            row.original.stop_theme.map((theme, key) =>(
+                                <div key={key}>{theme}</div>
+                            ))
+                        ) : "-"}
+                    </div>
+                </div>
             </div>
         )
     }

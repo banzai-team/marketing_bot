@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
-import {ChatBubbleLeftRightIcon, HomeIcon, ArrowRightOnRectangleIcon} from '@heroicons/react/24/solid'
+import {ChatBubbleLeftRightIcon, HomeIcon, ArrowRightOnRectangleIcon} from '@heroicons/react/24/outline'
 
 import {Routes} from "~/components/router/Router";
 
@@ -39,7 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     </NavLink>
                 </li>
 
-                <div className="divider"></div>
+                <div className="divider" />
 
                 <li>
                     <NavLink

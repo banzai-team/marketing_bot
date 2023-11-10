@@ -125,7 +125,7 @@ h1 {
   @apply text-primary;
   @apply text-3xl;
   @apply font-bold;
-  font-family: "Montserrat", "Roboto", -apple-system, 'Helvetica Neue', sans-serif;
+  /*font-family: "Montserrat", "Roboto", -apple-system, 'Helvetica Neue', sans-serif;*/
 }
 
 .section-title {

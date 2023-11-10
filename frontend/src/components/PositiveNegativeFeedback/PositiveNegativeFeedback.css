@@ -1,5 +1,6 @@
 .feedback-badge {
-    min-width: 70px;
+    min-width: 50px;
+    border: none;
     /*@apply font-bold;*/
 }
 
