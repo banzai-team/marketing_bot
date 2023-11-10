@@ -4,6 +4,7 @@ import Table from "~/components/Table";
 import {createColumnHelper, Row} from "@tanstack/react-table";
 import {PlusSmallIcon } from '@heroicons/react/24/outline'
 import {Link} from "react-router-dom";
+import {useQuery} from "react-query";
 
 import ExpandedButton from "~/components/ExpandedButton";
 import PositiveNegativeFeedback from "~/components/PositiveNegativeFeedback/PositiveNegativeFeedback";
@@ -12,9 +13,15 @@ import {cutUnknownDirection} from "~/utils/MessagesUtils";
 import Chat from "~/components/Chat/Chat";
 import OfferPurchase from "~/components/OfferPurchase";
 import {Routes} from "~/components/router/Router";
+// import {getDialogs} from "~/domain/api";
 
 
 const Index: React.FC = () => {
+    const [rowSelection, setRowSelection] = React.useState([])
+
+    const isLoading = false;
+    // const {data: dialogs, isLoading} = useQuery(["getDialogs"], () => getDialogs());
+
     const data = [
         {
             id: "1",
@@ -86,8 +93,12 @@ const Index: React.FC = () => {
                 <div className="flex justify-end">
                     <input
                         type="checkbox"
-                        onChange={table.getToggleAllRowsSelectedHandler()}
-                        checked={table.getIsAllRowsSelected()}
+                        onChange={() => (
+                            rowSelection.length === data.length
+                                ? setRowSelection([])
+                                : setRowSelection(data.map(item => item.id))
+                        )}
+                        checked={rowSelection.length === data.length}
                         className="checkbox checkbox-xs checkbox-primary align-middle"
                     />
                 </div>
@@ -95,7 +106,16 @@ const Index: React.FC = () => {
             cell: ({row, getValue}) => (
                 <div className="flex justify-between items-center">
                     <ExpandedButton onClick={row.getToggleExpandedHandler()} isExpanded={row.getIsExpanded()} />
-                    <input type="checkbox" checked={row.getIsSelected()} onChange={row.getToggleSelectedHandler()} className="checkbox checkbox-xs checkbox-primary" />
+                    <input
+                        type="checkbox"
+                        checked={rowSelection.includes(getValue())}
+                        onChange={() => (
+                            rowSelection.includes(getValue())
+                                ? setRowSelection(rowSelection.filter(item => item !== getValue()))
+                                : setRowSelection([ ... rowSelection, getValue()])
+                        )}
+                        className="checkbox checkbox-xs checkbox-primary"
+                    />
                 </div>
             ),
         }),
@@ -186,7 +206,19 @@ const Index: React.FC = () => {
               </Link>
           </div>
           <div className="card bg-base-100 shadow-xl overflow-hidden mt-6">
-              <Table data={data} columns={columns} renderSubComponent={renderSubComponent} />
+              {
+                  isLoading
+                      ? (
+                          <div className="py-20 px-2 text-center">
+                              <span className="loading loading-dots loading-lg text-primary" />
+                          </div>
+                      )
+                      : <Table
+                          data={data}
+                          columns={columns}
+                          renderSubComponent={renderSubComponent}
+                      />
+              }
           </div>
       </>
   );

@@ -24,3 +24,7 @@ export function sendMessage(payload: SendMessagePayload) {
   });
 }
 
+export function getDialogs() {
+  return axios.get(`${config.apiUrl}/dialogs`);
+}
+
