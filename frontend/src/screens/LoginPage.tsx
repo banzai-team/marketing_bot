@@ -12,7 +12,7 @@ const Login: React.FC = () => {
         <>
             <Head title="Login" />
             <h1 className="mb-6 section-title">Добро пожаловать!</h1>
-            <form>
+            <form onSubmit={() => console.log("good")}>
                 <label className="label">
                     <span className="label-text text-secondary">Логин</span>
                 </label>
@@ -22,10 +22,14 @@ const Login: React.FC = () => {
                     <span className="label-text text-secondary">Пароль</span>
                 </label>
                 <input type="password" placeholder="password" className="input input-bordered w-full max-w-xs" />
-                <button className="btn btn-block mt-10 btn-primary" onClick={() => auth.signinRedirect()}>
-                    Войти
-                </button>
+              <button disabled type="submit" className="btn btn-block mt-10 btn-primary">
+                Войти через basic
+              </button>
             </form>
+
+          <button className="btn btn-block mt-10 btn-primary" onClick={() => auth.signinRedirect()}>
+            Войти через oauth
+          </button>
         </>
     );
 };

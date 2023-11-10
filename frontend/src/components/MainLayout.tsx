@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import { Outlet} from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 import Sidebar from "~/components/Sidebar";
 import Header from "~/components/Header";
+import { useAuth } from "~/components/contexts/UserContext";
 
 
 const MainLayout: React.FC = () => {
@@ -10,6 +11,11 @@ const MainLayout: React.FC = () => {
     const [isDrawerOpen, setDrawerOpen] = useState(false);
     const toggle = () => setDrawerOpen(!isDrawerOpen);
 
+    const auth = useAuth();
+
+    if (!auth.isAuthenticated) {
+        return <Navigate to="/login"/>
+    }
     return (
         <div className="w-full h-full bg-neutral-content overflow-auto">
             <div className="drawer lg:drawer-open md:drawer-open">

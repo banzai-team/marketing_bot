@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
 import {ChatBubbleLeftRightIcon, HomeIcon, ArrowRightOnRectangleIcon} from '@heroicons/react/24/outline'
+import { useAuth } from "~/components/contexts/UserContext";
 
 import {Routes} from "~/components/router/Router";
 
@@ -13,6 +14,9 @@ const Sidebar: React.FC<SidebarProps> = ({
     idSidebar,
     onSelect
 }) => {
+
+    const auth = useAuth();
+
     return (
         <div className="drawer-side">
             <label htmlFor={idSidebar} aria-label="close sidebar" className="drawer-overlay" />
@@ -42,12 +46,12 @@ const Sidebar: React.FC<SidebarProps> = ({
                 <div className="divider" />
 
                 <li>
-                    <NavLink
-                        to="/login"
+                    <span
+                        onClick={() => void auth.removeUser()}
                         className="px-6 py-4 font-bold"
                     >
                         <ArrowRightOnRectangleIcon className="h-5 w-5" /> Logout
-                    </NavLink>
+                    </span>
                 </li>
             </ul>
         </div>
