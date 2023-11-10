@@ -30,7 +30,12 @@ export function sendMessage(payload: SendMessagePayload) {
 }
 
 export function getDialogs() {
-  return axios.get(`${config.apiUrl}/dialogs`);
+  return axios.get(`${config.apiUrl}/dialogs`, {
+    headers: {
+      'Content-Type': `application/json`,
+      'Authorization': `Basic ${btoa('user:12345')}`,
+    },
+  });
 }
 
 export function sendFeedback(payload: SendFeedbackPayload) {

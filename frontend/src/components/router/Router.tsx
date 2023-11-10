@@ -14,11 +14,13 @@ const Loading = () => (
 const IndexScreen = lazy(() => import('~/screens/Index'));
 const Page404Screen = lazy(() => import('~/screens/404'));
 const LoginScreen = lazy(() => import('~/screens/LoginPage'));
+const ConversationScreen = lazy(() => import('~/screens/ConversationPage'));
 
 export const Routes = {
     ROOT: "/",
     LOGIN: "login",
-    CHATS: "chats"
+    CHATS: "chats",
+    CONVERSATION: "conversation",
 };
 
 export const Router = () => {
@@ -51,6 +53,10 @@ const InnerRouter = () => {
                 {
                     path: Routes.LOGIN,
                     element: <LoginScreen />,
+                },
+                {
+                    path: `${Routes.CONVERSATION}/:id`,
+                    element: <ConversationScreen />,
                 },
                 {
                     path: '*',

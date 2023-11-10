@@ -136,3 +136,7 @@ h1 {
 .table thead {
   @apply bg-primary-content;
 }
+
+tr:hover {
+  background: #f8f8f8;
+}

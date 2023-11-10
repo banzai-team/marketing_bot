@@ -9,7 +9,11 @@ type ExpandedButtonProps = {
 const ExpandedButton: React.FC<ExpandedButtonProps> = ({onClick, isExpanded}) => {
     return (
         <button
-            onClick={onClick}
+            onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                onClick();
+            }}
             className="btn btn-xs btn-ghost mr-1"
         >
             {/* TODO: add transition */}

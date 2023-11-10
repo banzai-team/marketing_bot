@@ -32,7 +32,7 @@ const Chat: React.FC<ChatProps> = ({ data }) => {
                     <div className="chat chat-end" key={`message-${key}`}>
                         <div className="chat-image avatar">
                             <div className="w-10 rounded-full">
-                                <img src="gazprombank-1.svg" />
+                                <img src="/gazprombank-1.svg" />
                             </div>
                         </div>
                         <div className="chat-header">

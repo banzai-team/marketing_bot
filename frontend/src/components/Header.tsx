@@ -16,7 +16,7 @@ const Header: React.FC<HeaderProps> = ({ idSidebar }) => {
                 </label>
             </div>
             <div className="flex-1">
-                <img src="logo.svg" className="ml-6" width={150} />
+                <img src="/logo.svg" className="ml-6" width={150} />
             </div>
         </div>
 

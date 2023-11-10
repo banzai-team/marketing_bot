@@ -2,9 +2,9 @@ import React from 'react';
 import {Head} from '~/components/shared/Head';
 import Table from "~/components/Table";
 import {createColumnHelper, Row} from "@tanstack/react-table";
-import {PlusSmallIcon } from '@heroicons/react/24/outline'
-import {Link} from "react-router-dom";
-import {useQuery} from "react-query";
+import {PlusSmallIcon} from '@heroicons/react/24/outline'
+import {Link, useNavigate} from "react-router-dom";
+// import {useQuery} from "react-query";
 
 import ExpandedButton from "~/components/ExpandedButton";
 import PositiveNegativeFeedback from "~/components/PositiveNegativeFeedback/PositiveNegativeFeedback";
@@ -18,7 +18,9 @@ import FeedbackPanel from "~/components/FeedbackPanel";
 
 
 const Index: React.FC = () => {
-    const [rowSelection, setRowSelection] = React.useState<string[]>([])
+    const [rowSelection, setRowSelection] = React.useState<string[]>([]);
+    const navigate = useNavigate();
+    const onRowClick = (id: string) => navigate(`${Routes.CONVERSATION}/${id}`);
 
     const isLoading = false;
     // const {data: dialogs, isLoading} = useQuery(["getDialogs"], () => getDialogs());
@@ -105,17 +107,19 @@ const Index: React.FC = () => {
                 </div>
             ),
             cell: ({row, getValue}) => (
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center" onClick={(e) => e.stopPropagation()}>
                     <ExpandedButton onClick={row.getToggleExpandedHandler()} isExpanded={row.getIsExpanded()} />
                     <input
                         type="checkbox"
                         checked={rowSelection.includes(getValue())}
-                        onChange={() => (
+                        onChange={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
                             rowSelection.includes(getValue())
                                 ? setRowSelection(rowSelection.filter(item => item !== getValue()))
-                                : setRowSelection([ ... rowSelection, getValue()])
-                        )}
-                        className="checkbox checkbox-xs checkbox-primary"
+                                : setRowSelection([...rowSelection, getValue()])
+                        }}
+                        className="checkbox checkbox-xs checkbox-primary z-2"
                     />
                 </div>
             ),
@@ -218,6 +222,7 @@ const Index: React.FC = () => {
                           </div>
                       )
                       : <Table
+                          onRowClick={onRowClick}
                           data={data}
                           columns={columns}
                           renderSubComponent={renderSubComponent}
