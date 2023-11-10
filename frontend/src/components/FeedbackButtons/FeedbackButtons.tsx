@@ -5,10 +5,11 @@ import {sendFeedback} from '~/domain/api';
 
 type FeedbackButtonsProps = {
     chatIds: string | Array<string>;
+    bigSize?: boolean;
     cleanChatIds?: (chatIds: Array<string>) => void;
 }
 
-const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ chatIds, cleanChatIds }) => {
+const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ chatIds, cleanChatIds, bigSize }) => {
     const send = useMutation(sendFeedback);
     
     const sendFeedbackRequest = (chatIds: string | Array<string>, feedback: boolean): void => {
@@ -23,14 +24,22 @@ const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ chatIds, cleanChatIds
     return (
         <>
             <button
-                className="btn btn-sm btn-ghost mr-1 text-2xl feedback-btn"
-                onClick={() => sendFeedbackRequest(chatIds, true)}
+                className={`btn btn-ghost mr-1 feedback-btn ${bigSize ? "text-5xl btn-lg" : "text-2xl btn-sm"}`}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    sendFeedbackRequest(chatIds, true);
+                }}
             >
                 👍
             </button>
             <button
-                className="btn btn-sm btn-ghost text-2xl feedback-btn"
-                onClick={() => sendFeedbackRequest(chatIds, false)}
+                className={`btn btn-ghost feedback-btn ${bigSize ? "text-5xl btn-lg" : "text-2xl btn-sm"}`}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    sendFeedbackRequest(chatIds, false);
+                }}
             >
                 👎
             </button>

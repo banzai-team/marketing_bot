@@ -55,7 +55,11 @@ const Table: React.FC<TableProps> = ({data, columns, renderSubComponent, onRowCl
             {table.getRowModel().rows.map(row => {
                 return (
                     <React.Fragment key={`row-${row.id}`}>
-                        <tr key={row.id} onClick={() => onRowClick ? onRowClick(row.original.id) : null} className="cursor-pointer">
+                        <tr
+                            key={row.id}
+                            onClick={() => onRowClick ? onRowClick(row.original.id) : null}
+                            className={`${onRowClick ? "row-action" : ""}`}
+                        >
                             {row.getVisibleCells().map(cell => {
                                 return (
                                     <td key={cell.id}>

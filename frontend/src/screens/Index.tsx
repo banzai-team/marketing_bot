@@ -206,7 +206,7 @@ const Index: React.FC = () => {
               rowSelection.length ? <FeedbackPanel chatIds={rowSelection} cleanChatIds={setRowSelection} /> : null
           }
           <div className="flex justify-between">
-              <div className="page-title">Home Page</div>
+              <div className="page-title">История вызовов</div>
 
               <Link to={Routes.CHATS} className="btn btn-sm btn-outline btn-primary">
                   <PlusSmallIcon className="h-5 w-5" />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
-import {ChatBubbleLeftRightIcon, HomeIcon, ArrowRightOnRectangleIcon} from '@heroicons/react/24/outline'
 import { useAuth } from "~/components/contexts/UserContext";
+import {ChartPieIcon, HomeIcon, ArrowRightOnRectangleIcon} from '@heroicons/react/24/outline'
 
 import {Routes} from "~/components/router/Router";
 
@@ -30,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                         className="px-6 py-4 font-bold"
                         onClick={onSelect}
                     >
-                        <HomeIcon className="h-5 w-5" /> Home
+                        <HomeIcon className="h-5 w-5" /> История
                     </NavLink>
                 </li>
                 <li>
@@ -39,7 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                         className="px-6 py-4 font-bold"
                         onClick={onSelect}
                     >
-                        <ChatBubbleLeftRightIcon className="h-5 w-5" /> Chats
+                        <ChartPieIcon className="h-5 w-5" /> Статистика
                     </NavLink>
                 </li>
 
@@ -50,7 +50,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                         onClick={() => void auth.removeUser()}
                         className="px-6 py-4 font-bold"
                     >
-                        <ArrowRightOnRectangleIcon className="h-5 w-5" /> Logout
+                        <ArrowRightOnRectangleIcon className="h-5 w-5" /> Выйти
                     </span>
                 </li>
             </ul>
