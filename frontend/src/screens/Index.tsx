@@ -147,9 +147,9 @@ const Index: React.FC = () => {
             header: "Oценка настроения",
             cell: info => <PositiveNegativeFeedback point={info.renderValue()} />,
         }),
-        columnHelper.accessor('age', {
+        columnHelper.accessor('id', {
             header: "Оценка",
-            cell: info => <FeedbackButtons />,
+            cell: info => <FeedbackButtons chatIds={info.renderValue()} />,
         })
     ]
 
@@ -199,7 +199,7 @@ const Index: React.FC = () => {
       <>
           <Head title="Main page" />
           {
-              rowSelection.length ? <FeedbackPanel /> : null
+              rowSelection.length ? <FeedbackPanel chatIds={rowSelection} /> : null
           }
           <div className="flex justify-between">
               <div className="page-title">Home Page</div>
