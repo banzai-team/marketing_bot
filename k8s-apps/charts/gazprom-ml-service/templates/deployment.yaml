@@ -27,7 +27,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "gazprom-ml-service.fullname" . }}
-          command: [ "/bin/sh", "-c", "wget -q -O model.zip $MODEL_URL && mkdir model && tar -xf model.zip --strip-components=1 -C model" ]
+          command: [ "/bin/sh", "-c", "wget -q -O tmp_model.zip $MODEL_URL && mkdir model && tar -xf tmp_model.zip --strip-components=1 -C model" ]
           volumeMounts:
             - mountPath: /model
               name: models
