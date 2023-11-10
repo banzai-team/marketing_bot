@@ -3,7 +3,8 @@ config:
 
   RMQ_FEEDBACK_QUEUE: feedback-queue
   RMQ_BEHAVIOR_QUEUE: behavior-queue
-
+  RMQ_FEEDBACK_POST_QUEUE: feedback-post-queue
+  RMQ_FEEDBACK_RESPONSE_QUEUE: feedback-response-queue
   DB_HOST: gazprom-model-behavior-postgresql
   DB_NAME: model-behavior
   DB_PORT: "5432"
