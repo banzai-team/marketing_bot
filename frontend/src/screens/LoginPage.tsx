@@ -2,9 +2,11 @@ import React from 'react';
 import { Head } from '~/components/shared/Head';
 import { useNavigate } from "react-router-dom";
 import { Routes } from "~/components/router/Router";
+import { useAuth } from "react-oidc-context";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
+    const auth = useAuth();
 
     return (
         <>
@@ -20,7 +22,7 @@ const Login: React.FC = () => {
                     <span className="label-text text-secondary">Пароль</span>
                 </label>
                 <input type="password" placeholder="password" className="input input-bordered w-full max-w-xs" />
-                <button className="btn btn-block mt-10 btn-primary" onClick={() => navigate(Routes.ROOT)}>
+                <button className="btn btn-block mt-10 btn-primary" onClick={() => auth.signinRedirect()}>
                     Войти
                 </button>
             </form>
