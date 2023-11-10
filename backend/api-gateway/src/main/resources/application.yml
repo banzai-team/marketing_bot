@@ -9,7 +9,7 @@ spring:
         - id: feedback
           uri: http://feedback
           predicates:
-            - Path=/api/model/*
+            - Path=/api/feedback/*
   security:
     oauth2:
       client:
