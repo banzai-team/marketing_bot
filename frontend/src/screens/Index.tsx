@@ -13,6 +13,7 @@ import {cutUnknownDirection} from "~/utils/MessagesUtils";
 import Chat from "~/components/Chat/Chat";
 import OfferPurchase from "~/components/OfferPurchase";
 import {Routes} from "~/components/router/Router";
+import FeedbackPanel from "~/components/FeedbackPanel";
 // import {getDialogs} from "~/domain/api";
 
 
@@ -197,6 +198,9 @@ const Index: React.FC = () => {
   return (
       <>
           <Head title="Main page" />
+          {
+              rowSelection.length ? <FeedbackPanel /> : null
+          }
           <div className="flex justify-between">
               <div className="page-title">Home Page</div>
 
@@ -205,7 +209,7 @@ const Index: React.FC = () => {
                   add new
               </Link>
           </div>
-          <div className="card bg-base-100 shadow-xl overflow-hidden mt-6">
+          <div className="card bg-base-100 shadow-xl overflow-hidden mt-6 mb-10">
               {
                   isLoading
                       ? (
