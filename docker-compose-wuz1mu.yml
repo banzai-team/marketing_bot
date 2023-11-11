@@ -1,31 +1,24 @@
 version: '3.9'
 
 services:
-  app:
-    image: swr.ru-moscow-1.hc.sbercloud.ru/gazprom-mrkt/banzai-frontend:latest
-    environment:
-      API_URL: http://api-gateway:8083
-    build:
-      context: ./frontend
-    ports:
-      - 4000:80
+
   api-gateway:
     container_name: api-gateway
     build: 
       context: ./backend/api-gateway
     ports:
-      - 8083:8083
+      - 8083:8088
     environment:
-      SERVER_PORT: 8083
-      SPRING_CLOUD_GATEWAY_ROUTES[0]_URI: http://model-interceptor:8080
-      SPRING_CLOUD_GATEWAY_ROUTES[0]_ID: model
-      SPRING_CLOUD_GATEWAY_ROUTES[0]_PREDICATES: Path=/api/model/**
-      SPRING_CLOUD_GATEWAY_ROUTES[1]_URI: http://model-behavior:8080
-      SPRING_CLOUD_GATEWAY_ROUTES[1]_ID: model-behavior
-      SPRING_CLOUD_GATEWAY_ROUTES[1]_PREDICATES: Path=/api/feedback/**
-      KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/banzai-realm/${KEYCLOAK_BANZAI_REALM}
+      SERVER_PORT: 8088
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/${KEYCLOAK_BANZAI_REALM}
       KEYCLOAK_CLIENT_ID: ${KEYCLOAK_BANZAI_CLIENT_ID}
       KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_BANZAI_CLIENT_SECRET}
+      MODEL_BEHAVIOR_URI: http://model-behavior:8081
+      MODEL_INTERCEPTOR_URI: http://model-interceptor:8085
+    depends_on:
+      - keycloak
+      - model-interceptor
+      - model-behavior
     
   model-interceptor:
     container_name: model-interceptor
@@ -33,6 +26,7 @@ services:
       context: ./backend
       dockerfile: model-interceptor/Dockerfile
     environment:
+      SERVER_PORT: 8085
       RMQ_HOST: rmq
       RMQ_PORT: 5672
       RMQ_USERNAME: ${RMQ_USERNAME}
@@ -47,7 +41,10 @@ services:
     build: 
       context: ./backend
       dockerfile: model-behavior/Dockerfile
+    ports:
+      - 8090:8081
     environment:
+      SERVER_PORT: 8081
       RMQ_HOST: rmq
       RMQ_PORT: 5672
       RMQ_USERNAME: ${RMQ_USERNAME}
@@ -81,9 +78,16 @@ services:
     image: quay.io/keycloak/keycloak:22.0.5
     ports:
       - "9001:8080"
+    command: ['start-dev']
     environment:
-      KEYCLOAK_ADMIN_USER: ${KEYCLOAK_ADMIN_USER}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN_USER}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://0.0.0.0:8080/realms/master"]
+      start_period: 10s
+      interval: 30s
+      retries: 3
+      timeout: 5s
 
   db:
     container_name: model-behavior-db
