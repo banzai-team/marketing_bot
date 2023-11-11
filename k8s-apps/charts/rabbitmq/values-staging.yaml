@@ -3,6 +3,7 @@ rabbitmq:
     - name: LOG_LEVEL
       value: error
   persistence:
+    size: 20Gi
     storageClass: csi-disk
   clustering:
     enabled: false
