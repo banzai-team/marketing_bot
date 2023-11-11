@@ -76,6 +76,7 @@ public class QueryController {
                                             .id(f.getId())
                                             .isCorrect(f.isCorrect())
                                             .userId(f.getUserId())
+                                            .modelResponseId(r.getModelResponse().getId())
                                             .build())
                                     .collect(Collectors.toList()))
                             .build())
