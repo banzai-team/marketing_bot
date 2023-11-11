@@ -63,7 +63,8 @@ public class SecurityConfig {
     @Order(2)
     SecurityWebFilterChain basicAuthWebFilterChain(ServerHttpSecurity http) {
         return http
-                .securityMatcher(c -> c.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)
+                .securityMatcher(c -> !c.getRequest().getMethod().matches("OPTIONS")
+                        && c.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)
                         && String.valueOf(c.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION)).toLowerCase().contains("basic") ?
                         ServerWebExchangeMatcher.MatchResult.match() : ServerWebExchangeMatcher.MatchResult.notMatch()
                 )
@@ -86,6 +87,7 @@ public class SecurityConfig {
     @Order(3)
     SecurityWebFilterChain oAuthWebFilterChain(ServerHttpSecurity http) {
         return http
+                .securityMatcher(c -> !c.getRequest().getMethod().matches("OPTIONS") ? ServerWebExchangeMatcher.MatchResult.match() : ServerWebExchangeMatcher.MatchResult.notMatch())
                 .authorizeExchange(it -> it.pathMatchers("/api/feedback/**", "/api/model/**").authenticated().and().oauth2Login(Customizer.withDefaults()))
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .cors(s ->
