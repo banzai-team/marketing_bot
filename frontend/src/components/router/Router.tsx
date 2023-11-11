@@ -1,9 +1,10 @@
-import React, {lazy, Suspense} from 'react';
-import {BrowserRouter, Outlet, RouteObject, useRoutes} from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { BrowserRouter, RouteObject, useRoutes } from 'react-router-dom';
+import { useAuth } from "react-oidc-context";
 
 import Layout from "~/components/Layout";
 import MainLayout from "~/components/MainLayout";
-import Chats from '~/components/Chats';
+import LoadingCard from "~/components/LoadingCard";
 
 const Loading = () => (
     <div className="w-full h-full flex justify-center items-center">
@@ -14,14 +15,37 @@ const Loading = () => (
 const IndexScreen = lazy(() => import('~/screens/Index'));
 const Page404Screen = lazy(() => import('~/screens/404'));
 const LoginScreen = lazy(() => import('~/screens/LoginPage'));
+const ConversationScreen = lazy(() => import('~/screens/ConversationPage'));
+const Chats = lazy(() => import('~/screens/Chats'));
+const StatisticScreen = lazy(() => import('~/screens/StatisticPage'));
 
 export const Routes = {
     ROOT: "/",
     LOGIN: "login",
-    CHATS: "chats"
+    CONVERSATION: "conversation",
+    CREATE: "create",
+    STATISTIC: "statistic",
 };
 
 export const Router = () => {
+    // const auth = useAuth();
+    // const [hasTriedSignin, setHasTriedSignin] = React.useState(false);
+    //
+    // // automatically sign-in
+    // React.useEffect(() => {
+    //     if (!hasAuthParams() &&
+    //       !auth.isAuthenticated && !auth.activeNavigator && !auth.isLoading &&
+    //       !hasTriedSignin
+    //     ) {
+    //         auth.signinRedirect();
+    //         setHasTriedSignin(true);
+    //     }
+    // }, [auth, hasTriedSignin]);
+    const auth = useAuth();
+
+    if (auth.isLoading) {
+        return <LoadingCard />
+    }
     return (
         <BrowserRouter>
             <InnerRouter />
@@ -53,12 +77,20 @@ const InnerRouter = () => {
                     element: <LoginScreen />,
                 },
                 {
-                    path: '*',
-                    element: <Page404Screen />,
+                    path: `${Routes.CONVERSATION}/:id`,
+                    element: <ConversationScreen />,
                 },
                 {
-                    path: 'chats',
+                    path: `${Routes.CONVERSATION}/${Routes.CREATE}`,
                     element: <Chats />,
+                },
+                {
+                    path: Routes.STATISTIC,
+                    element: <StatisticScreen />,
+                },
+                {
+                    path: '*',
+                    element: <Page404Screen />,
                 },
             ],
         },

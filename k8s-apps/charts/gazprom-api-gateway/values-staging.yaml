@@ -1,11 +1,13 @@
 ingress:
   enabled: true
   annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod-dns"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
     kubernetes.io/ingress.class: nginx
   tls:
-  #    - hosts:
-  #        - gazprom.banzai-predict.site
-  #      secretName: letsencrypt-dns
+      - hosts:
+          - gazprom-api.banzai-predict.site
+        secretName: letsencrypt-dns
   hosts:
     - host: gazprom-api.banzai-predict.site
       paths:
@@ -19,3 +21,6 @@ config:
   SPRING_CLOUD_GATEWAY_ROUTES_1_URI: "gazprom-user-feedback.gazprom-user-feedback:8080"
   SPRING_CLOUD_GATEWAY_ROUTES_1_ID: user-feedback
   SPRING_CLOUD_GATEWAY_ROUTES_1_PREDICATES: Path=/api/feedback/*
+  KEYCLOAK_ISSUER_URI: https://gazprom-auth.banzai-predict.site/realms/gazprom-mrkt
+  KEYCLOAK_CLIENT_ID: gateway-client
+  KEYCLOAK_CLIENT_SECRET: A3DILZlTQ9Q6XOF48PiTxH1r2zsufpAb

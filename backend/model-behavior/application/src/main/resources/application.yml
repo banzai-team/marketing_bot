@@ -18,7 +18,8 @@ spring:
     hibernate:
       ddl-auto: validate
 queues:
-  feedback: ${RMQ_FEEDBACK_QUEUE}
+  feedback-post: ${RMQ_FEEDBACK_POST_QUEUE}
+  feedback-response: ${RMQ_FEEDBACK_RESPONSE_QUEUE}
   behavior: ${RMQ_BEHAVIOR_QUEUE}
 model:
   url: ${MODEL_URL}

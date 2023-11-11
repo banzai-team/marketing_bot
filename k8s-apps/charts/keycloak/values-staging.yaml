@@ -13,21 +13,27 @@
 #      effect: "NoExecute"
 
 keycloak:
+  proxy: edge
+  postgresql:
+    persistence:
+      storageClass: csi-disk
+    auth:
+      password: "7u8KILKBIB"
+      postgresPassword: "6DONa6Q6mW"
+  extraEnvVars:
+    - name: KC_PROXY
+      value: edge
+    - name: KC_HOSTNAME_STRICT
+      value: "false"
   ingress:
     enabled: true
     annotations:
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+      cert-manager.io/cluster-issuer: "letsencrypt-prod-dns"
       kubernetes.io/ingress.class: nginx
-    rules:
-      - host: gazprom-auth.banzai-predict.site
-        paths:
-          - path: /
-            pathType: Prefix
-    console:
-      enabled: true
-      annotations:
-        kubernetes.io/ingress.class: nginx
-      rules:
-        - host: gazprom-auth.banzai-predict.site
-          paths:
-            - path: /auth/admin
-              pathType: Prefix
+    hostname: gazprom-auth.banzai-predict.site
+    tls: true
+#  extraEnvVars:
+#    KEYCLOAK_LOGLEVEL: DEBUG
+#    KC_PROXY: "edge"
+

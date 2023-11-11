@@ -5,9 +5,10 @@ type TableProps = {
     data: any[],
     columns: Array<any | Column<Record<string, unknown>>>;
     renderSubComponent: (arg: any) => React.ReactNode;
+    onRowClick?: (id: string) => void;
 }
 
-const Table: React.FC<TableProps> = ({data, columns, renderSubComponent}) => {
+const Table: React.FC<TableProps> = ({data, columns, renderSubComponent, onRowClick}) => {
     const [expanded, setExpanded] = React.useState({})
 
     const table = useReactTable<any>({
@@ -54,7 +55,11 @@ const Table: React.FC<TableProps> = ({data, columns, renderSubComponent}) => {
             {table.getRowModel().rows.map(row => {
                 return (
                     <React.Fragment key={`row-${row.id}`}>
-                        <tr key={row.id}>
+                        <tr
+                            key={row.id}
+                            onClick={() => onRowClick ? onRowClick(row.original.id) : null}
+                            className={`${onRowClick ? "row-action" : ""}`}
+                        >
                             {row.getVisibleCells().map(cell => {
                                 return (
                                     <td key={cell.id}>
@@ -67,7 +72,7 @@ const Table: React.FC<TableProps> = ({data, columns, renderSubComponent}) => {
                             })}
                         </tr>
                         {row.getIsExpanded() && renderSubComponent && (
-                            <tr>
+                            <tr className="shadow-inner">
                                 {/* 2nd row is a custom 1 cell row */}
                                 <td colSpan={row.getVisibleCells().length}>
                                     {renderSubComponent({row})}

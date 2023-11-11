@@ -1,11 +1,12 @@
-import {createContext, ReactNode, useContext, useReducer} from "react";
-import { User } from "firebase/auth";
+import { createContext, ReactNode, useContext, useReducer } from "react";
+import { AuthProvider as OidcProvider, useAuth } from "react-oidc-context";
+import { oidcConfig } from "~/config/config";
 
-type AuthActions = { type: 'SIGN_IN', payload: { user: User } } | {type: 'SIGN_OUT'}
+type AuthActions = { type: 'SIGN_IN', payload: { user: unknown } } | { type: 'SIGN_OUT' }
 
 type AuthState = {
   state: 'SIGNED_IN'
-  currentUser: User;
+  currentUser: unknown;
 } | {
   state: 'SIGNED_OUT'
 } | {
@@ -32,16 +33,20 @@ type AuthContextProps = {
   dispatch: (value: AuthActions) => void
 }
 
-export const AuthContext = createContext<AuthContextProps>({ state: { state: 'UNKNOWN' }, dispatch: (val) => {
-  } });
+export const AuthContext = createContext<AuthContextProps>({
+  state: { state: 'UNKNOWN' }, dispatch: (val) => {
+  }
+});
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(AuthReducer, { state: 'UNKNOWN' })
 
   return (
-    <AuthContext.Provider value={{ state, dispatch }}>
-      {children}
-    </AuthContext.Provider>
+    <OidcProvider {...oidcConfig}>
+      <AuthContext.Provider value={{ state, dispatch }}>
+        {children}
+      </AuthContext.Provider>
+    </OidcProvider>
   );
 };
 
@@ -52,22 +57,5 @@ const useAuthState = () => {
   };
 };
 
-const useSignIn = () => {
-  const {dispatch} = useContext(AuthContext)
-  return {
-    signIn: (user: User) => {
-      dispatch({type: "SIGN_IN", payload: {user}})
-    }
-  }
-}
 
-const useSignOut = () => {
-  const {dispatch} = useContext(AuthContext)
-  return {
-    signOut: () => {
-      dispatch({type: "SIGN_OUT"})
-    }
-  }
-}
-
-export { useAuthState, useSignIn, useSignOut, AuthProvider };
+export { useAuthState, useAuth, AuthProvider };

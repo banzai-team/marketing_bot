@@ -15,6 +15,7 @@ spec:
     metadata:
       {{- with .Values.podAnnotations }}
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") $ | sha256sum }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
@@ -23,9 +24,12 @@ spec:
       initContainers:
         - name: copy
           image: busybox:1.28
-          command: [ "/bin/sh", "-c", "wget -q https://gazprom-model-storage.obs.ru-moscow-1.hc.sbercloud.ru/toxisity.zip && unzip toxisity.zip" ]
+          envFrom:
+            - configMapRef:
+                name: {{ include "gazprom-ml-service.fullname" . }}
+          command: [ "/bin/sh", "-c", "wget -q -O tmp_model.zip $MODEL_URL && unzip tmp_model.zip" ]
           volumeMounts:
-            - mountPath: /toxisity
+            - mountPath: /models
               name: models
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

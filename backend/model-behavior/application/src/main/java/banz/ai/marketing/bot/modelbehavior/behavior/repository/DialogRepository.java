@@ -1,6 +1,7 @@
 package banz.ai.marketing.bot.modelbehavior.behavior.repository;
 
 import banz.ai.marketing.bot.modelbehavior.behavior.entity.Dialog;
+import banz.ai.marketing.bot.modelbehavior.query.repository.CustomDialogRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import banz.ai.marketing.bot.modelbehavior.behavior.entity.QDialog;

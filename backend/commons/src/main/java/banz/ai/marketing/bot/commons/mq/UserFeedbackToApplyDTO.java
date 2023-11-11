@@ -13,6 +13,6 @@ public class UserFeedbackToApplyDTO {
 
   private long feedbackId;
   private long userId;
-  private long modelRequestId;
+  private long modelResponseId;
   private boolean isCorrect;
 }

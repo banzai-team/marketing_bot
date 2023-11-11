@@ -1,4 +1,4 @@
 config:
-
+  MODEL_URL: https://gazprom-model-storage.obs.ru-moscow-1.hc.sbercloud.ru/models.zip
 service:
   port: 8080

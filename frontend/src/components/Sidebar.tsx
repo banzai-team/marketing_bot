@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
-import {ChatBubbleLeftRightIcon, HomeIcon, ArrowRightOnRectangleIcon} from '@heroicons/react/24/solid'
+import { useAuth } from "~/components/contexts/UserContext";
+import {ChartPieIcon, HomeIcon, ArrowRightOnRectangleIcon} from '@heroicons/react/24/outline'
 
 import {Routes} from "~/components/router/Router";
 
@@ -13,12 +14,15 @@ const Sidebar: React.FC<SidebarProps> = ({
     idSidebar,
     onSelect
 }) => {
+
+    const auth = useAuth();
+
     return (
         <div className="drawer-side">
             <label htmlFor={idSidebar} aria-label="close sidebar" className="drawer-overlay" />
 
             <ul className="menu p-0 py-6 w-48 shadow-lg min-h-full bg-base-100">
-                <img src="logo.svg" className="pb-4 ml-6"  width={150} />
+                <img src="/logo.svg" className="pb-4 ml-6"  width={150} />
                 <li>
 
                     <NavLink
@@ -26,28 +30,28 @@ const Sidebar: React.FC<SidebarProps> = ({
                         className="px-6 py-4 font-bold"
                         onClick={onSelect}
                     >
-                        <HomeIcon className="h-5 w-5" /> Home
+                        <HomeIcon className="h-5 w-5" /> История
                     </NavLink>
                 </li>
                 <li>
                     <NavLink
-                        to={Routes.CHATS}
+                        to={Routes.STATISTIC}
                         className="px-6 py-4 font-bold"
                         onClick={onSelect}
                     >
-                        <ChatBubbleLeftRightIcon className="h-5 w-5" /> Chats
+                        <ChartPieIcon className="h-5 w-5" /> Статистика
                     </NavLink>
                 </li>
 
-                <div className="divider"></div>
+                <div className="divider" />
 
                 <li>
-                    <NavLink
-                        to="/login"
+                    <span
+                        onClick={() => void auth.removeUser()}
                         className="px-6 py-4 font-bold"
                     >
-                        <ArrowRightOnRectangleIcon className="h-5 w-5" /> Logout
-                    </NavLink>
+                        <ArrowRightOnRectangleIcon className="h-5 w-5" /> Выйти
+                    </span>
                 </li>
             </ul>
         </div>
