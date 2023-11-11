@@ -21,10 +21,11 @@ const Table: React.FC<TableProps> = ({data, columns, renderSubComponent, onRowCl
             expanded,
         },
         onExpandedChange: setExpanded,
-        getSubRows: row => row.subRows,
+        getSubRows: row => row.id,
         getCoreRowModel: getCoreRowModel(),
         debugTable: true,
     })
+
 
     return (
         <table className="table">

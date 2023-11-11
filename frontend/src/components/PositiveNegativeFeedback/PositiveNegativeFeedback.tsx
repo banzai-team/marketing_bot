@@ -7,16 +7,17 @@ type PositiveNegativeFeedbackFeedbackProps = {
 }
 
 const PositiveNegativeFeedback: React.FC<PositiveNegativeFeedbackFeedbackProps> = ({ point }) => {
+    const val = Math.ceil(point);
     return (
-        <div className={`badge rounded-full feedback-badge feedback${point}`}>
+        <div className={`badge rounded-full feedback-badge feedback${val}`}>
             {
-                point < 0
+                val < 0
                     ? <ArrowDownIcon className="h-3 w-3 mr-1" />
-                    : point > 0
+                    : val > 0
                         ? <ArrowUpIcon className="h-3 w-3 mr-1" />
                         : null
             }
-            {point}
+            {val}
         </div>
 
     );

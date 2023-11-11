@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Head} from '~/components/shared/Head';
 import Table from "~/components/Table";
 import {createColumnHelper, Row} from "@tanstack/react-table";
@@ -17,6 +17,7 @@ import FeedbackPanel from "~/components/FeedbackPanel";
 import LoadingCard from "~/components/LoadingCard";
 import {getDialogs} from "~/domain/api";
 import { useAuth } from "react-oidc-context";
+import {request} from "axios";
 
 
 const Index: React.FC = () => {
@@ -29,65 +30,69 @@ const Index: React.FC = () => {
 
     const {data: dialogs, isLoading} = useQuery(["getDialogs"], () => getDialogs(auth.user?.access_token!));
 
-    const data = [
-        {
-            id: "1",
-            firstName: "Test 1",
-            lastName: "Test 11",
-            age: "111",
-            feedback: "-5",
-            id_sequence: "5",
-            offer_purchase: true,
-            is_operator: true,
-            text: "unknown text",
-            stop_theme: ["test", "test2"],
-            messages: [
-                "Где информация о вкладе 13% in",
-                "Hello! out",
-                "Hello! 2 in",
-                "Hello! 3 out",
-                "Hello! 4 in",
-            ],
-            subRows: [true]
-        },
-        {
-            id: "2",
-            firstName: "Test 2",
-            lastName: "Test 22",
-            age: "222",
-            feedback: "1",
-            offer_purchase: true,
-            is_operator: true,
-            id_sequence: 9,
-            text: " some unknown text",
-            messages: [
-                "Hello! out",
-                "Hello! 2 in",
-                "Hello! 3 out",
-                "Hello! 4 in",
-                "Чтобы открыть вклад в приложении нажмите «+» в разделе «Вклады» на главной странице. Чтобы открыть вклад в приложении нажмите «+» в разделе «Вклады» на главной странице out",
-            ],
-            subRows: [true]
-        },
-        {
-            id: "3",
-            firstName: "Test 3",
-            lastName: "Test 33",
-            feedback: "5",
-            id_sequence: 77,
-            offer_purchase: false,
-            is_operator: false,
-            text: "unknown text 11 1 1",
-            age: "333",
-            messages: [
-                "Hello! out",
-                "Hello! 2 in",
-                "Hello! 3 out",
-                "Hello! 4 in",
-            ],
-            subRows: [true]
-        }
-    ];
+    const data = useMemo(() => dialogs?.data?.content.map(
+        item => ({ ...item.request })
+    ) || null, [dialogs]);
+    console.log(data);
+    // const data = [
+    //     {
+    //         id: "1",
+    //         firstName: "Test 1",
+    //         lastName: "Test 11",
+    //         age: "111",
+    //         feedback: "-5",
+    //         id_sequence: "5",
+    //         offer_purchase: true,
+    //         is_operator: true,
+    //         text: "unknown text",
+    //         stop_theme: ["test", "test2"],
+    //         messages: [
+    //             "Где информация о вкладе 13% in",
+    //             "Hello! out",
+    //             "Hello! 2 in",
+    //             "Hello! 3 out",
+    //             "Hello! 4 in",
+    //         ],
+    //         subRows: [true]
+    //     },
+    //     {
+    //         id: "2",
+    //         firstName: "Test 2",
+    //         lastName: "Test 22",
+    //         age: "222",
+    //         feedback: "1",
+    //         offer_purchase: true,
+    //         is_operator: true,
+    //         id_sequence: 9,
+    //         text: " some unknown text",
+    //         messages: [
+    //             "Hello! out",
+    //             "Hello! 2 in",
+    //             "Hello! 3 out",
+    //             "Hello! 4 in",
+    //             "Чтобы открыть вклад в приложении нажмите «+» в разделе «Вклады» на главной странице. Чтобы открыть вклад в приложении нажмите «+» в разделе «Вклады» на главной странице out",
+    //         ],
+    //         subRows: [true]
+    //     },
+    //     {
+    //         id: "3",
+    //         firstName: "Test 3",
+    //         lastName: "Test 33",
+    //         feedback: "5",
+    //         id_sequence: 77,
+    //         offer_purchase: false,
+    //         is_operator: false,
+    //         text: "unknown text 11 1 1",
+    //         age: "333",
+    //         messages: [
+    //             "Hello! out",
+    //             "Hello! 2 in",
+    //             "Hello! 3 out",
+    //             "Hello! 4 in",
+    //         ],
+    //         subRows: [true]
+    //     }
+    // ];
 
     // TODO: add type
     const columnHelper = createColumnHelper<any>();
@@ -143,15 +148,15 @@ const Index: React.FC = () => {
                 );
             }
         }),
-        columnHelper.accessor('stop_theme', {
+        columnHelper.accessor('response.stopTopics', {
             header: "Кол-во стоп-тем",
             cell: info => info.renderValue() ? info.renderValue().length : "0"
         }),
-        columnHelper.accessor('offer_purchase', {
+        columnHelper.accessor('response.offerPurchase', {
             header: "Предложение",
             cell: info => <OfferPurchase hasOffer={info.renderValue()} />
         }),
-        columnHelper.accessor("feedback", {
+        columnHelper.accessor("response.dialogEvaluation", {
             header: "Oценка настроения",
             cell: info => <PositiveNegativeFeedback point={info.renderValue()} />,
         }),
@@ -163,8 +168,9 @@ const Index: React.FC = () => {
 
     // TODO: add type
     const renderSubComponent = ({row}: { row: Row<any> }) => {
+        console.log("sadvasdhvashjda");
         const data = row.original.messages;
-
+// console.log(data);
         if (!data) {
             return null;
         }
@@ -222,13 +228,14 @@ const Index: React.FC = () => {
                   isLoading
                       ? (
                           <LoadingCard />
-                      )
-                      : <Table
-                          onRowClick={onRowClick}
-                          data={data}
-                          columns={columns}
-                          renderSubComponent={renderSubComponent}
-                      />
+                      ) : dialogs.data && !dialogs.data.empty && !!data ? (
+                          <Table
+                              onRowClick={onRowClick}
+                              data={data}
+                              columns={columns}
+                              renderSubComponent={renderSubComponent}
+                          />
+                      ) : <LoadingCard text="Нет данных для отображения" />
               }
           </div>
       </>
