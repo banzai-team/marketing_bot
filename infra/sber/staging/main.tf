@@ -189,13 +189,13 @@ module "cluster" {
       subnet_id          = module.vpc.subnets["private_subnet"].id
       name               = "private-pool"
       os                 = "CentOS 7.6"
-      initial_node_count = 1
+      initial_node_count = 2
       flavor_id          = "c7n.xlarge.4"
       availability_zone  = local.azs[0]
       key_pair           = sbercloud_compute_keypair.keypair.name
       scall_enable       = true
       min_node_count     = 1
-      max_node_count     = 2
+      max_node_count     = 4
       #      scale_down_cooldown_time = 100
       #      priority                 = 1
       type               = "vm"
