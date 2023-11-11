@@ -15,7 +15,7 @@ spring:
           uri: ${MODEL_INTERCEPTOR_URI}
           order: 2
           predicates:
-            - Path=/api/model/**
+            - Path=/api/model/evaluate
   security:
     oauth2:
       client:
