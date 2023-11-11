@@ -1,27 +1,5 @@
 import axios from "axios";
-import { User } from "oidc-client-ts"
-import { config, oidcConfig } from '~/config/config';
-
-
-function getUser() {
-  const oidcStorage = localStorage.getItem(`oidc.user:${oidcConfig.authority}:${oidcConfig.client_id}`)
-  if (!oidcStorage) {
-    return null;
-  }
-
-  return User.fromStorageString(oidcStorage);
-}
-
-const getAuthHeaders =
-  () => {
-    const user = getUser();
-    const token = user?.access_token;
-
-    return {
-      'Authorization': `Basic ${btoa('user:12345')}`
-      // Authorization: `Bearer ${token}`,
-    };
-  }
+import { config } from '~/config/config';
 
 export type SendMessagePayload = {
   messages: any;
@@ -31,11 +9,12 @@ export type SendMessagePayload = {
 };
 
 export type SendFeedbackPayload = {
-  id: string;
-  feedback: boolean;
+  userId?: string;
+  modelResponseId: number;
+  correct: boolean;
 };
 
-export function sendMessage(payload: SendMessagePayload) {
+export function sendMessage(payload: SendMessagePayload, token: string) {
   const params = {
     is_operator: payload.isOperator,
     messages: payload.messages,
@@ -46,31 +25,41 @@ export function sendMessage(payload: SendMessagePayload) {
   return axios.post(`${config.apiUrl}/api/model/evaluate`, params, {
     headers: {
       'Content-Type': `application/json`,
-      ...getAuthHeaders(),
-      // 'Authorization': `Basic ${btoa('user:12345')}`,
+      // Authorization: `Bearer ${token}`,
+      'Authorization': `Basic ${btoa('test:1234')}`,
     },
   });
 }
 
-export function getDialogs() {
-  return axios.get(`${config.apiUrl}/dialogs`, {
+export function getDialogs(token: string) {
+  return axios.get(`${config.apiUrl}/api/model/query/model-request`, {
     headers: {
       'Content-Type': `application/json`,
-      ...getAuthHeaders(),
+      // Authorization: `Bearer ${token}`,
+      'Authorization': `Basic ${btoa('test:1234')}`,
+
     },
   });
 }
 
-export function sendFeedback(payload: SendFeedbackPayload) {
-  const params = {
-    id: payload.id,
-    feedback: payload.feedback,
-  }
-
-  return axios.post(`${config.apiUrl}/api/feedback`, params, {
+export function getDialog(token: string, id: string) {
+  return axios.get(`${config.apiUrl}/api/model/query/model-request/${id}`, {
     headers: {
       'Content-Type': `application/json`,
-      ...getAuthHeaders(),
+      // Authorization: `Bearer ${token}`,
+      'Authorization': `Basic ${btoa('test:1234')}`,
+    },
+  });
+}
+
+export function sendFeedback(payload: SendFeedbackPayload, token: string) {
+  return axios.post(`${config.apiUrl}/api/feedback`, payload, {
+    headers: {
+      'Content-Type': `application/json`,
+      // Authorization: `Bearer ${token}`,
+      'Authorization': `Basic ${btoa('test:1234')}`,
+
+
     },
   });
 }

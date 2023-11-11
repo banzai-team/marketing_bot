@@ -14,5 +14,5 @@ public class UserFeedbackListItemDTO {
     private long id;
     private long userId;
     private long modelResponseId;
-    private boolean isCorrect;
+    private boolean correct;
 }

@@ -2,27 +2,21 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: model
-          uri: http://model-interceptor
+        - id: model-behavior
+          uri: ${MODEL_BEHAVIOR_URI}
+          order: 1
           predicates:
-            - Path=/api/model/*
-        - id: feedback
-          uri: http://feedback
+            - Path=/api/model/query/model-request, /api/feedback, /api/model/query/model-request/*
+        - id: model-invoke
+          uri: ${MODEL_INTERCEPTOR_URI}
+          order: 2
           predicates:
-            - Path=/api/feedback/*
+            - Path=/api/model/evaluate
   security:
     oauth2:
-      client:
-        provider:
-          keycloak:
-            issuer-uri: ${KEYCLOAK_ISSUER_URI}
-        registration:
-          keycloak:
-            provider: keycloak
-            client-id: ${KEYCLOAK_CLIENT_ID}
-            client-secret: ${KEYCLOAK_CLIENT_SECRET}
-            authorization-grant-type: authorization_code
-            scope: openid
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI}
 management:
   endpoint:
     gateway:
@@ -35,3 +29,11 @@ management:
           - health
 server:
   port: ${SERVER_PORT:8080}
+
+logging:
+  level:
+    root: DEBUG
+keycloak:
+  issuer-uri: ${KEYCLOAK_ISSUER_URI}
+  client-id: ${KEYCLOAK_CLIENT_ID}
+  client-secret: ${KEYCLOAK_CLIENT_SECRET}

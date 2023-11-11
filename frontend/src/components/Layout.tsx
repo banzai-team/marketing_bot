@@ -24,7 +24,7 @@ const Layout: React.FC = () => {
     <div className="h-screen w-screen flex items-center overflow-hidden">
       <div
         className="flex flex-col justify-center items-center p-6 min-w-100 h-screen relative basis-full sm:basis-5/12 sm:items-end">
-        <img src="/logo.svg" className="pt-6 ml-6 absolute top-0 left-0" width={150}/>
+        <img src="/logo.png" className="pt-4 ml-6 absolute top-0 left-0" width={130}/>
         <div className="text-center py-20 px-10 sm: w-90">
           <Outlet/>
         </div>

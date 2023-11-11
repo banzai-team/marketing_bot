@@ -7,9 +7,11 @@ type ChatProps = {
 }
 
 const Chat: React.FC<ChatProps> = ({ data }) => {
+    console.log(data);
     return (
         <div className="flex-1">
             {data.map((message, key) => {
+                console.log(message);
                 if (message.trim().endsWith("in")) {
                     return (
                         <div className="chat chat-start" key={`message-${key}`}>
@@ -39,7 +41,7 @@ const Chat: React.FC<ChatProps> = ({ data }) => {
                             Operator
                         </div>
                         <div className="chat-bubble chat-bubble-primary">
-                            {cutDirection(message, "out")}
+                            {message.trim().endsWith("out") ? cutDirection(message, "out") : message}
                         </div>
                     </div>
                 )
