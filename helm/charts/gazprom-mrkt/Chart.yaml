@@ -49,10 +49,6 @@ dependencies:
     name: gazprom-model-interceptor
     repository: https://gazprom-charts.obs.ru-moscow-1.hc.sbercloud.ru
     version: 1.0.0
-  - condition: gazprom-user-feedback.enabled
-    name: gazprom-user-feedback
-    repository: https://gazprom-charts.obs.ru-moscow-1.hc.sbercloud.ru
-    version: 1.0.0
   - condition: keycloak.enabled
     name: keycloak
     repository: oci://registry-1.docker.io/bitnamicharts
