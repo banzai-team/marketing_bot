@@ -1,4 +1,7 @@
 rabbitmq:
+  extraEnvVars:
+    - name: LOG_LEVEL
+      value: error
   persistence:
     storageClass: csi-disk
   clustering:
