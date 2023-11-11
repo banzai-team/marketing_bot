@@ -52,17 +52,32 @@ const Chats: React.FC = () => {
     <div className="flex items-center justify-center mt-6">
       <form onSubmit={formik.handleSubmit} className="card bg-base-100 shadow-xl overflow-hidden p-4 w-4/5 md:w-4/6">
 
-        <div className="form-control">
+        <div className="form-control  mb-4">
           <label className="label">
             <span>Диалог для оценки</span>
             {messageError && <span className="text-error label-text-alt">{formik.errors.message}</span>}
           </label>
           <textarea
             rows="4"
-            className={`textarea textarea-bordered h-60 block p-2.5 mb-4 w-full text-gray-900 bg-gray-50 border rounded-sm focus:ring-blue-500 focus:border-blue-500 ${messageError}`}
+            className={`textarea textarea-bordered h-60 block p-2.5 w-full text-gray-900 bg-gray-50 border rounded-sm focus:ring-blue-500 focus:border-blue-500 ${messageError}`}
             placeholder="Введите сообщения"
             {...formik.getFieldProps("message")}
           />
+          <label className="label justify-start items-start pb-0">
+            <div className="label-text-alt mr-2 ">
+              Сообщения вводятся c указанием направления (in - пользователь; out - помощник банка)
+            </div>
+          </label>
+          <label className="label justify-start items-start">
+            <div className="label-text-alt mr-2 ">
+              Пример:
+            </div>
+            <div className="label-text-alt ">
+              Где информация о вкладе 13% <span className="text-primary font-bold">in</span>
+              <br />
+              Добрый день! Я – виртуальный помощник ... <span className="text-primary font-bold">out</span>
+            </div>
+          </label>
         </div>
         <div className="form-control">
           <label className="label">
