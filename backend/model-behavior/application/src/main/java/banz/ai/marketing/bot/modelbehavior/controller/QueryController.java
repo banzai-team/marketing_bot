@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/query")
+@RequestMapping("/api/model/query")
 @RequiredArgsConstructor
 public class QueryController {
 

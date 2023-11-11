@@ -45,7 +45,7 @@ class QueryControllerTest extends AbstractIntegrationTest {
 
   @Test
   void shouldReturnListing() throws Exception {
-    var response = this.mockMvc.perform(get("/api/query/model-request?page=0&size=10")
+    var response = this.mockMvc.perform(get("/api/model/query/model-request?page=0&size=10")
                     .header(HttpHeaders.CONTENT_TYPE, "application/json"))
             .andDo(print())
             .andExpect(status().isOk())
@@ -67,7 +67,7 @@ class QueryControllerTest extends AbstractIntegrationTest {
 
   @Test
   void shouldGetRequestById() throws Exception {
-    var response = this.mockMvc.perform(get("/api/query/model-request/1")
+    var response = this.mockMvc.perform(get("/api/model/query/model-request/1")
                     .header(HttpHeaders.CONTENT_TYPE, "application/json"))
             .andDo(print())
             .andExpect(status().isOk())
@@ -89,7 +89,7 @@ class QueryControllerTest extends AbstractIntegrationTest {
 
   @Test
   void shouldFindBuDialogId() throws Exception {
-    var response = this.mockMvc.perform(get("/api/query/model-request?page=0&size=10&dialogId=1")
+    var response = this.mockMvc.perform(get("/api/model/query/model-request?page=0&size=10&dialogId=1")
                     .header(HttpHeaders.CONTENT_TYPE, "application/json"))
             .andDo(print())
             .andExpect(status().isOk())
