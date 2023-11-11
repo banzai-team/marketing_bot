@@ -2,14 +2,15 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: model
-          uri: http://model-interceptor
+        - id: model-behavior
+          uri: http://model-behavior:8080
           predicates:
-            - Path=/api/model/*
-        - id: feedback
-          uri: http://feedback
+            - Path=/api/feedback/**
+            - Path=/api/model/query/**
+        - id: model-invoke
+          uri: http://model-interceptor:8080
           predicates:
-            - Path=/api/feedback/*
+            - Path=/api/model/**
   security:
     oauth2:
       client:
@@ -35,3 +36,7 @@ management:
           - health
 server:
   port: ${SERVER_PORT:8080}
+
+logging:
+  level:
+    root: DEBUG
