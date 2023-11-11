@@ -3,6 +3,7 @@ package banz.ai.marketing.bot.modelbehavior.controller;
 import banz.ai.marketing.bot.commons.ApiError;
 import banz.ai.marketing.bot.modelbehavior.behavior.entity.ModelRequest;
 import banz.ai.marketing.bot.modelbehavior.behavior.entity.ModelRequestMessage;
+import banz.ai.marketing.bot.modelbehavior.behavior.entity.StopTopic;
 import banz.ai.marketing.bot.modelbehavior.exception.NotFoundException;
 import banz.ai.marketing.bot.modelbehavior.query.ModelRequestQueryHandler;
 import banz.ai.marketing.bot.modelbehavior.query.dto.*;
@@ -69,6 +70,7 @@ public class QueryController {
                             .id(r.getModelResponse().getId())
                             .offerPurchase(r.getModelResponse().isOfferPurchase())
                             .dialogEvaluation(r.getModelResponse().getDialogEvaluation())
+                            .stopTopics(r.getModelResponse().getStopTopics().stream().map(StopTopic::getContent).collect(Collectors.toList()))
                             .feedbacks(r.getModelResponse().getFeedbacks().stream()
                                     .map(f -> UserFeedbackListItemDTO.builder()
                                             .id(f.getId())

@@ -57,6 +57,7 @@ class QueryControllerTest extends AbstractIntegrationTest {
                     jsonPath("$.content[0].request.messages[2]").value("John"),
                     jsonPath("$.content[0].request.response.offerPurchase").value(true),
                     jsonPath("$.content[0].request.response.dialogEvaluation").value(0.5),
+                    jsonPath("$.content[0].request.response.stopTopics[0]").value("f*ck"),
                     jsonPath("$.content[0].request.response.feedbacks").isArray(),
                     jsonPath("$.content[0].request.response.feedbacks[0].correct").value(false),
                     jsonPath("$.content[0].request.response.feedbacks[1].correct").value(true)
