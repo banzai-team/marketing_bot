@@ -11,6 +11,9 @@ spring:
           predicates:
             - Path=/api/feedback/**
             - Path=/api/model/query/**
+            - QueryParam=page
+            - QueryParam=size
+            - QueryParam=dialogId
         - id: model-invoke
           uri: ${MODEL_INTERCEPTOR_URI}
           order: 2
