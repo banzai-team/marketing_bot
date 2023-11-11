@@ -1,8 +1,10 @@
 package banz.ai.marketing.bot.apigateway.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.security.config.Customizer;
@@ -15,7 +17,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,53 +31,14 @@ import static org.springframework.security.web.server.util.matcher.ServerWebExch
 @EnableReactiveMethodSecurity
 public class SecurityConfig {
 
-//    @Bean
-//    SecurityWebFilterChain customSecurityFilterChain(ServerHttpSecurity http, ReactiveAuthenticationManager authenticationManager) {
-//        http
-//                .authorizeExchange(c ->
-//                        c
-//                                .pathMatchers("/api/model/**").authenticated()
-//                                .pathMatchers("api/feedback/**").authenticated()
-//                                .anyExchange().permitAll()
-//                )
-//                .csrf(ServerHttpSecurity.CsrfSpec::disable)
-//                .cors(s ->
-//                    s.configurationSource(request -> {
-//                        CorsConfiguration configuration = new CorsConfiguration();
-//                        configuration.setAllowedOrigins(List.of("*"));
-//                        configuration.setAllowedMethods(List.of("*"));
-//                        configuration.setAllowedHeaders(List.of("*"));
-//                        return configuration;
-//                    })
-//                )
-//                .authenticationManager(authenticationManager)
-//                .httpBasic(Customizer.withDefaults());
-//
-//        return http.build();
-//    }
+    @Value("${spring.security.oauth2.client.provider.keycloak.issuer-uri}")
+    private String issuerUri;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    @Value("${spring.security.oauth2.client.registration.keycloak.client-id}")
+    private String clientId;
 
-    @Bean
-    public ReactiveUserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-        return new MapReactiveUserDetailsService(User.builder()
-                .username("user")
-                .password(passwordEncoder.encode("12345"))
-                .authorities("ROLE_USER")
-                .build());
-    }
-
-    @Bean
-    public ReactiveAuthenticationManager authenticationManager(
-            ReactiveUserDetailsService userDetailsService,
-            PasswordEncoder passwordEncoder) {
-        var m = new UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService);
-        m.setPasswordEncoder(passwordEncoder);
-        return m;
-    }
+    @Value("${spring.security.oauth2.client.registration.keycloak.client-secret}")
+    private String clientSecret;
 
     @Bean
     @Order(1)
@@ -93,18 +58,19 @@ public class SecurityConfig {
                 )
                 .build();
     }
-//
-//    @Bean
-//    @Order(2)
-//    SecurityWebFilterChain basicAuthWebFilterChain(ServerHttpSecurity http,
-//                                                   ReactiveUserDetailsService userDetailsService,
-//                                                   PasswordEncoder passwordEncoder) {
-//        return http
-//                .securityMatcher(pathMatchers("api/feedback/**"))
-//                .httpBasic(Customizer.withDefaults())
-//                .authenticationManager(authenticationManager(userDetailsService, passwordEncoder))
-//                .build();
-//    }
+
+    @Bean
+    @Order(2)
+    SecurityWebFilterChain basicAuthWebFilterChain(ServerHttpSecurity http) {
+        return http
+                .securityMatcher(c -> c.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)
+                        && String.valueOf(c.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION)).toLowerCase().startsWith("basic") ?
+                        ServerWebExchangeMatcher.MatchResult.match() : ServerWebExchangeMatcher.MatchResult.notMatch()
+                )
+                .authorizeExchange(c -> c.pathMatchers("api/feedback/**", "/api/model/**").authenticated())
+                .httpBasic(c -> c.authenticationManager(basicAuthenticationManager()))
+                .build();
+    }
 
     @Bean
     @Order(3)
@@ -113,4 +79,10 @@ public class SecurityConfig {
                 .authorizeExchange(it -> it.pathMatchers("api/feedback/**", "/api/model/**").authenticated().and().oauth2Login(Customizer.withDefaults()))
                 .build();
     }
+
+    @Bean
+    public ReactiveAuthenticationManager basicAuthenticationManager() {
+        return new KeycloakPasswordFlowAuthenticationManager(issuerUri, clientId, clientSecret);
+    }
+
 }
