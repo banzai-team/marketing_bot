@@ -23,7 +23,7 @@ const Index: React.FC = () => {
     const navigate = useNavigate();
     const onRowClick = (id: string) => navigate(`${Routes.CONVERSATION}/${id}`);
 
-    const isLoading = true;
+    const isLoading = false;
     // const {data: dialogs, isLoading} = useQuery(["getDialogs"], () => getDialogs());
 
     const data = [
