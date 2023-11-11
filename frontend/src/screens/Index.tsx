@@ -16,6 +16,7 @@ import {Routes} from "~/components/router/Router";
 import FeedbackPanel from "~/components/FeedbackPanel";
 import LoadingCard from "~/components/LoadingCard";
 import {getDialogs} from "~/domain/api";
+import { useAuth } from "react-oidc-context";
 
 
 const Index: React.FC = () => {
@@ -24,7 +25,9 @@ const Index: React.FC = () => {
     const onRowClick = (id: string) => navigate(`${Routes.CONVERSATION}/${id}`);
 
     // const isLoading = false;
-    const {data: dialogs, isLoading} = useQuery(["getDialogs"], () => getDialogs());
+    const auth = useAuth();
+
+    const {data: dialogs, isLoading} = useQuery(["getDialogs"], () => getDialogs(auth.user?.access_token!));
 
     const data = [
         {

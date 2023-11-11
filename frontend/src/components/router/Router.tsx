@@ -43,9 +43,21 @@ export const Router = () => {
     // }, [auth, hasTriedSignin]);
     const auth = useAuth();
 
+    switch (auth.activeNavigator) {
+        case "signinSilent":
+            return <div>Signing you in...</div>;
+        case "signoutRedirect":
+            return <div>Signing you out...</div>;
+    }
+    //
+    // if (auth.error) {
+    //     return <div>Oops... {auth.error.message}</div>;
+    // }
+
     if (auth.isLoading) {
         return <LoadingCard />
     }
+
     return (
         <BrowserRouter>
             <InnerRouter />

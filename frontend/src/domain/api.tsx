@@ -1,27 +1,5 @@
 import axios from "axios";
-import { User } from "oidc-client-ts"
-import { config, oidcConfig } from '~/config/config';
-
-
-function getUser() {
-  const oidcStorage = localStorage.getItem(`oidc.user:${oidcConfig.authority}:${oidcConfig.client_id}`)
-  if (!oidcStorage) {
-    return null;
-  }
-
-  return User.fromStorageString(oidcStorage);
-}
-
-const getAuthHeaders =
-  () => {
-    const user = getUser();
-    const token = user?.access_token;
-
-    return {
-      // 'Authorization': `Basic ${btoa('user:12345')}`
-      Authorization: `Bearer ${token}`,
-    };
-  }
+import { config } from '~/config/config';
 
 export type SendMessagePayload = {
   messages: any;
@@ -35,7 +13,7 @@ export type SendFeedbackPayload = {
   feedback: boolean;
 };
 
-export function sendMessage(payload: SendMessagePayload) {
+export function sendMessage(payload: SendMessagePayload, token: string) {
   const params = {
     is_operator: payload.isOperator,
     messages: payload.messages,
@@ -46,22 +24,22 @@ export function sendMessage(payload: SendMessagePayload) {
   return axios.post(`${config.apiUrl}/api/model/evaluate`, params, {
     headers: {
       'Content-Type': `application/json`,
-      ...getAuthHeaders(),
+      Authorization: `Bearer ${token}`
       // 'Authorization': `Basic ${btoa('user:12345')}`,
     },
   });
 }
 
-export function getDialogs() {
+export function getDialogs(token: string) {
   return axios.get(`${config.apiUrl}/api/model/query/model-request`, {
     headers: {
       'Content-Type': `application/json`,
-      ...getAuthHeaders(),
+      Authorization: `Bearer ${token}`
     },
   });
 }
 
-export function sendFeedback(payload: SendFeedbackPayload) {
+export function sendFeedback(payload: SendFeedbackPayload, token: string) {
   const params = {
     id: payload.id,
     feedback: payload.feedback,
@@ -70,7 +48,8 @@ export function sendFeedback(payload: SendFeedbackPayload) {
   return axios.post(`${config.apiUrl}/api/feedback`, params, {
     headers: {
       'Content-Type': `application/json`,
-      ...getAuthHeaders(),
+      Authorization: `Bearer ${token}`
+
     },
   });
 }
