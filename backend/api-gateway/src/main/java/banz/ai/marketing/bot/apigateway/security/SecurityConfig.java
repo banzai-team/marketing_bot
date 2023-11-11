@@ -60,14 +60,14 @@ public class SecurityConfig {
     }
 
     @Bean
-    @Order(2)
+    @Order(3)
     SecurityWebFilterChain basicAuthWebFilterChain(ServerHttpSecurity http) {
         return http
                 .securityMatcher(c -> c.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)
-                        && String.valueOf(c.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION)).toLowerCase().startsWith("basic") ?
+                        && String.valueOf(c.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION)).toLowerCase().contains("basic") ?
                         ServerWebExchangeMatcher.MatchResult.match() : ServerWebExchangeMatcher.MatchResult.notMatch()
                 )
-                .authorizeExchange(c -> c.pathMatchers("api/feedback/**", "/api/model/**").authenticated())
+                .authorizeExchange(c -> c.pathMatchers("/api/feedback/**", "/api/model/**").authenticated())
                 .httpBasic(c -> c.authenticationManager(basicAuthenticationManager()))
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .cors(s ->
@@ -86,7 +86,7 @@ public class SecurityConfig {
     @Order(3)
     SecurityWebFilterChain oAuthWebFilterChain(ServerHttpSecurity http) {
         return http
-                .authorizeExchange(it -> it.pathMatchers("api/feedback/**", "/api/model/**").authenticated().and().oauth2Login(Customizer.withDefaults()))
+                .authorizeExchange(it -> it.pathMatchers("/api/feedback/**", "/api/model/**").authenticated().and().oauth2Login(Customizer.withDefaults()))
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .cors(s ->
                         s.configurationSource(request -> {

@@ -1,6 +1,9 @@
 package banz.ai.marketing.bot.apigateway.security;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
@@ -19,6 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class KeycloakPasswordFlowAuthenticationManager implements ReactiveAuthenticationManager {
+    private static Logger log = LoggerFactory.getLogger(KeycloakPasswordFlowAuthenticationManager.class);
     private final String issuerUri;
     private final String clientId;
     private final String clientSecret;
