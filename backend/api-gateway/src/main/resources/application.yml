@@ -1,14 +1,19 @@
 spring:
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true
       routes:
         - id: model-behavior
-          uri: http://model-behavior:8080
+          uri: ${MODEL_BEHAVIOR_URI}
+          order: 1
           predicates:
             - Path=/api/feedback/**
             - Path=/api/model/query/**
         - id: model-invoke
-          uri: http://model-interceptor:8080
+          uri: ${MODEL_INTERCEPTOR_URI}
+          order: 2
           predicates:
             - Path=/api/model/**
   security:
