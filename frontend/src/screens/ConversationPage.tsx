@@ -35,13 +35,12 @@ const Conversation: React.FC = () => {
             <Link to={Routes.ROOT} className="link link-hover text-sm opacity-30">
                 <ArrowLongLeftIcon className="h-5 w-5 inline mr-1" />На главную
             </Link>
-            <div className="grid grid-cols-2 gap-4 mt-6 grid-rows-3 grid-flow-col">
-                <div className="card bg-base-100 shadow-xl p-4 row-span-3">
+            <div className="grid grid-cols-2 gap-4 mt-6 grid-rows-3 grid-flow-col max-sm:grid-cols-1">
+                <div className="card bg-base-100 shadow-xl p-4 row-span-3 max-sm:row-span-1">
                     <Chat data={data.messages} />
-                    <div className="divider divider-horizontal" />
                 </div>
 
-                <div className="card bg-base-100 shadow-xl p-4 col-span-2">
+                <div className="card bg-base-100 shadow-xl p-4 col-span-2 max-sm:col-span-1">
                     <div className="flex mb-4">
                         <div className="font-bold mr-4">Оператор:</div>
                         <OfferPurchase hasOffer={data.is_operator} />
@@ -56,7 +55,7 @@ const Conversation: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="card bg-base-100 shadow-xl p-4 row-span-2 col-span-2">
+                <div className="card bg-base-100 shadow-xl p-4 row-span-2 col-span-2 max-sm:row-span-1 max-sm:col-span-1">
                     <div className="text-lg font-bold text-primary mb-4">Результат</div>
                     <div className="flex mb-4">
                         <div className="font-bold mr-4">Было ли сделано предложение:</div>

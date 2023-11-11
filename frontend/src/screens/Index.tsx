@@ -209,7 +209,7 @@ const Index: React.FC = () => {
           <div className="flex justify-between">
               <div className="page-title">История вызовов</div>
 
-              <Link to={Routes.CONVERSATION} className="btn btn-sm btn-outline btn-primary">
+              <Link to={`${Routes.CONVERSATION}/${Routes.CREATE}`} className="btn btn-sm btn-outline btn-primary">
                   <PlusSmallIcon className="h-5 w-5" />
                   add new
               </Link>
