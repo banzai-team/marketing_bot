@@ -31,7 +31,7 @@ public class ModelCallWrapper {
                 .modelResponse(modelResponse)
                 .build();
         rabbitTemplate.convertAndSend(mqMessage);
-
+        log.info("Message %s was placed in queue".formatted(mqMessage));
         return modelResponse;
     }
 }
