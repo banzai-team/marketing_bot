@@ -5,9 +5,9 @@ keycloak:
     persistence:
       storageClass: csi-disk
     auth:
-      existingSecret: keycloak-postgresql
-#      password: "7u8KILKBIB"
-#      postgresPassword: "6DONa6Q6mW"
+#      existingSecret: keycloak-postgresql
+      password: "7u8KILKBIB"
+      postgresPassword: "6DONa6Q6mW"
   extraEnvVars:
     - name: KC_PROXY
       value: edge
