@@ -11,6 +11,17 @@ helm repo add gazprom-mrk https://gazprom-charts.obs.ru-moscow-1.hc.sbercloud.ru
 helm install gazprom-mrkt gazprom-mrkt/gazprom-mrkt
 ```
 
+# Компоненты системы
+
+- backend:
+  - Сервис, отвечающий за статистику вызова и фидбэк модели [model-behavior](backend/model-behavior)
+  - Сервис, отвечающий за вызов модели [model-interceptor](backend/model-interceptor)
+  - Единый gateway осуществлящий аутентификацию [api-gateway](backend/api-gateway)
+- ml:
+  - Вся ml модель [ml-service](ml)
+- frontend:
+  - Бэкоффис [frontend](frontend)
+
 # Marketing bot
 
 ## API
