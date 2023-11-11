@@ -14,6 +14,7 @@ import Chat from "~/components/Chat/Chat";
 import OfferPurchase from "~/components/OfferPurchase";
 import {Routes} from "~/components/router/Router";
 import FeedbackPanel from "~/components/FeedbackPanel";
+import LoadingCard from "~/components/LoadingCard";
 // import {getDialogs} from "~/domain/api";
 
 
@@ -22,7 +23,7 @@ const Index: React.FC = () => {
     const navigate = useNavigate();
     const onRowClick = (id: string) => navigate(`${Routes.CONVERSATION}/${id}`);
 
-    const isLoading = false;
+    const isLoading = true;
     // const {data: dialogs, isLoading} = useQuery(["getDialogs"], () => getDialogs());
 
     const data = [
@@ -208,7 +209,7 @@ const Index: React.FC = () => {
           <div className="flex justify-between">
               <div className="page-title">История вызовов</div>
 
-              <Link to={Routes.CHATS} className="btn btn-sm btn-outline btn-primary">
+              <Link to={Routes.CONVERSATION} className="btn btn-sm btn-outline btn-primary">
                   <PlusSmallIcon className="h-5 w-5" />
                   add new
               </Link>
@@ -217,9 +218,7 @@ const Index: React.FC = () => {
               {
                   isLoading
                       ? (
-                          <div className="py-20 px-2 text-center">
-                              <span className="loading loading-dots loading-lg text-primary" />
-                          </div>
+                          <LoadingCard />
                       )
                       : <Table
                           onRowClick={onRowClick}

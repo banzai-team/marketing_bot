@@ -16,12 +16,14 @@ const Page404Screen = lazy(() => import('~/screens/404'));
 const LoginScreen = lazy(() => import('~/screens/LoginPage'));
 const ConversationScreen = lazy(() => import('~/screens/ConversationPage'));
 const Chats = lazy(() => import('~/screens/Chats'));
+const StatisticScreen = lazy(() => import('~/screens/StatisticPage'));
 
 export const Routes = {
     ROOT: "/",
     LOGIN: "login",
-    CHATS: "chats",
     CONVERSATION: "conversation",
+    CREATE: "create",
+    STATISTIC: "statistic",
 };
 
 export const Router = () => {
@@ -78,8 +80,12 @@ const InnerRouter = () => {
                     element: <ConversationScreen />,
                 },
                 {
-                    path: Routes.CHATS,
+                    path: `${Routes.CONVERSATION}/${Routes.CREATE}`,
                     element: <Chats />,
+                },
+                {
+                    path: Routes.STATISTIC,
+                    element: <StatisticScreen />,
                 },
                 {
                     path: '*',
