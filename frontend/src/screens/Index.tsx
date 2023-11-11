@@ -28,7 +28,7 @@ const Index: React.FC = () => {
     // const isLoading = false;
     const auth = useAuth();
 
-    const {data: dialogs, isLoading} = useQuery(["getDialogs"], () => getDialogs(auth.user?.access_token!));
+    const {data: dialogs, isLoading} = useQuery([dialogKey], () => getDialogs(auth.user?.access_token!));
 
     const data = useMemo(() => dialogs?.data?.content.map(
         item => ({ ...item.request })
