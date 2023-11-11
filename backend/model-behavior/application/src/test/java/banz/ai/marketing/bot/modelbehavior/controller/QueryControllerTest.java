@@ -54,11 +54,33 @@ class QueryControllerTest extends AbstractIntegrationTest {
                     jsonPath("$.content[0].request.messages[0]").value("Hello"),
                     jsonPath("$.content[0].request.messages[1]").value("What is your name?"),
                     jsonPath("$.content[0].request.messages[2]").value("John"),
-                    jsonPath("$.content[0].response.offerPurchase").value(true),
-                    jsonPath("$.content[0].response.dialogEvaluation").value(0.5),
-                    jsonPath("$.content[0].response.feedbacks").isArray(),
-                    jsonPath("$.content[0].response.feedbacks[0].correct").value(false),
-                    jsonPath("$.content[0].response.feedbacks[1].correct").value(true)
+                    jsonPath("$.content[0].request.response.offerPurchase").value(true),
+                    jsonPath("$.content[0].request.response.dialogEvaluation").value(0.5),
+                    jsonPath("$.content[0].request.response.feedbacks").isArray(),
+                    jsonPath("$.content[0].request.response.feedbacks[0].correct").value(false),
+                    jsonPath("$.content[0].request.response.feedbacks[1].correct").value(true)
+
+            )
+            .andReturn();
+  }
+
+  @Test
+  void shouldGetRequestById() throws Exception {
+    var response = this.mockMvc.perform(get("/api/query/model-request/1")
+                    .header(HttpHeaders.CONTENT_TYPE, "application/json"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpectAll(
+                    jsonPath("$.request.text").value("hello"),
+                    jsonPath("$.request.messages").isArray(),
+                    jsonPath("$.request.messages[0]").value("Hello"),
+                    jsonPath("$.request.messages[1]").value("What is your name?"),
+                    jsonPath("$.request.messages[2]").value("John"),
+                    jsonPath("$.request.response.offerPurchase").value(true),
+                    jsonPath("$.request.response.dialogEvaluation").value(0.5),
+                    jsonPath("$.request.response.feedbacks[0].correct").value(false),
+                    jsonPath("$.request.response.feedbacks").isArray(),
+                    jsonPath("$.request.response.feedbacks[1].correct").value(true)
 
             )
             .andReturn();

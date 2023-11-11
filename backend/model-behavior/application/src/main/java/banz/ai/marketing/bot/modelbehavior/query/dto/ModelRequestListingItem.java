@@ -15,5 +15,4 @@ import java.util.List;
 public class ModelRequestListingItem {
 
   private ModelRequestListItemDTO request;
-  private ModelResponseListItemDTO response;
 }
