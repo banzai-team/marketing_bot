@@ -9,7 +9,7 @@ import PositiveNegativeFeedback from "~/components/PositiveNegativeFeedback/Posi
 import FeedbackButtons from "~/components/FeedbackButtons/FeedbackButtons";
 
 const Conversation: React.FC = () => {
-    const {id} = useParams();
+    const {id = ""} = useParams();
 
     const data = {
         messages: [

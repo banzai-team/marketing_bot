@@ -5,7 +5,7 @@ type TableProps = {
     data: any[],
     columns: Array<any | Column<Record<string, unknown>>>;
     renderSubComponent: (arg: any) => React.ReactNode;
-    onRowClick: (id: string) => void;
+    onRowClick?: (id: string) => void;
 }
 
 const Table: React.FC<TableProps> = ({data, columns, renderSubComponent, onRowClick}) => {
