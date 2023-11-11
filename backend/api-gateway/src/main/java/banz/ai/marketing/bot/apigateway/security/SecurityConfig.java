@@ -60,7 +60,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    @Order(3)
+    @Order(2)
     SecurityWebFilterChain basicAuthWebFilterChain(ServerHttpSecurity http) {
         return http
                 .securityMatcher(c -> c.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)
