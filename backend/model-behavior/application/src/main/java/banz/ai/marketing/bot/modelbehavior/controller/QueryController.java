@@ -52,7 +52,6 @@ public class QueryController {
 
     @GetMapping("model-request/{id}")
     public ResponseEntity<ModelRequestListingItem> listModelRequests(@PathVariable("id") long id ) {
-        log.info("Model reqyues idt");
         return ResponseEntity.ok()
                 .body(modelRequestQueryHandler.getById(ModelRequestByIdQueryDTO.builder().id(id).build())
                 .map(this::mapToDTO).orElseThrow());

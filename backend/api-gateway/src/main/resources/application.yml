@@ -2,16 +2,30 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: model-behavior
+        - id: model-behavior-service
           uri: ${MODEL_BEHAVIOR_URI}
           order: 1
           predicates:
             - Path=/api/model/query/model-request, /api/feedback, /api/model/query/model-request/*
-        - id: model-invoke
+        - id: model-invoke-service
           uri: ${MODEL_INTERCEPTOR_URI}
           order: 2
           predicates:
             - Path=/api/model/evaluate
+        - id: model-behavior-open-api
+          uri: ${MODEL_BEHAVIOR_URI}/v3/api-docs
+          predicates:
+            - Path=/model-behavior/v3/api-docs
+          filters:
+            - RewritePath=/model-behavior/v3/api-docs, /v3/api-docs
+        - id: model-interceptor-open-api
+          uri: ${MODEL_INTERCEPTOR_URI}/v3/api-docs
+          predicates:
+            - Path=/model-interceptor/v3/api-docs
+          filters:
+            - RewritePath=/model-interceptor/v3/api-docs, /v3/api-docs
+      httpclient:
+        max-header-size: 2147483647
   security:
     oauth2:
       resourceserver:
@@ -37,3 +51,14 @@ keycloak:
   issuer-uri: ${KEYCLOAK_ISSUER_URI}
   client-id: ${KEYCLOAK_CLIENT_ID}
   client-secret: ${KEYCLOAK_CLIENT_SECRET}
+
+
+springdoc:
+  enable-native-support: true
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
