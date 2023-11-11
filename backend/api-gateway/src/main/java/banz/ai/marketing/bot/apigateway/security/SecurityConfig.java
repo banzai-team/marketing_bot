@@ -69,6 +69,16 @@ public class SecurityConfig {
                 )
                 .authorizeExchange(c -> c.pathMatchers("api/feedback/**", "/api/model/**").authenticated())
                 .httpBasic(c -> c.authenticationManager(basicAuthenticationManager()))
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .cors(s ->
+                        s.configurationSource(request -> {
+                            CorsConfiguration configuration = new CorsConfiguration();
+                            configuration.setAllowedOrigins(List.of("*"));
+                            configuration.setAllowedMethods(List.of("*"));
+                            configuration.setAllowedHeaders(List.of("*"));
+                            return configuration;
+                        })
+                )
                 .build();
     }
 
@@ -77,6 +87,16 @@ public class SecurityConfig {
     SecurityWebFilterChain oAuthWebFilterChain(ServerHttpSecurity http) {
         return http
                 .authorizeExchange(it -> it.pathMatchers("api/feedback/**", "/api/model/**").authenticated().and().oauth2Login(Customizer.withDefaults()))
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .cors(s ->
+                        s.configurationSource(request -> {
+                            CorsConfiguration configuration = new CorsConfiguration();
+                            configuration.setAllowedOrigins(List.of("*"));
+                            configuration.setAllowedMethods(List.of("*"));
+                            configuration.setAllowedHeaders(List.of("*"));
+                            return configuration;
+                        })
+                )
                 .build();
     }
 
