@@ -1,23 +1,15 @@
 #keycloak:
-#  nodeSelector:
-#    scope: apps
-#
-#  tolerations:
-#    - key: "scope"
-#      operator: "Equal"
-#      value: "apps"
-#      effect: "NoSchedule"
-#    - key: "scope"
-#      operator: "Equal"
-#      value: "apps"
-#      effect: "NoExecute"
-
 keycloak:
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
   proxy: edge
   postgresql:
     persistence:
       storageClass: csi-disk
     auth:
+#      existingSecret: keycloak-postgresql
       password: "7u8KILKBIB"
       postgresPassword: "6DONa6Q6mW"
   extraEnvVars:
@@ -33,6 +25,19 @@ keycloak:
       kubernetes.io/ingress.class: nginx
     hostname: gazprom-auth.banzai-predict.site
     tls: true
+
+#  nodeSelector:
+#    scope: apps
+#
+#  tolerations:
+#    - key: "scope"
+#      operator: "Equal"
+#      value: "apps"
+#      effect: "NoSchedule"
+#    - key: "scope"
+#      operator: "Equal"
+#      value: "apps"
+#      effect: "NoExecute"
 #  extraEnvVars:
 #    KEYCLOAK_LOGLEVEL: DEBUG
 #    KC_PROXY: "edge"

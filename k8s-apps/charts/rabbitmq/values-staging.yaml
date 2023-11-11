@@ -6,6 +6,10 @@ rabbitmq:
   auth:
     username: user
     password: pass
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
   #  persistence:
   #    enabled: true
 #  livenessProbe:
