@@ -4,7 +4,7 @@ import Table from "~/components/Table";
 import {createColumnHelper, Row} from "@tanstack/react-table";
 import {PlusSmallIcon} from '@heroicons/react/24/outline'
 import {Link, useNavigate} from "react-router-dom";
-// import {useQuery} from "react-query";
+import {useQuery} from "react-query";
 
 import ExpandedButton from "~/components/ExpandedButton";
 import PositiveNegativeFeedback from "~/components/PositiveNegativeFeedback/PositiveNegativeFeedback";
@@ -15,7 +15,7 @@ import OfferPurchase from "~/components/OfferPurchase";
 import {Routes} from "~/components/router/Router";
 import FeedbackPanel from "~/components/FeedbackPanel";
 import LoadingCard from "~/components/LoadingCard";
-// import {getDialogs} from "~/domain/api";
+import {getDialogs} from "~/domain/api";
 
 
 const Index: React.FC = () => {
@@ -23,8 +23,8 @@ const Index: React.FC = () => {
     const navigate = useNavigate();
     const onRowClick = (id: string) => navigate(`${Routes.CONVERSATION}/${id}`);
 
-    const isLoading = false;
-    // const {data: dialogs, isLoading} = useQuery(["getDialogs"], () => getDialogs());
+    // const isLoading = false;
+    const {data: dialogs, isLoading} = useQuery(["getDialogs"], () => getDialogs());
 
     const data = [
         {

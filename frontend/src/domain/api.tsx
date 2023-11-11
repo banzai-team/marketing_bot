@@ -18,8 +18,8 @@ const getAuthHeaders =
     const token = user?.access_token;
 
     return {
-      'Authorization': `Basic ${btoa('user:12345')}`
-      // Authorization: `Bearer ${token}`,
+      // 'Authorization': `Basic ${btoa('user:12345')}`
+      Authorization: `Bearer ${token}`,
     };
   }
 
@@ -53,7 +53,7 @@ export function sendMessage(payload: SendMessagePayload) {
 }
 
 export function getDialogs() {
-  return axios.get(`${config.apiUrl}/dialogs`, {
+  return axios.get(`${config.apiUrl}/api/model/query/model-request`, {
     headers: {
       'Content-Type': `application/json`,
       ...getAuthHeaders(),
