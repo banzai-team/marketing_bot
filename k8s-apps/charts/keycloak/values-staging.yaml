@@ -22,18 +22,18 @@ keycloak:
     hostname: gazprom-auth.banzai-predict.site
     tls: true
 
-  nodeSelector:
-    scope: apps
-
-  tolerations:
-    - key: "scope"
-      operator: "Equal"
-      value: "apps"
-      effect: "NoSchedule"
-    - key: "scope"
-      operator: "Equal"
-      value: "apps"
-      effect: "NoExecute"
+#  nodeSelector:
+#    scope: apps
+#
+#  tolerations:
+#    - key: "scope"
+#      operator: "Equal"
+#      value: "apps"
+#      effect: "NoSchedule"
+#    - key: "scope"
+#      operator: "Equal"
+#      value: "apps"
+#      effect: "NoExecute"
 #  extraEnvVars:
 #    KEYCLOAK_LOGLEVEL: DEBUG
 #    KC_PROXY: "edge"
