@@ -6,8 +6,8 @@ spring:
           uri: ${MODEL_BEHAVIOR_URI}
           order: 1
           predicates:
-            - Path=/api/feedback/**
-            - Path=/api/model/query/model-request/**
+            - Path=/api/feedback
+            - Path=/api/model/query/model-request
         - id: model-invoke
           uri: ${MODEL_INTERCEPTOR_URI}
           order: 2
