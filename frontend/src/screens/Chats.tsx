@@ -1,10 +1,12 @@
 import React from 'react';
 import { FormikValues, useFormik } from 'formik';
 import { useMutation } from 'react-query';
-import { sendMessage } from '~/domain/api';
+import { sendMessage, SendMessagePayload } from '~/domain/api';
 import { Head } from '~/components/shared/Head';
 import * as Yup from "yup";
 import { useAuth } from "react-oidc-context";
+import { useNavigate } from "react-router-dom";
+import { Routes } from "~/components/router/Router";
 
 const validationMessage = "Обязательное поле";
 
@@ -15,12 +17,9 @@ const validationSchema = Yup.object({
 
 const Chats: React.FC = () => {
   const auth = useAuth();
+  const navigate = useNavigate();
 
-  const send = useMutation((payload: any) => sendMessage(payload, auth.user?.access_token!));
-
-  if (send.isLoading) {
-    console.log('loading');
-  }
+  const send = useMutation((payload: SendMessagePayload) => sendMessage(payload, auth.user?.access_token!));
 
   const formik: FormikValues = useFormik<{
     message: string,
@@ -34,9 +33,13 @@ const Chats: React.FC = () => {
       id: 0,
       text: ""
     },
-    /*onSubmit: async (values) => formik.resetForm(),*/
+    // onSubmit: async (values) => formik.resetForm(),
     onSubmit: async (values) => {
-      return send.mutateAsync({ messages: values.message.split("\n"), isOperator: values.isOperator, id: values.id, text: values.text });
+      await send.mutateAsync({ messages: values.message.split("\n"), isOperator: values.isOperator, id: values.id, text: values.text }, {
+        onSuccess: () => {
+          navigate("/");
+        }
+      });
     },
     validationSchema,
   });
@@ -103,8 +106,8 @@ const Chats: React.FC = () => {
                  className="mt-6 w-4 h-4 mr-1.5 cursor-pointer"/>
           <label className="font-medium mr-2.5 mt-6">Operator</label>
         </div>
-        <button type="submit" className="btn btn-block mt-7 btn-primary">
-          Отправить
+        <button type="submit" className={`btn btn-block mt-7 btn-primary`} disabled={formik.isSubmitting}>
+          {!formik.isSubmitting ? "Отправить" : <span className="loading loading-spinner"></span>}
         </button>
       </form>
     </div>

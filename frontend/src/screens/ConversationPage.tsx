@@ -11,12 +11,13 @@ import {useQuery} from 'react-query';
 import {getDialog} from '~/domain/api';
 import {useAuth} from 'react-oidc-context';
 import LoadingCard from '~/components/LoadingCard';
+import { dialogByIdKey } from "~/domain/keys";
 
 const Conversation: React.FC = () => {
     const {id = ""} = useParams();
     const auth = useAuth();
 
-    const {data: dialog, isLoading} = useQuery(["getDialog"], () => getDialog(auth.user?.access_token!, id));
+    const {data: dialog, isLoading} = useQuery(dialogByIdKey(id), () => getDialog(auth.user?.access_token!, id));
     const data = dialog?.data?.request;
     const responseData = data?.response;
 

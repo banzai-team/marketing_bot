@@ -11,7 +11,7 @@ export type SendMessagePayload = {
 export type SendFeedbackPayload = {
   userId?: string;
   modelResponseId: number;
-  isCorrect: boolean;
+  correct: boolean;
 };
 
 export function sendMessage(payload: SendMessagePayload, token: string) {
