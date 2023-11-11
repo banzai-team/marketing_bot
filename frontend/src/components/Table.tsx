@@ -26,6 +26,7 @@ const Table: React.FC<TableProps> = ({data, columns, renderSubComponent, onRowCl
         debugTable: true,
     })
 
+
     return (
         <table className="table">
             <thead>

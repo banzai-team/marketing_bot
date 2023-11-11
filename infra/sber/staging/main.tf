@@ -138,7 +138,7 @@ module "cluster" {
 
   cluster_node_groups = {
     "sber-k8s-public-ng" = {
-      name                     = "public-pool"
+      name                     = "tools-pool"
       os                       = "CentOS 7.6"
       initial_node_count       = 1
       flavor_id                = "c7n.xlarge.4"
@@ -151,7 +151,7 @@ module "cluster" {
       scale_down_cooldown_time = 100
       priority                 = 1
       type                     = "vm"
-      subnet_id                = module.vpc.subnets["public_subnet"].id
+      subnet_id                = module.vpc.subnets["private_subnet"].id
 
       root_volume = [
         {

@@ -68,7 +68,7 @@ class QueryControllerTest extends AbstractIntegrationTest {
 
   @Test
   void shouldGetRequestById() throws Exception {
-    var response = this.mockMvc.perform(get("/api/model/query/model-request/1")
+    this.mockMvc.perform(get("/api/model/query/model-request/1")
                     .header(HttpHeaders.CONTENT_TYPE, "application/json"))
             .andDo(print())
             .andExpect(status().isOk())
@@ -84,13 +84,12 @@ class QueryControllerTest extends AbstractIntegrationTest {
                     jsonPath("$.request.response.feedbacks").isArray(),
                     jsonPath("$.request.response.feedbacks[1].correct").value(true)
 
-            )
-            .andReturn();
+            );
   }
 
   @Test
   void shouldFindBuDialogId() throws Exception {
-    var response = this.mockMvc.perform(get("/api/model/query/model-request?page=0&size=10&dialogId=1")
+    this.mockMvc.perform(get("/api/model/query/model-request?page=0&size=10&dialogId=1")
                     .header(HttpHeaders.CONTENT_TYPE, "application/json"))
             .andDo(print())
             .andExpect(status().isOk())
@@ -106,8 +105,7 @@ class QueryControllerTest extends AbstractIntegrationTest {
                     jsonPath("$.content[0].request.response.feedbacks[0].correct").value(false),
                     jsonPath("$.content[0].request.response.feedbacks[1].correct").value(true)
 
-            )
-            .andReturn();
+            );
   }
 
   static String DATABASE_NAME = "behavior_db";
