@@ -4,6 +4,7 @@ import { useAuth } from "react-oidc-context";
 
 import Layout from "~/components/Layout";
 import MainLayout from "~/components/MainLayout";
+import LoadingCard from "~/components/LoadingCard";
 
 const Loading = () => (
     <div className="w-full h-full flex justify-center items-center">
@@ -43,7 +44,7 @@ export const Router = () => {
     const auth = useAuth();
 
     if (auth.isLoading) {
-        return "Loading"
+        return <LoadingCard />
     }
     return (
         <BrowserRouter>
