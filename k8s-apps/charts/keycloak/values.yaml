@@ -1,4 +1,1 @@
 keycloak:
-  postgresql:
-    persistence:
-      storageClass: csi-disk
