@@ -6,46 +6,50 @@
 * ### `POST /api/feedback/`
     Allows user to send a feedback for a specific model response which can be used to train model. 
     Currently only negative feedback will be used. 
-* ### `GET /dialogs`
-    Lists dialogs
-* ### `GET /dialogs/:dialogId`
-    Brief information about dialog: creation date and collection of requests performed for the dialog.
-* ### `GET /dialogs/:dialogId/requests/:requestId`
+* ### `GET /api/model/query/model-request?page=:pageNum&size=:pageSize&dialogId=:dialogId`
+    Lists all requests with responses. :dialogId may be used to select request for specific dialog.
+* ### `GET /api/model/query/model-request/:requestId`
     Provides complete model request information (dialogId, messages, operator flag, text) and model response information (dialog evaluation, stop topics and offer purchase flag).
-* ### `POST /users/invite`
-    Invites a user using specified email
-
 
 ## Diagrams
 
 ### Microservices
 
 ```mermaid
+%%{
+    init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#BB2528',
+      'primaryTextColor': '#fff',
+      'primaryBorderColor': '#7C0000',
+      'lineColor': '#F8B229',
+      'secondaryColor': '#006100',
+      'tertiaryColor': '#fff',
+      'background': '#fff'
+    }
+  }
+}%%
 flowchart TD
 client(["Client"])
 api_gateway["API gateway"]
-auth["Auth service"]
-auth_db[("Auth DB")]
+auth["Keycloak"]
 model_api["Model"]
 model_interceptor["Model interceptor"]
 model_behavior["Model behavior"]
 model_behavior_db[("Model 
 behaviour db")]
 rmq>RabbitMQ]
-notification_service["Notification service"]
-user_feedback["User feedback"]
-feendback_db[("Feedback db")]
 
 
 client-->|Request Headers...
 Authorization: Basic login:password|api_gateway
 api_gateway-.Authorizes request.->auth
-auth-->auth_db
 api_gateway--"Intercepts and watches 
 for model's input/output"-->model_interceptor
 api_gateway-."User sends feedback
 in order to correct model's behavour".->rmq
-model_interceptor---->model_api
+model_interceptor<-."Captures request and response".->model_api
 model_interceptor-."Sends captured behavior".->rmq
 rmq-->model_behavior
 model_behavior --> model_behavior_db
@@ -57,11 +61,7 @@ style auth fill:#090
 style model_interceptor fill:#090
 style api_gateway fill:#090
 style model_behavior fill:#090
-style notification_service fill:#090
-style user_feedback fill:#090
-style auth_db fill:#555
 style model_behavior_db fill:#555
-style feendback_db fill:#555
 ```
 
 ### Domain ER diagram 
