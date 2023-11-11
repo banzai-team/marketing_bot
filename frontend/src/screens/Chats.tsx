@@ -36,7 +36,7 @@ const Chats: React.FC = () => {
     },
     /*onSubmit: async (values) => formik.resetForm(),*/
     onSubmit: async (values) => {
-      send.mutate({ messages: values.message, isOperator: values.isOperator, id: values.id, text: values.text });
+      return send.mutateAsync({ messages: values.message.split("\n"), isOperator: values.isOperator, id: values.id, text: values.text });
     },
     validationSchema,
   });

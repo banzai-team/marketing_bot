@@ -9,8 +9,9 @@ export type SendMessagePayload = {
 };
 
 export type SendFeedbackPayload = {
-  id: string;
-  feedback: boolean;
+  userId: string;
+  modelResponseId: string;
+  isCorrect: boolean;
 };
 
 export function sendMessage(payload: SendMessagePayload, token: string) {
@@ -24,8 +25,8 @@ export function sendMessage(payload: SendMessagePayload, token: string) {
   return axios.post(`${config.apiUrl}/api/model/evaluate`, params, {
     headers: {
       'Content-Type': `application/json`,
-      Authorization: `Bearer ${token}`
-      // 'Authorization': `Basic ${btoa('user:12345')}`,
+      // Authorization: `Bearer ${token}`,
+      'Authorization': `Basic ${btoa('test:1234')}`,
     },
   });
 }
@@ -34,21 +35,20 @@ export function getDialogs(token: string) {
   return axios.get(`${config.apiUrl}/api/model/query/model-request`, {
     headers: {
       'Content-Type': `application/json`,
-      Authorization: `Bearer ${token}`
+      // Authorization: `Bearer ${token}`,
+      'Authorization': `Basic ${btoa('test:1234')}`,
+
     },
   });
 }
 
 export function sendFeedback(payload: SendFeedbackPayload, token: string) {
-  const params = {
-    id: payload.id,
-    feedback: payload.feedback,
-  }
-
-  return axios.post(`${config.apiUrl}/api/feedback`, params, {
+  return axios.post(`${config.apiUrl}/api/feedback`, payload, {
     headers: {
       'Content-Type': `application/json`,
-      Authorization: `Bearer ${token}`
+      // Authorization: `Bearer ${token}`,
+      'Authorization': `Basic ${btoa('test:1234')}`,
+
 
     },
   });

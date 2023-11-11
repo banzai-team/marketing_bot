@@ -15,12 +15,12 @@ const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ chatIds, cleanChatIds
 
   const send = useMutation((payload: any) => sendFeedback(payload, auth.user?.access_token!));
 
-  const sendFeedbackRequest = (chatIds: string | Array<string>, feedback: boolean): void => {
+  const sendFeedbackRequest = async (chatIds: string | Array<string>, feedback: boolean) => {
     if (Array.isArray(chatIds)) {
-      chatIds.forEach(id => send.mutate({ id, feedback }));
+      await Promise.all(chatIds.map(id => send.mutateAsync({ userId: auth.user?.profile.nickname, modelResponseId: Number.parseInt(id), isCorrect: feedback })));
       cleanChatIds && cleanChatIds([]);
     } else {
-      send.mutate({ id: chatIds, feedback });
+      return send.mutateAsync({ userId: auth.user?.profile.nickname, modelResponseId: Number.parseInt(chatIds), isCorrect: feedback });
     }
   };
 
