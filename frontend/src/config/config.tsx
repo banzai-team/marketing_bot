@@ -1,6 +1,8 @@
 declare global {
   interface Window {
     API_URL?: string;
+    KEYCLOAK_CLIENT_ID?: string;
+    KEYCLOAK_AUTHORITY?: string;
   }
 }
 
@@ -9,7 +11,7 @@ export const config = {
 }
 
 export const oidcConfig = {
-  authority: "https://gazprom-auth.banzai-predict.site/realms/gazprom-mrkt",
-  client_id: "webapp",
+  authority: window.KEYCLOAK_AUTHORITY || "https://gazprom-auth.banzai-predict.site/realms/gazprom-mrkt",
+  client_id: window.KEYCLOAK_CLIENT_ID || "webapp",
   redirect_uri: window.location.origin,
 };

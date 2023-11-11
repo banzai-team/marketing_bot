@@ -1,15 +1,20 @@
-# Summary
+# Запустить
 
-Чтобы запустить данное решение локально, необходимо вызвать следующие команду
 ### docker-compose
+Чтобы запустить данное решение локально, необходимо вызвать следующие команду
 `make up`
 
+
 ### kubernetes
-TODO: need to release
+TODO: need to release charts
 ```
 helm repo add gazprom-mrk https://gazprom-charts.obs.ru-moscow-1.hc.sbercloud.ru
 helm install gazprom-mrkt gazprom-mrkt/gazprom-mrkt
 ```
+
+Чтобы решение работало с oidc - необходимо настроить провайдер
+
+[Настройка keycloak](./docs/Keycloak.md)
 
 # Компоненты системы
 
