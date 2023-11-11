@@ -17,22 +17,7 @@ const Conversation: React.FC = () => {
     const auth = useAuth();
 
     const {data: dialog, isLoading} = useQuery(["getDialog"], () => getDialog(auth.user?.access_token!, id));
-
-    const data = {
-        messages: [
-            "Где информация о вкладе 13% in",
-            "Hello! out",
-            "Hello! 2 in",
-            "Hello! 3 out",
-            "Hello! 4 in"
-        ],
-        text: "Custom text",
-        id_sequence: "456",
-        is_operator: true,
-        feedback: 4,
-        offer_purchase: true,
-        stop_theme: ["test", "test2"],
-    }
+    const data = dialog?.data?.request;
 
     return (
         <>
