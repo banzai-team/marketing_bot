@@ -44,8 +44,8 @@ public class SecurityConfig {
     @Order(1)
     SecurityWebFilterChain permitAllWebFilterChain(ServerHttpSecurity http) {
         return http
-                .securityMatcher(pathMatchers("/permitall/**", "/api/model/query/**"))
-                .authorizeExchange(c -> c .pathMatchers("/permitall/**", "/api/model/query/**").permitAll())
+                .securityMatcher(pathMatchers("/actuator/**", "/permitall/**", "/api/model-behavior/**"))
+                .authorizeExchange(c -> c .pathMatchers("/actuator/**", "/permitall/**", "/api/model-behavior/**").permitAll())
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .cors(s ->
                         s.configurationSource(request -> {
