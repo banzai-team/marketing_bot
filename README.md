@@ -1,3 +1,16 @@
+# Summary
+
+Чтобы запустить данное решение локально, необходимо вызвать следующие команду
+### docker-compose
+`make up`
+
+### kubernetes
+TODO: need to release
+```
+helm repo add gazprom-mrk https://gazprom-charts.obs.ru-moscow-1.hc.sbercloud.ru
+helm install gazprom-mrkt gazprom-mrkt/gazprom-mrkt
+```
+
 # Marketing bot
 
 ## API
