@@ -42,6 +42,16 @@ export function getDialogs(token: string) {
   });
 }
 
+export function getDialog(token: string, id: string) {
+  return axios.get(`${config.apiUrl}/api/model/query/model-request/${id}`, {
+    headers: {
+      'Content-Type': `application/json`,
+      // Authorization: `Bearer ${token}`,
+      'Authorization': `Basic ${btoa('test:1234')}`,
+    },
+  });
+}
+
 export function sendFeedback(payload: SendFeedbackPayload, token: string) {
   return axios.post(`${config.apiUrl}/api/feedback`, payload, {
     headers: {
