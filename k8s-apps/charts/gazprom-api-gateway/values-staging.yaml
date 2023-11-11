@@ -19,4 +19,4 @@ config:
   MODEL_INTERCEPTOR_URI: http://gazprom-model-interceptor.gazprom-model-interceptor:8080
   KEYCLOAK_ISSUER_URI: https://gazprom-auth.banzai-predict.site/realms/gazprom-mrkt
   KEYCLOAK_CLIENT_ID: gateway-client
-  KEYCLOAK_CLIENT_SECRET: A3DILZlTQ9Q6XOF48PiTxH1r2zsufpAb
+  KEYCLOAK_CLIENT_SECRET: NZh1y4kFE1WTPC7TUwgWdLIh1qrLSBs0
