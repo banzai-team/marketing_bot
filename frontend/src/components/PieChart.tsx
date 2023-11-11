@@ -39,7 +39,7 @@ const CustomPieChart: React.FC<CustomPieChartProps> = ({data}) => {
         if (percent === 0) return "";
 
         return (
-            <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+            <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} className="text-sm" dominantBaseline="central">
                 {`${(percent * 100).toFixed(0)}%`}
             </text>
         );
