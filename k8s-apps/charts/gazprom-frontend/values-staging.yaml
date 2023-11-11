@@ -17,3 +17,7 @@ ingress:
 extraEnv:
   - name: API_URL
     value: https://gazprom-api.banzai-predict.site
+  - name: KEYCLOAK_CLIENT_ID
+    value: webapp
+  - name: KEYCLOAK_AUTHORITY
+    value: https://gazprom-auth.banzai-predict.site/realms/gazprom-mrkt
