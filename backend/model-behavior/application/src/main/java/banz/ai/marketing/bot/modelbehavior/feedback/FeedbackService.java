@@ -41,14 +41,14 @@ public class FeedbackService {
     feedback.setCreatedAt(new Date());
     feedbackRepository.save(feedback);
 
-    var mqMessage = UserFeedbackToApplyDTO.builder()
-            .feedbackId(feedback.getId())
-            .userId(feedback.getUserId())
-            .isCorrect(feedback.isCorrect())
-            .modelResponseId(userFeedbackDTO.getModelResponseId())
-            .build();
-
-    rabbitTemplate.convertAndSend(feedbackPostQueue, mqMessage);
+//    var mqMessage = UserFeedbackToApplyDTO.builder()
+//            .feedbackId(feedback.getId())
+//            .userId(feedback.getUserId())
+//            .isCorrect(feedback.isCorrect())
+//            .modelResponseId(userFeedbackDTO.getModelResponseId())
+//            .build();
+//
+//    rabbitTemplate.convertAndSend(feedbackPostQueue, mqMessage);
   }
 
   @Transactional
