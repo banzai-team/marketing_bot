@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,7 +22,7 @@ public class ModelRequestQueryHandler {
     private final ModelRequestRepository modelRequestRepository;
 
     public Page<ModelRequest> list(ModelRequestListingQuery query) {
-        return modelRequestRepository.listPage(query.getPageable());
+        return modelRequestRepository.listPage(query.getPageable(), query.getCriteria());
     }
 
     public Optional<ModelRequest> getById(ModelRequestByIdQueryDTO query) {

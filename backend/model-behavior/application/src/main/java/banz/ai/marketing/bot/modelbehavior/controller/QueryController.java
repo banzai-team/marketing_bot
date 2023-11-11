@@ -1,15 +1,20 @@
 package banz.ai.marketing.bot.modelbehavior.controller;
 
+import banz.ai.marketing.bot.commons.ApiError;
 import banz.ai.marketing.bot.modelbehavior.behavior.entity.ModelRequest;
 import banz.ai.marketing.bot.modelbehavior.behavior.entity.ModelRequestMessage;
+import banz.ai.marketing.bot.modelbehavior.exception.NotFoundException;
 import banz.ai.marketing.bot.modelbehavior.query.ModelRequestQueryHandler;
 import banz.ai.marketing.bot.modelbehavior.query.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -22,9 +27,15 @@ public class QueryController {
 
     @GetMapping("model-request")
     public ResponseEntity<Page<ModelRequestListingItem>> listModelRequests(@RequestParam("page") int page,
-                                                                           @RequestParam("size") int size) {
+                                                                           @RequestParam("size") int size,
+                                                                           @RequestParam(value = "dialogId", required = false) Long dialogId
+    ) {
+        var query = ModelRequestListingQuery.builder().pageable(PageRequest.of(page, size));
+        if (Objects.nonNull(dialogId)) {
+            query.criteria(Map.of("dialogId", dialogId));
+        }
         return ResponseEntity.ok().body(
-                modelRequestQueryHandler.list(ModelRequestListingQuery.builder().pageable(PageRequest.of(page, size)).build())
+                modelRequestQueryHandler.list(query.build())
                         .map(this::mapToDTO));
     }
 
@@ -63,4 +74,13 @@ public class QueryController {
         return itemBuilder.build();
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiError> handleException(NotFoundException exception) {
+        return ResponseEntity.status(404).body(ApiError.builder()
+                .code(HttpStatus.NOT_FOUND.value())
+                .message("Not Found")
+                .timestamp(new Date())
+                .build()
+        );
+    }
 }
