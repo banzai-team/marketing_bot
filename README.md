@@ -39,10 +39,17 @@ helm install gazprom-mrkt gazprom-mrkt/gazprom-mrkt
     Lists all requests with responses. :dialogId may be used to select request for specific dialog.
 * ### `GET /api/model/query/model-request/:requestId`
     Provides complete model request information (dialogId, messages, operator flag, text) and model response information (dialog evaluation, stop topics and offer purchase flag).
-
+* ### `GET /model-behavior/v3/api-docs`
+    OpenAPI документация для выборки, и отправки фидбека по поведению модели
+* ### `GET /model-interceptor/v3/api-docs`
+    OpenAPI документация для отправки запроса модели
+## Docs
+    Документация находится в разделе репозитория /docs
 ## Diagrams
 
+
 ### Microservices
+./docs/Diagrams.md
 
 ```mermaid
 %%{
