@@ -17,8 +17,6 @@ import FeedbackPanel from "~/components/FeedbackPanel";
 import LoadingCard from "~/components/LoadingCard";
 import {getDialogs} from "~/domain/api";
 import { useAuth } from "react-oidc-context";
-import {request} from "axios";
-
 
 const Index: React.FC = () => {
     const [rowSelection, setRowSelection] = React.useState<string[]>([]);
@@ -31,68 +29,9 @@ const Index: React.FC = () => {
     const {data: dialogs, isLoading} = useQuery([dialogKey], () => getDialogs(auth.user?.access_token!));
 
     const data = useMemo(() => dialogs?.data?.content.map(
-        item => ({ ...item.request })
+        item => ({ ...item.request, subRows:[true] })
     ) || null, [dialogs]);
     console.log(data);
-    // const data = [
-    //     {
-    //         id: "1",
-    //         firstName: "Test 1",
-    //         lastName: "Test 11",
-    //         age: "111",
-    //         feedback: "-5",
-    //         id_sequence: "5",
-    //         offer_purchase: true,
-    //         is_operator: true,
-    //         text: "unknown text",
-    //         stop_theme: ["test", "test2"],
-    //         messages: [
-    //             "Где информация о вкладе 13% in",
-    //             "Hello! out",
-    //             "Hello! 2 in",
-    //             "Hello! 3 out",
-    //             "Hello! 4 in",
-    //         ],
-    //         subRows: [true]
-    //     },
-    //     {
-    //         id: "2",
-    //         firstName: "Test 2",
-    //         lastName: "Test 22",
-    //         age: "222",
-    //         feedback: "1",
-    //         offer_purchase: true,
-    //         is_operator: true,
-    //         id_sequence: 9,
-    //         text: " some unknown text",
-    //         messages: [
-    //             "Hello! out",
-    //             "Hello! 2 in",
-    //             "Hello! 3 out",
-    //             "Hello! 4 in",
-    //             "Чтобы открыть вклад в приложении нажмите «+» в разделе «Вклады» на главной странице. Чтобы открыть вклад в приложении нажмите «+» в разделе «Вклады» на главной странице out",
-    //         ],
-    //         subRows: [true]
-    //     },
-    //     {
-    //         id: "3",
-    //         firstName: "Test 3",
-    //         lastName: "Test 33",
-    //         feedback: "5",
-    //         id_sequence: 77,
-    //         offer_purchase: false,
-    //         is_operator: false,
-    //         text: "unknown text 11 1 1",
-    //         age: "333",
-    //         messages: [
-    //             "Hello! out",
-    //             "Hello! 2 in",
-    //             "Hello! 3 out",
-    //             "Hello! 4 in",
-    //         ],
-    //         subRows: [true]
-    //     }
-    // ];
 
     // TODO: add type
     const columnHelper = createColumnHelper<any>();
@@ -168,25 +107,23 @@ const Index: React.FC = () => {
 
     // TODO: add type
     const renderSubComponent = ({row}: { row: Row<any> }) => {
-        console.log("sadvasdhvashjda");
-        const data = row.original.messages;
-// console.log(data);
-        if (!data) {
+        const messages = row.original.messages;
+        if (!messages) {
             return null;
         }
 
         return (
             <div className="grid grid-cols-2 gap-4 p-3">
                 <div className="flex">
-                    <Chat data={data} />
+                    <Chat data={messages} />
                     <div className="divider divider-horizontal" />
                 </div>
                 <div>
                     <div className="flex mb-4">
                         <div className="font-bold mr-4">Cтоп-темы:</div>
                         <div>
-                            {row.original.stop_theme ? (
-                                row.original.stop_theme.map((theme: string, key: number) =>(
+                            {row.original.response.stopTopics && row.original.response.stopTopics.length ? (
+                                row.original.response.stopTopics.map((theme: string, key: number) =>(
                                     <div key={key}>{theme}</div>
                                 ))
                             ) : "-"}
@@ -194,11 +131,11 @@ const Index: React.FC = () => {
                     </div>
                     <div className="flex mb-4">
                         <div className="font-bold mr-4">Число:</div>
-                        <div>{row.original.id_sequence}</div>
+                        <div>{row.original.dialogId}</div>
                     </div>
                     <div className="flex mb-4">
                         <div className="font-bold mr-4">Оператор:</div>
-                        <OfferPurchase hasOffer={row.original.is_operator} />
+                        <OfferPurchase hasOffer={row.original.operator} />
                     </div>
                     <div className="flex mb-4">
                         <div className="font-bold mr-4">Вспомогательный текст:</div>
