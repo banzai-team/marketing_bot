@@ -74,7 +74,7 @@ public class QueryController {
                             .feedbacks(r.getModelResponse().getFeedbacks().stream()
                                     .map(f -> UserFeedbackListItemDTO.builder()
                                             .id(f.getId())
-                                            .isCorrect(f.isCorrect())
+                                            .correct(f.isCorrect())
                                             .userId(f.getUserId())
                                             .modelResponseId(r.getModelResponse().getId())
                                             .build())
