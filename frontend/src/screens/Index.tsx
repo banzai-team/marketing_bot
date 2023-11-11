@@ -30,7 +30,7 @@ const Index: React.FC = () => {
   const { data: dialogs, isLoading } = useQuery([dialogKey], () => getDialogs(auth.user?.access_token!));
 
   const data = useMemo(() => dialogs?.data?.content.map(
-    item => ({ ...item.request, subRows:[true] })
+    (item: any) => ({ ...item.request, subRows: [true] })
   ) || null, [dialogs]);
   console.log(data);
 
@@ -49,7 +49,7 @@ const Index: React.FC = () => {
             onChange={() => (
               rowSelection.length === data.length
                 ? setRowSelection([])
-                : setRowSelection(data.map(item => item.id))
+                : setRowSelection(data.map((item: { id: string }) => item.id))
             )}
             checked={rowSelection.length === data.length}
             className="checkbox checkbox-xs checkbox-primary align-middle"
@@ -101,9 +101,9 @@ const Index: React.FC = () => {
       header: "Oценка настроения",
       cell: info => <PositiveNegativeFeedback point={info.renderValue()}/>,
     }),
-    columnHelper.accessor('id', {
+    columnHelper.accessor('response', {
       header: "Оценка",
-      cell: info => <FeedbackButtons chatIds={info.renderValue()}/>,
+      cell: info => <FeedbackButtons chatIds={info.renderValue().id} allFeedbacks={info.renderValue()?.feedbacks}/>,
     })
   ]
 

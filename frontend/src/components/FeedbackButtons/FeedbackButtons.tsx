@@ -3,14 +3,17 @@ import "./FeedbackButtons.css";
 import { useMutation, useQueryClient } from 'react-query';
 import { sendFeedback, SendFeedbackPayload } from '~/domain/api';
 import { useAuth } from "react-oidc-context";
+import { dialogKey } from "~/domain/keys";
 
 type FeedbackButtonsProps = {
   chatIds: string | Array<string>;
   bigSize?: boolean;
   cleanChatIds?: (chatIds: Array<string>) => void;
+  currentFeedback?: boolean;
+  allFeedbacks?: any[];
 }
 
-const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ chatIds, cleanChatIds, bigSize }) => {
+const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ allFeedbacks, chatIds, cleanChatIds, bigSize, currentFeedback }) => {
   const auth = useAuth();
 
   const queryClient = useQueryClient()
@@ -33,10 +36,12 @@ const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ chatIds, cleanChatIds
     }
   };
 
+  const isGoodFeedback = allFeedbacks?.length ? allFeedbacks[allFeedbacks.length - 1]?.correct : null;
+
   return (
     <>
       <button
-        className={`btn btn-ghost mr-1 feedback-btn ${bigSize ? "text-5xl btn-lg" : "text-2xl btn-sm"}`}
+        className={`btn btn-ghost mr-1 ${isGoodFeedback !== null && isGoodFeedback ? "active" : ""} feedback-btn ${bigSize ? "text-5xl btn-lg" : "text-2xl btn-sm"}`}
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
@@ -46,7 +51,7 @@ const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ chatIds, cleanChatIds
         👍
       </button>
       <button
-        className={`btn btn-ghost feedback-btn ${bigSize ? "text-5xl btn-lg" : "text-2xl btn-sm"}`}
+        className={`btn btn-ghost ${isGoodFeedback !== null && !isGoodFeedback ? "active" : ""} feedback-btn ${bigSize ? "text-5xl btn-lg" : "text-2xl btn-sm"}`}
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
