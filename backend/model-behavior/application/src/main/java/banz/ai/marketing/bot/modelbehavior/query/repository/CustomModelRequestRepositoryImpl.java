@@ -30,8 +30,8 @@ public class CustomModelRequestRepositoryImpl implements CustomModelRequestRepos
                 .leftJoin(QModelRequest.modelRequest.modelResponse, QModelResponse.modelResponse)
                 .leftJoin(QModelRequest.modelRequest.modelResponse.stopTopics, QStopTopic.stopTopic)
                 .leftJoin(QModelResponse.modelResponse.feedbacks, QFeedback.feedback)
-                .limit(1000)
-                .offset(0);
+                .limit((long) pageable.getPageSize() * pageable.getPageNumber()) // TODO wtf pageable.getOffset()???
+                .offset(pageable.getPageSize()); // TODO wtf pageable.getPageSize()???
         if (criteria.containsKey("dialogId")) {
             req.where(QModelRequest.modelRequest.dialog.id.eq((Long) criteria.get("dialogId")));
         }

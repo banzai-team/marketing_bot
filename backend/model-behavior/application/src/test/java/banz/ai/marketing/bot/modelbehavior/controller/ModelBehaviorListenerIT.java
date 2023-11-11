@@ -31,11 +31,13 @@ class ModelBehaviorListenerIT extends AbstractIntegrationTest {
   static String DATABASE_NAME = "behavior_db";
   static String BEHAVIOR_QUEUE = "behavior-queue";
   static String FEEDBACK_QUEUE = "feedback-queue";
+  static String RMQ_FEEDBACK_POST_QUEUE = "feedback-queue-post";
   @Container
   static MockServerContainer mockServerContainer = new MockServerContainer(DockerImageName.parse(MOCKSERVER_IMAGE_NAME));
   @Container
   static RabbitMQContainer rmqContainer = new RabbitMQContainer(DockerImageName.parse(RMQ_IMAGE_NAME))
           .withQueue(BEHAVIOR_QUEUE)
+          .withQueue(RMQ_FEEDBACK_POST_QUEUE)
           .withQueue(FEEDBACK_QUEUE);
   @Container
   static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>(DockerImageName.parse(POSTGRES_IMAGE_NAME))
@@ -59,7 +61,8 @@ class ModelBehaviorListenerIT extends AbstractIntegrationTest {
     registry.add("spring.rabbitmq.username", rmqContainer::getAdminUsername);
     registry.add("spring.rabbitmq.password", rmqContainer::getAdminPassword);
     registry.add("queues.behavior", () -> BEHAVIOR_QUEUE);
-    registry.add("queues.feedback", () -> FEEDBACK_QUEUE);
+    registry.add("queues.feedback-response", () -> FEEDBACK_QUEUE);
+    registry.add("queues.feedback-post", () -> RMQ_FEEDBACK_POST_QUEUE);
     registry.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
     registry.add("spring.datasource.url", () -> postgreSQLContainer.getJdbcUrl());
     registry.add("spring.datasource.username", () -> postgreSQLContainer.getUsername());
