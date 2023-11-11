@@ -3,6 +3,14 @@ import {FormikValues, useFormik} from 'formik';
 import {useMutation} from 'react-query';
 import {sendMessage} from '~/domain/api';
 import {Head} from '~/components/shared/Head';
+import * as Yup from "yup";
+
+const validationMessage = "Обязательное поле";
+
+const validationSchema = Yup.object({
+    message: Yup.string().required(validationMessage),
+    text: Yup.string().required(validationMessage),
+});
 
 const Chats: React.FC = () => {
     const send = useMutation(sendMessage);
@@ -26,10 +34,14 @@ const Chats: React.FC = () => {
         /*onSubmit: async (values) => formik.resetForm(),*/
         onSubmit: async (values) => {
             send.mutate({ messages: values.message, isOperator: values.isOperator, id: values.id, text: values.text });
-        }
+        },
+        validationSchema,
     });
 
     const isOperator = formik.getFieldProps("isOperator");
+
+    const messageError = (formik.touched?.message && formik.errors?.message) ? "textarea-error" : "";
+    const textError = (formik.touched?.text && formik.errors?.text) ? "input-error" : "";
 
     return <>
         <Head title="Создание диалога" />
@@ -39,22 +51,24 @@ const Chats: React.FC = () => {
 
                 <div className="form-control">
                     <label className="label">
-                        Диалог для оценки
+                        <span>Диалог для оценки</span>
+                        {messageError && <span className="text-error label-text-alt">{formik.errors.message}</span>}
                     </label>
                     <textarea
                         rows="4"
-                        className="textarea textarea-bordered h-60 block p-2.5 mb-4 w-full text-gray-900 bg-gray-50 border border-gray-300 rounded-sm focus:ring-blue-500 focus:border-blue-500"
+                        className={`textarea textarea-bordered h-60 block p-2.5 mb-4 w-full text-gray-900 bg-gray-50 border rounded-sm focus:ring-blue-500 focus:border-blue-500 ${messageError}`}
                         placeholder="Введите сообщения"
                         {...formik.getFieldProps("message")}
                     />
                 </div>
                 <div className="form-control">
                     <label className="label">
-                        Текст
+                        <span>Текст</span>
+                        {textError && <span className="text-error label-text-alt">{formik.errors.message}</span>}
                     </label>
                     <input
                         type="text"
-                        className="input input-bordered w-full bg-gray-50 mb-4"
+                        className={`input input-bordered w-full bg-gray-50 mb-4 ${textError}`}
                         placeholder="Введите текст"
                         {...formik.getFieldProps("text")}
                     />
@@ -78,4 +92,3 @@ const Chats: React.FC = () => {
 };
 
 export default Chats;
-
