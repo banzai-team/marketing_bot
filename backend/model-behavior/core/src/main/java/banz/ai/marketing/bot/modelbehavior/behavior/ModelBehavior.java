@@ -13,13 +13,11 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ModelBehavior {
 
   final long dialogId;
   final ModelRequest request;
   ModelResponse response;
-  final Date capturedAt;
 
   void setResponse(ModelResponse response) {
 
@@ -29,7 +27,6 @@ public class ModelBehavior {
     this.dialogId = dialogId;
     this.request = request;
     this.response = response;
-    this.capturedAt = new Date();
   }
 
   static class Builder {
@@ -37,7 +34,6 @@ public class ModelBehavior {
     private long dialogId;
     private ModelRequest request;
     private ModelResponse response;
-    private Date capturedAt;
 
     private Builder(ModelRequestDTO modelRequest) {
       this.dialogId = modelRequest.getDialogId();
@@ -50,9 +46,9 @@ public class ModelBehavior {
                       .map(s -> new Message(request, s))
                       .collect(Collectors.toList()),
               modelRequest.getText(),
+              new Date(),
               modelRequest.isOperator()
       );
-      this.capturedAt = new Date();
     }
 
     public static Builder forRequest(ModelRequestDTO modelRequest) {
@@ -66,7 +62,8 @@ public class ModelBehavior {
       response = new ModelResponse(dialogId,
               modelResponse.getDialogEvaluation(),
               CollectionUtils.isEmpty(modelResponse.getStopTopics()) ? Collections.emptyList() : modelResponse.getStopTopics(),
-              modelResponse.isOfferPurchase()
+              modelResponse.isOfferPurchase(),
+              0
       );
       return this;
     }

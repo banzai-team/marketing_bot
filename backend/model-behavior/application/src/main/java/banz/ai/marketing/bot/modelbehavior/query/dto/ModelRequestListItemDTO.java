@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -18,5 +19,6 @@ public class ModelRequestListItemDTO {
     private List<String> messages;
     private boolean isOperator;
     private String text;
+    private Date performedAt;
     private ModelResponseListItemDTO response;
 }

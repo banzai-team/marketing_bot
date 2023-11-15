@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,6 +25,9 @@ public class ModelRequest {
 
     @Column(name = "additional_text")
     private String text;
+
+    @Column(name = "performed_at")
+    private Date performedAt;
 
     @OneToOne(mappedBy = "modelRequest", cascade = CascadeType.ALL)
     private ModelResponse modelResponse;

@@ -1,7 +1,6 @@
 package banz.ai.marketing.bot.modelbehavior.query.repository;
 
 import banz.ai.marketing.bot.modelbehavior.behavior.entity.*;
-import banz.ai.marketing.bot.modelbehavior.feedback.entity.QFeedback;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
@@ -29,7 +28,6 @@ public class CustomModelRequestRepositoryImpl implements CustomModelRequestRepos
                 .innerJoin(QModelRequest.modelRequest.dialog, QDialog.dialog)
                 .leftJoin(QModelRequest.modelRequest.modelResponse, QModelResponse.modelResponse)
                 .leftJoin(QModelRequest.modelRequest.modelResponse.stopTopics, QStopTopic.stopTopic)
-                .leftJoin(QModelResponse.modelResponse.feedbacks, QFeedback.feedback)
                 .limit(1000) // TODO wtf pageable.getOffset()???
                 .offset(0); // TODO wtf pageable.getPageSize()???
         if (criteria.containsKey("dialogId")) {
@@ -48,7 +46,6 @@ public class CustomModelRequestRepositoryImpl implements CustomModelRequestRepos
                 .innerJoin(QModelRequest.modelRequest.dialog, QDialog.dialog)
                 .leftJoin(QModelRequest.modelRequest.modelResponse, QModelResponse.modelResponse)
                 .leftJoin(QModelRequest.modelRequest.modelResponse.stopTopics, QStopTopic.stopTopic)
-                .leftJoin(QModelResponse.modelResponse.feedbacks, QFeedback.feedback)
                 .where(QModelRequest.modelRequest.id.eq(id))
                 .fetchOne());
     }

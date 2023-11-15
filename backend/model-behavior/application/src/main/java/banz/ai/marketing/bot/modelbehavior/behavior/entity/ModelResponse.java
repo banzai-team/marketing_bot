@@ -1,6 +1,5 @@
 package banz.ai.marketing.bot.modelbehavior.behavior.entity;
 
-import banz.ai.marketing.bot.modelbehavior.feedback.entity.Feedback;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +25,9 @@ public class ModelResponse {
     @Column(name = "offer_purchase")
     private boolean offerPurchase;
 
+    @Column(name = "feedback")
+    private Integer feedback;
+
     @OneToOne
     @JoinColumn(name = "model_request_id")
     private ModelRequest modelRequest;
@@ -33,8 +35,13 @@ public class ModelResponse {
     @OneToMany(mappedBy = "modelResponse", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<StopTopic> stopTopics = new ArrayList<>();
 
-    @OneToMany(mappedBy = "modelResponse", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Feedback> feedbacks = new ArrayList<>();
+    public void incrementFeedback() {
+        feedback ++;
+    }
+
+    public void decrementFeedback() {
+        feedback --;
+    }
 
     public void addStopTopic(StopTopic stopTopic) {
         stopTopic.setModelResponse(this);

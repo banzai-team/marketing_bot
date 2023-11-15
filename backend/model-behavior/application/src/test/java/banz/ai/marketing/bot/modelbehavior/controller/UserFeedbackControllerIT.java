@@ -47,7 +47,9 @@ class UserFeedbackControllerIT extends AbstractIntegrationTest {
     var entityManager = entityManagerFactory.createEntityManager();
     var req = new ModelRequest();
     var resp = new ModelResponse();
+    resp.setFeedback(0);
     req.setModelResponse(resp);
+    req.setPerformedAt(new Date());
     var dialog = new Dialog();
     dialog.setId(75L);
     dialog.setCreatedAt(new Date());

@@ -63,6 +63,7 @@ public class QueryController {
                 .dialogId(r.getDialog().getId())
                 .messages(r.getMessages().stream().map(ModelRequestMessage::getContent).collect(Collectors.toList()))
                 .text(r.getText())
+                .performedAt(r.getPerformedAt())
                 .isOperator(r.isOperator());
         if (Objects.nonNull(r.getModelResponse())) {
             reqBuilder.response(ModelResponseListItemDTO.builder()
@@ -70,14 +71,7 @@ public class QueryController {
                             .offerPurchase(r.getModelResponse().isOfferPurchase())
                             .dialogEvaluation(r.getModelResponse().getDialogEvaluation())
                             .stopTopics(r.getModelResponse().getStopTopics().stream().map(StopTopic::getContent).collect(Collectors.toList()))
-                            .feedbacks(r.getModelResponse().getFeedbacks().stream()
-                                    .map(f -> UserFeedbackListItemDTO.builder()
-                                            .id(f.getId())
-                                            .correct(f.isCorrect())
-                                            .userId(f.getUserId())
-                                            .modelResponseId(r.getModelResponse().getId())
-                                            .build())
-                                    .collect(Collectors.toList()))
+                            .feedback(r.getModelResponse().getFeedback())
                             .build())
                     .build();
         }

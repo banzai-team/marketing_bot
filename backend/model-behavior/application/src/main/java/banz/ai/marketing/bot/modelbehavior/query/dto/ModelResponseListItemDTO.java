@@ -17,5 +17,5 @@ public class ModelResponseListItemDTO {
     private boolean offerPurchase;
     private float dialogEvaluation;
     private List<String> stopTopics;
-    private List<UserFeedbackListItemDTO> feedbacks;
+    private int feedback;
 }

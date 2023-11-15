@@ -1,0 +1,15 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet id="20231115104900" author="wuz1mu">
+        <addColumn tableName="model_response">
+            <column name="feedback" type="int" defaultValue="0">
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+        <addColumn tableName="model_request">
+            <column name="performed_at" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+        <dropTable tableName="user_feedback" cascadeConstraints="true" />
+    </changeSet>
+</databaseChangeLog>

@@ -51,6 +51,7 @@ class QueryControllerTest extends AbstractIntegrationTest {
             .andExpect(status().isOk())
             .andExpectAll(
                     jsonPath("$.content[0].request.text").value("hello"),
+                    jsonPath("$.content[0].request.performedAt").isNotEmpty(),
                     jsonPath("$.content[0].request.messages").isArray(),
                     jsonPath("$.content[0].request.messages[0]").value("Hello"),
                     jsonPath("$.content[0].request.messages[1]").value("What is your name?"),
@@ -58,9 +59,7 @@ class QueryControllerTest extends AbstractIntegrationTest {
                     jsonPath("$.content[0].request.response.offerPurchase").value(true),
                     jsonPath("$.content[0].request.response.dialogEvaluation").value(0.5),
                     jsonPath("$.content[0].request.response.stopTopics[0]").value("f*ck"),
-                    jsonPath("$.content[0].request.response.feedbacks").isArray(),
-                    jsonPath("$.content[0].request.response.feedbacks[0].correct").value(false),
-                    jsonPath("$.content[0].request.response.feedbacks[1].correct").value(true)
+                    jsonPath("$.content[0].request.response.feedback").value(-4)
 
             )
             .andReturn();
@@ -74,15 +73,14 @@ class QueryControllerTest extends AbstractIntegrationTest {
             .andExpect(status().isOk())
             .andExpectAll(
                     jsonPath("$.request.text").value("hello"),
+                    jsonPath("$.request.performedAt").isNotEmpty(),
                     jsonPath("$.request.messages").isArray(),
                     jsonPath("$.request.messages[0]").value("Hello"),
                     jsonPath("$.request.messages[1]").value("What is your name?"),
                     jsonPath("$.request.messages[2]").value("John"),
                     jsonPath("$.request.response.offerPurchase").value(true),
                     jsonPath("$.request.response.dialogEvaluation").value(0.5),
-                    jsonPath("$.request.response.feedbacks[0].correct").value(false),
-                    jsonPath("$.request.response.feedbacks").isArray(),
-                    jsonPath("$.request.response.feedbacks[1].correct").value(true)
+                    jsonPath("$.request.response.feedback").value(-4)
 
             );
   }
@@ -95,16 +93,14 @@ class QueryControllerTest extends AbstractIntegrationTest {
             .andExpect(status().isOk())
             .andExpectAll(
                     jsonPath("$.content[0].request.text").value("hello"),
+                    jsonPath("$.content[0].request.performedAt").isNotEmpty(),
                     jsonPath("$.content[0].request.messages").isArray(),
                     jsonPath("$.content[0].request.messages[0]").value("Hello"),
                     jsonPath("$.content[0].request.messages[1]").value("What is your name?"),
                     jsonPath("$.content[0].request.messages[2]").value("John"),
                     jsonPath("$.content[0].request.response.offerPurchase").value(true),
                     jsonPath("$.content[0].request.response.dialogEvaluation").value(0.5),
-                    jsonPath("$.content[0].request.response.feedbacks").isArray(),
-                    jsonPath("$.content[0].request.response.feedbacks[0].correct").value(false),
-                    jsonPath("$.content[0].request.response.feedbacks[1].correct").value(true)
-
+                    jsonPath("$.content[0].request.response.feedback").value(-4)
             );
   }
 
