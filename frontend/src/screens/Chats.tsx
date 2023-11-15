@@ -6,7 +6,7 @@ import { Head } from '~/components/shared/Head';
 import * as Yup from "yup";
 import { useAuth } from "react-oidc-context";
 import { useNavigate } from "react-router-dom";
-import { Routes } from "~/components/router/Router";
+import {MinusIcon, PlusIcon} from '@heroicons/react/24/outline'
 
 const validationMessage = "Обязательное поле";
 
@@ -97,14 +97,30 @@ const Chats: React.FC = () => {
         <div className="flex items-center mb-4">
           <div className="form-control">
             <label className="label">
-              Число
+              ID Диалога
             </label>
-            <input type="number" placeholder="id"
-                   className="input input-bordered input-sm w-28 mr-3 bg-gray-50" {...formik.getFieldProps("id")}/>
+            <div className="relative w-32">
+              <button
+                  type="button"
+                  className="absolute left-0 top-0 rounded-r-none btn btn-square btn-sm"
+                  onClick={() => formik.setFieldValue("id", formik.values.id - 1)}
+              ><MinusIcon className="h-5 w-5 text-primary" /></button>
+              <input
+                  type="number"
+                  className="w-full text-center px-9 input input-bordered input-sm"
+                  {...formik.getFieldProps("id")}
+              />
+              <button
+                  className="absolute right-0 top-0 rounded-l-none btn btn-square btn-sm"
+                  type="button"
+                  onClick={() => formik.setFieldValue("id", formik.values.id + 1)}
+              ><PlusIcon className="h-5 w-5 text-primary" /></button>
+            </div>
           </div>
-          <input type="checkbox" {...isOperator} checked={isOperator.value}
-                 className="mt-6 w-4 h-4 mr-1.5 cursor-pointer"/>
-          <label className="font-medium mr-2.5 mt-6">Operator</label>
+          <div className="flex align-middle mt-8 ml-10">
+            <input type="checkbox" className="toggle toggle-primary mr-2" {...isOperator} checked={isOperator.value} />
+            <label className="font-medium">Оператор</label>
+          </div>
         </div>
         <button type="submit" className={`btn btn-block mt-7 btn-primary`} disabled={formik.isSubmitting}>
           {!formik.isSubmitting ? "Отправить" : <span className="loading loading-spinner"></span>}

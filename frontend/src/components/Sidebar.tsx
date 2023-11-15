@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
 import { useAuth } from "~/components/contexts/UserContext";
-import {ChartPieIcon, HomeIcon, ArrowRightOnRectangleIcon} from '@heroicons/react/24/outline'
+import {ChartPieIcon, HomeIcon, ArrowRightOnRectangleIcon, UsersIcon} from '@heroicons/react/24/outline'
 
 import {Routes} from "~/components/router/Router";
 
@@ -41,6 +41,15 @@ const Sidebar: React.FC<SidebarProps> = ({
                     >
                         <ChartPieIcon className="h-5 w-5" /> Статистика
                     </NavLink>
+                </li>
+                <li>
+                    <a
+                        href=""
+                        target="_blank"
+                        className="px-6 py-4 font-bold"
+                    >
+                        <UsersIcon className="h-5 w-5" /> Пользователи
+                    </a>
                 </li>
 
                 <div className="divider" />
