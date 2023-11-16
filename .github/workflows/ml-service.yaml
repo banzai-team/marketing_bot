@@ -56,7 +56,7 @@ jobs:
           tag="$image:${{github.sha}}"
           latest_tag="$image:latest"
           docker build . -t $tag
-          docker push $image
+          docker push $latest_tag
         env:
           DOCKER_IMAGE_REPO_ADDR: swr.ru-moscow-1.hc.sbercloud.ru
           DOCKER_REGISTRY: gazprom-mrkt
