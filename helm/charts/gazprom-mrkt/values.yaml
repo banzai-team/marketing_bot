@@ -1,97 +1,97 @@
-### @section Global Parameters
-#
-###  global -- Global params that are overwritten with umbrella chart
-#global:
-#
-#airbyte-bootloader:
-#  enabled: true
-#
-#gazprom-frontend:
-#  enabled: true
-#  extraEnv:
-#    - name: API_URL
-#      value: https://gazprom-api.banzai-predict.site
-#    - name: KEYCLOAK_CLIENT_ID
-#      value: webapp
-#    - name: KEYCLOAK_AUTHORITY
-#      value: https://gazprom-auth.banzai-predict.site/realms/gazprom-mrkt
-#
-#gazprom-ml-service:
-#  config:
-#    MODEL_URL: https://gazprom-model-storage.obs.ru-moscow-1.hc.sbercloud.ru/models.zip
-#  service:
-#    port: 8080
-#  enabled: true
-#
-#gazprom-model-behavior:
-#  enabled: true
-#  config:
-#    SERVER_PORT: 8080
-#
-#    RMQ_FEEDBACK_QUEUE: feedback-queue
-#    RMQ_BEHAVIOR_QUEUE: behavior-queue
-#    RMQ_FEEDBACK_POST_QUEUE: feedback-post-queue
-#    RMQ_FEEDBACK_RESPONSE_QUEUE: feedback-response-queue
-#    DB_HOST: gazprom-model-behavior-postgresql
-#    DB_NAME: model-behavior
-#    DB_PORT: "5432"
-#    DB_USERNAME: app
-#    DB_PASSWORD: password
-#
-#    RMQ_HOST: rabbitmq.rabbitmq
-#    RMQ_PORT: 5672
-#    RMQ_USERNAME: user
-#    RMQ_PASSWORD: pass
-#    MODEL_URL: "gazprom-ml-service.gazprom-ml-service:8080/v1"
-#
-#  service:
-#    port: 8080
-#
-#  postgresql:
-#    primary:
-#      persistence:
-#        enabled: true
-#        size: 2Gi
-#    auth:
-#      database: model-behavior
-#      password: "password"
-#      username: "app"
-#
-#gazprom-model-interceptor:
-#  config:
-#    SERVER_PORT: 8080
-#    RMQ_HOST: rabbitmq.rabbitmq
-#    RMQ_PORT: 5672
-#    RMQ_USERNAME: user
-#    RMQ_PASSWORD: pass
-#    RMQ_ROUTING_KEY: behavior-queue
-#    MODEL_URL: "gazprom-ml-service.gazprom-ml-service:8080/v1"
-#  service:
-#    port: 8080
-#  enabled: true
-#
-#keycloak:
-#  livenessProbe:
-#    enabled: false
-#  readinessProbe:
-#    enabled: false
-#  nameOverride: gazprom-mrkt-keycloak
-#  enabled: true
-#  postgresql:
-#    persistence:
-#      size: 5Gi
-#    nameOverride: keycloak-psql
-#
-#rabbitmq:
-#  clustering:
-#    enabled: false
-#  auth:
-#    username: user
-#    password: pass
-#  livenessProbe:
-#    enabled: false
-#  readinessProbe:
-#    enabled: false
-#  enabled: true
-#  persistence:
-#    size: 5Gi
+## @section Global Parameters
+
+##  global -- Global params that are overwritten with umbrella chart
+global:
+
+airbyte-bootloader:
+  enabled: true
+
+gazprom-frontend:
+  enabled: true
+  extraEnv:
+    - name: API_URL
+      value: https://gazprom-api.banzai-predict.site
+    - name: KEYCLOAK_CLIENT_ID
+      value: webapp
+    - name: KEYCLOAK_AUTHORITY
+      value: https://gazprom-auth.banzai-predict.site/realms/gazprom-mrkt
+
+gazprom-ml-service:
+  config:
+    MODEL_URL: https://gazprom-model-storage.obs.ru-moscow-1.hc.sbercloud.ru/models.zip
+  service:
+    port: 8080
+  enabled: true
+
+gazprom-model-behavior:
+  enabled: true
+  config:
+    SERVER_PORT: 8080
+
+    RMQ_FEEDBACK_QUEUE: feedback-queue
+    RMQ_BEHAVIOR_QUEUE: behavior-queue
+    RMQ_FEEDBACK_POST_QUEUE: feedback-post-queue
+    RMQ_FEEDBACK_RESPONSE_QUEUE: feedback-response-queue
+    DB_HOST: gazprom-model-behavior-postgresql
+    DB_NAME: model-behavior
+    DB_PORT: "5432"
+    DB_USERNAME: app
+    DB_PASSWORD: password
+
+    RMQ_HOST: rabbitmq.rabbitmq
+    RMQ_PORT: 5672
+    RMQ_USERNAME: user
+    RMQ_PASSWORD: pass
+    MODEL_URL: "gazprom-ml-service.gazprom-ml-service:8080/v1"
+
+  service:
+    port: 8080
+
+  postgresql:
+    primary:
+      persistence:
+        enabled: true
+        size: 2Gi
+    auth:
+      database: model-behavior
+      password: "password"
+      username: "app"
+
+gazprom-model-interceptor:
+  config:
+    SERVER_PORT: 8080
+    RMQ_HOST: rabbitmq.rabbitmq
+    RMQ_PORT: 5672
+    RMQ_USERNAME: user
+    RMQ_PASSWORD: pass
+    RMQ_ROUTING_KEY: behavior-queue
+    MODEL_URL: "gazprom-ml-service.gazprom-ml-service:8080/v1"
+  service:
+    port: 8080
+  enabled: true
+
+keycloak:
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
+  nameOverride: gazprom-mrkt-keycloak
+  enabled: true
+  postgresql:
+    persistence:
+      size: 5Gi
+    nameOverride: keycloak-psql
+
+rabbitmq:
+  clustering:
+    enabled: false
+  auth:
+    username: user
+    password: pass
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
+  enabled: true
+  persistence:
+    size: 5Gi
