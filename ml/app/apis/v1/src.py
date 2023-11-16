@@ -26,10 +26,13 @@ def process_base(input_: InputBase) -> OutputBase:
         stop_topics.update(toxisity_checker.classify(message))
         stop_topics.update(stop_topics_checker.classify(message))
     #classes = classification_model.predict(dialogue)[0]
-    sentiment = sentiment_classification_model.predict(input_.messages[0])
+    messages = input_.messages[-3:]
     sentiment_score = 0
-    for item in sentiment[0]:
-        sentiment_score += SENTIMENT_MAP[item['label']]*item['score']
+    for message in messages:
+        sentiment = sentiment_classification_model.predict(message)
+        for item in sentiment[0]:
+            sentiment_score += SENTIMENT_MAP[item['label']]*item['score']
+    sentiment_score /= len(messages)
     if sentiment_score<=0:
         offer_confidence = False
     else:
