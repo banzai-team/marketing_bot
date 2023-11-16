@@ -21,11 +21,11 @@ SENTIMENT_MAP = {'positive': 3, 'neutral': 1, 'negative': -4}
              response_model=OutputBase)
 def process_base(input_: InputBase) -> OutputBase:
     stop_topics = set()
-    dialogue = '. '.join(input_.messages)
+    #dialogue = '. '.join(input_.messages)
     for message in input_.messages:
         stop_topics.update(toxisity_checker.classify(message))
         stop_topics.update(stop_topics_checker.classify(message))
-    classes = classification_model.predict(dialogue)[0]
+    #classes = classification_model.predict(dialogue)[0]
     sentiment = sentiment_classification_model.predict(input_.messages[0])
     sentiment_score = 0
     for item in sentiment[0]:
