@@ -1,9 +1,10 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
 import { useAuth } from "~/components/contexts/UserContext";
-import {ChartPieIcon, HomeIcon, ArrowRightOnRectangleIcon, UsersIcon, UserIcon} from '@heroicons/react/24/outline'
+import {ChartPieIcon, HomeIcon, ArrowRightOnRectangleIcon, UsersIcon} from '@heroicons/react/24/outline'
 
 import {Routes} from "~/components/router/Router";
+import Avatar from '~/components/Avatar/Avatar';
 
 type SidebarProps = {
     idSidebar: string,
@@ -51,12 +52,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                 <li>
                     <NavLink
                         to={Routes.PROFILE}
-                        className="px-6 py-4 font-bold avatar"
+                        className="px-6 py-4 font-bold"
                         onClick={onSelect}
                     >
-                        <div className="w-5 rounded-full ring ring-offset-base-100 ring-base-300 ring-offset-2 mr-2">
-                            <UserIcon />
-                        </div>
+                        <Avatar />
                         {username}
                     </NavLink>
                     <span
