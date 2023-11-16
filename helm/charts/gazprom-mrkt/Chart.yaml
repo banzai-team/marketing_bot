@@ -1,5 +1,5 @@
 apiVersion: v2
-name: backoffice-app
+name: gazprom-mrkt
 description: Helm chart to deploy app
 
 # A chart can be either an 'application' or a 'library' chart.
@@ -24,11 +24,11 @@ version: 1.0.0
 appVersion: dev
 
 dependencies:
-  - name: common
-    repository: https://charts.bitnami.com/bitnami
-    tags:
-      - bitnami-common
-    version: 1.x.x
+#  - name: common
+#    repository: https://charts.bitnami.com/bitnami
+#    tags:
+#      - bitnami-common
+#    version: 1.x.x
   - condition: airbyte-bootloader.enabled
     name: gazprom-api-gateway
     repository: https://gazprom-charts.obs.ru-moscow-1.hc.sbercloud.ru
