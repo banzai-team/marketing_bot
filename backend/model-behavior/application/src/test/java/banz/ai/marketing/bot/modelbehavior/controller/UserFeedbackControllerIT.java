@@ -24,6 +24,7 @@ import org.testcontainers.utility.DockerImageName;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -48,9 +49,11 @@ class UserFeedbackControllerIT extends AbstractIntegrationTest {
     var entityManager = entityManagerFactory.createEntityManager();
     var req = new ModelRequest();
     var resp = new ModelResponse();
-    resp.setFeedback(0);
+    req.setId(UUID.randomUUID());
     req.setModelResponse(resp);
     req.setPerformedAt(new Date());
+    resp.setId(UUID.randomUUID());
+    resp.setFeedback(0);
     var dialog = new Dialog();
     dialog.setId(75L);
     dialog.setCreatedAt(new Date());

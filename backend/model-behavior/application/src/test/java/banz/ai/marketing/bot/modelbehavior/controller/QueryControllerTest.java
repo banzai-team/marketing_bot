@@ -92,21 +92,21 @@ class QueryControllerTest extends AbstractIntegrationTest {
             .andDo(print())
             .andExpect(status().isOk())
             .andExpectAll(
-                    jsonPath("$.content[1].request.text").value("hello"),
-                    jsonPath("$.content[1].request.performedAt").value("2023-11-10T11:30:00.000+00:00"),
-                    jsonPath("$.content[1].request.messages").isArray(),
-                    jsonPath("$.content[1].request.messages[0]").value("Hello"),
-                    jsonPath("$.content[1].request.messages[1]").value("What is your name?"),
-                    jsonPath("$.content[1].request.messages[2]").value("John"),
-                    jsonPath("$.content[1].request.response.offerPurchase").value(true),
-                    jsonPath("$.content[1].request.response.dialogEvaluation").value(0.5),
-                    jsonPath("$.content[1].request.response.feedback").value(-4)
+                    jsonPath("$.content[0].request.text").value("hello"),
+                    jsonPath("$.content[0].request.performedAt").value("2023-11-10T11:30:00.000+00:00"),
+                    jsonPath("$.content[0].request.messages").isArray(),
+                    jsonPath("$.content[0].request.messages[0]").value("Hello"),
+                    jsonPath("$.content[0].request.messages[1]").value("What is your name?"),
+                    jsonPath("$.content[0].request.messages[2]").value("John"),
+                    jsonPath("$.content[0].request.response.offerPurchase").value(true),
+                    jsonPath("$.content[0].request.response.dialogEvaluation").value(0.5),
+                    jsonPath("$.content[0].request.response.feedback").value(-4)
             );
   }
 
   @Test
   void shouldOrderByRequestDates() throws Exception {
-   this.mockMvc.perform(get("/api/model/query/model-request?page=0&size=10&sort-by=performedAt")
+   this.mockMvc.perform(get("/api/model/query/model-request?page=0&size=10&sortBy=performedAt&sort=asc")
                     .header(HttpHeaders.CONTENT_TYPE, "application/json"))
             .andDo(print())
             .andExpect(status().isOk())
@@ -115,7 +115,7 @@ class QueryControllerTest extends AbstractIntegrationTest {
                     jsonPath("$.content[1].request.performedAt").value("2023-11-10T11:30:00.000+00:00"),
                     jsonPath("$.content[2].request.performedAt").value("2023-11-11T12:00:00.000+00:00")
             );
-    this.mockMvc.perform(get("/api/model/query/model-request?page=0&size=10&sort-by=performedAt&sort=desc")
+    this.mockMvc.perform(get("/api/model/query/model-request?page=0&size=10&sortBy=performedAt&sort=desc")
                     .header(HttpHeaders.CONTENT_TYPE, "application/json"))
             .andDo(print())
             .andExpect(status().isOk())
