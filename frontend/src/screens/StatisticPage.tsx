@@ -7,14 +7,24 @@ import {getDialogs} from "~/domain/api";
 import {useAuth} from "react-oidc-context";
 import LoadingCard from "~/components/LoadingCard";
 
+type dataItem = {
+    request : {
+        response: {
+            feedback: -1 | 0 | 1;
+            dialogEvaluation: number;
+        }
+    }
+}
 const StatisticPage: React.FC = () => {
     const auth = useAuth();
     const { data: dialogs, isLoading } = useQuery([dialogKey], () => getDialogs(auth.user?.access_token!));
 
     const feedbackStat = useMemo(() => {
-        const dataFeedback = dialogs?.data?.content?.reduce((a, b) => {
-            console.log(a[b?.request.response.feedback], b, b?.request.response.feedback);
-            a[b?.request.response.feedback] = (a[b?.request.response.feedback] || 0) + 1;
+        const feedback: Array<number> =
+            dialogs?.data?.content?.map((i: dataItem)  => i ? Math.round(i.request.response.feedback) : null);
+
+        const dataFeedback: any = feedback?.reduce((a: any, b) => {
+            a[b] = (a[b] || 0) + 1;
             return a;
         }, {});
 
@@ -26,8 +36,8 @@ const StatisticPage: React.FC = () => {
     }, [dialogs]);
 
     const evaluationStat = useMemo(() => {
-        const a = dialogs?.data?.content?.map(i => i ? Math.round(i.request.response.dialogEvaluation) : null);
-        const dataFeedback = a?.reduce((a, b) => {
+        const evaluation: Array<number> = dialogs?.data?.content?.map((i: dataItem) => i ? Math.round(i.request.response.dialogEvaluation) : null);
+        const dataFeedback: any = evaluation?.reduce((a: any, b) => {
             a[b] = (a[b] || 0) + 1;
             return a;
         }, {});
