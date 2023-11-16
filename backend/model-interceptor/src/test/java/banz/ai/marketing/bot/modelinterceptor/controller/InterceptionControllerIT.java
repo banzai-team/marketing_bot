@@ -1,6 +1,7 @@
 package banz.ai.marketing.bot.modelinterceptor.controller;
 
-import org.apache.commons.lang3.StringUtils;
+import banz.ai.marketing.bot.commons.ModelBehaviorDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.MockServerContainer;
 import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.containers.wait.strategy.WaitStrategy;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.shaded.org.awaitility.Awaitility;
@@ -25,12 +25,14 @@ import org.testcontainers.utility.DockerImageName;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 import static org.mockserver.model.JsonBody.json;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
@@ -99,26 +101,38 @@ class InterceptionControllerIT {
                         .content(json(
                                 """
                                    {
-                                       "id_sequence": 9,
+                                       "dialogId": 9,
                                        "messages": [
                                            "bam",
                                            "bim"
                                        ],
-                                       "is_operator": false,
+                                       "operator": true,
                                        "text": "Smth"
                                    }
                                """
                 ).toString()))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpectAll(
+                        jsonPath("$.requestUUID").isNotEmpty(),
+                        jsonPath("$.offerPurchase").value(true),
+                        jsonPath("$.dialogEvaluation").value(5.0),
+                        jsonPath("$.stopTopics[0]").value("foo"),
+                        jsonPath("$.stopTopics[1]").value("bar")
+                );
+        ;
+        AtomicReference<ModelBehaviorDTO> behaviorDTOAR = new AtomicReference<>();
         Awaitility.await().atMost(5, TimeUnit.SECONDS).until(() -> {
             var msg = rabbitTemplate.receive("my-queue");
             if (Objects.isNull(msg)) {
                 return false;
             }
             var msgBody = new String(msg.getBody(), msg.getMessageProperties().getContentEncoding());
+            behaviorDTOAR.set(new ObjectMapper().readValue(msgBody, ModelBehaviorDTO.class));
             // TODO check msg contents
             return true;
         });
+        var behavior = behaviorDTOAR.get();
+        Assertions.assertTrue(behavior.getModelRequest().isOperator());
     }
 }

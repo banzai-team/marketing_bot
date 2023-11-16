@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -12,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class UserFeedbackDTO {
 
   private long userId;
-  private long modelResponseId;
+  private UUID modelResponseId;
   private boolean correct;
 }

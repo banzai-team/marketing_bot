@@ -26,6 +26,6 @@ public class ModelRequestQueryHandler {
     }
 
     public Optional<ModelRequest> getById(ModelRequestByIdQueryDTO query) {
-        return modelRequestRepository.getById(query.getId());
+        return modelRequestRepository.getByUUID(query.getId());
     }
 }

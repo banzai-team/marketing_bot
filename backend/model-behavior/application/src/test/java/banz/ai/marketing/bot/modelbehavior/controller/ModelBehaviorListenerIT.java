@@ -24,6 +24,7 @@ import org.testcontainers.utility.DockerImageName;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
@@ -92,6 +93,7 @@ class ModelBehaviorListenerIT extends AbstractIntegrationTest {
     var capturedAt = new Date();
     var mb = ModelBehaviorDTO.builder()
             .modelRequest(ModelRequestDTO.builder()
+                    .uuid(UUID.randomUUID())
                     .dialogId(dialogId)
                     .isOperator(false)
                     .messages(messages)

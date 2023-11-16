@@ -1,0 +1,84 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet id="20231115104900" author="wuz1mu">
+        <dropTable tableName="user_feedback" cascadeConstraints="true" />
+        <dropTable tableName="dialog" cascadeConstraints="true"/>
+        <dropTable tableName="model_request" cascadeConstraints="true"/>
+        <dropTable tableName="model_response" cascadeConstraints="true"/>
+        <dropTable tableName="stop_topic" cascadeConstraints="true"/>
+        <dropTable tableName="model_request_message" cascadeConstraints="true"/>
+
+        <createTable tableName="dialog">
+            <column name="dialog_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <createTable tableName="model_request_message">
+            <column name="message_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="model_request_id" type="uuid"/>
+            <column name="ordinal_number" type="int" />
+            <column name="content" type="text"/>
+        </createTable>
+        <createTable tableName="model_request">
+            <column name="model_request_id" type="uuid">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="performed_at" type="timestamp with time zone">
+                <constraints nullable="false" />
+            </column>
+            <column name="dialog_id" type="bigint"/>
+            <column name="is_operator" type="boolean" />
+            <column name="additional_text" type="text" />
+        </createTable>
+        <createTable tableName="model_response">
+            <column name="model_response_id" type="uuid">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="dialog_evaluation" type="real"/>
+            <column name="offer_purchase" type="boolean" />
+            <column name="model_request_id" type="uuid" />
+            <column name="feedback" type="int" defaultValue="0">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <createTable tableName="stop_topic">
+            <column name="stop_topic_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="model_response_id" type="uuid" />
+            <column name="content" type="text"/>
+        </createTable>
+        <addForeignKeyConstraint  baseColumnNames="model_request_id"
+                                  baseTableName="model_request_message"
+                                  constraintName="fk_message_model_request"
+                                  referencedColumnNames="model_request_id"
+                                  referencedTableName="model_request"
+                                  onDelete="CASCADE"
+        />
+        <addForeignKeyConstraint  baseColumnNames="dialog_id"
+                                  baseTableName="model_request"
+                                  constraintName="fk_model_request_dialog"
+                                  referencedColumnNames="dialog_id"
+                                  referencedTableName="dialog"
+                                  onDelete="CASCADE"
+        />
+        <addForeignKeyConstraint  baseColumnNames="model_request_id"
+                                  baseTableName="model_response"
+                                  constraintName="fk_model_response_model_request"
+                                  referencedColumnNames="model_request_id"
+                                  referencedTableName="model_request"
+                                  onDelete="CASCADE"
+        />
+        <addForeignKeyConstraint  baseColumnNames="model_response_id"
+                                  baseTableName="stop_topic"
+                                  constraintName="fk_stop_topic_model_response"
+                                  referencedColumnNames="model_response_id"
+                                  referencedTableName="model_response"
+                                  onDelete="CASCADE"
+        />
+    </changeSet>
+</databaseChangeLog>

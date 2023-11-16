@@ -17,50 +17,54 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class ModelBehaviorJPADomainRepository implements ModelBehaviorDomainRepository {
 
-  private final DialogRepository dialogRepository;
-  private final ModelRequestRepository requestRepository;
+    private final DialogRepository dialogRepository;
+    private final ModelRequestRepository requestRepository;
 
-  @Override
-  public void save(ModelBehaviorAggregate behaviorAggregate) {
-    Dialog dialog;
-    var root = behaviorAggregate.root;
-    if (dialogRepository.existsById(root.dialogId)) {
-      dialog = dialogRepository.getReferenceById(root.dialogId);
-    } else {
-      dialog = new Dialog();
-      dialog.setId(root.dialogId);
-      dialog.setCreatedAt(new Date());
+    @Override
+    public void save(ModelBehaviorAggregate behaviorAggregate) {
+        Dialog dialog;
+        var root = behaviorAggregate.root;
+        if (dialogRepository.existsById(root.dialogId)) {
+            dialog = dialogRepository.getReferenceById(root.dialogId);
+        } else {
+            dialog = new Dialog();
+            dialog.setId(root.dialogId);
+            dialog.setCreatedAt(new Date());
+        }
+        var request = new ModelRequest();
+        request.setId(root.request.id);
+        request.setDialog(dialog);
+        request.setText(root.request.text);
+        request.setOperator(root.request.isOperator());
+        request.setPerformedAt(root.request.performedAt);
+        IntStream.range(0, root.request.messages.size())
+                .mapToObj(i -> {
+                    var m = new ModelRequestMessage();
+                    m.setContent(root.request.messages.get(i).content());
+                    m.setOrdinalNumber(i);
+                    return m;
+                }).forEach(request::addMessage);
+        if (Objects.nonNull(root.response)) {
+            var response = new ModelResponse();
+            response.setId(root.response.id());
+            root.response.stopTopics().stream()
+                    .map(c -> {
+                        var stopTopic = new StopTopic();
+                        stopTopic.setContent(c);
+                        return stopTopic;
+                    })
+                    .forEach(response::addStopTopic);
+            response.setDialogEvaluation(root.response.dialogEvaluation());
+            response.setOfferPurchase(root.response.offerPurchase());
+            response.setFeedback(root.response.feedback());
+            request.setModelResponse(response);
+        }
+        dialogRepository.save(dialog);
+        requestRepository.save(request);
     }
-    var request = new ModelRequest();
-    request.setDialog(dialog);
-    request.setText(root.request.text);
-    request.setOperator(root.request.isOperator());
-    IntStream.range(0, root.request.messages.size())
-            .mapToObj(i -> {
-              var m = new ModelRequestMessage();
-              m.setContent(root.request.messages.get(i).content());
-              m.setOrdinalNumber(i);
-              return m;
-            }).forEach(request::addMessage);
-    if (Objects.nonNull(root.response)) {
-      var response = new ModelResponse();
-      root.response.stopTopics().stream()
-              .map(c -> {
-                var stopTopic = new StopTopic();
-                stopTopic.setContent(c);
-                return stopTopic;
-              })
-              .forEach(response::addStopTopic);
-      response.setDialogEvaluation(root.response.dialogEvaluation());
-      response.setOfferPurchase(root.response.offerPurchase());
-      request.setModelResponse(response);
-    }
-    dialogRepository.save(dialog);
-    requestRepository.save(request);
-  }
 
-  @Override
-  public ModelBehaviorAggregate getById(long id) {
-    return null;
-  }
+    @Override
+    public ModelBehaviorAggregate getById(long id) {
+        throw new UnsupportedOperationException("Not implemented");
+    }
 }

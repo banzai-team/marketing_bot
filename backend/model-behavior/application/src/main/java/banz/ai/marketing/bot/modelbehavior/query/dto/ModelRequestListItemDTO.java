@@ -5,7 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -13,10 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 public class ModelRequestListItemDTO {
 
-    private long id;
+    private UUID id;
     private long dialogId;
     private List<String> messages;
     private boolean isOperator;
     private String text;
+    private Date performedAt;
     private ModelResponseListItemDTO response;
 }

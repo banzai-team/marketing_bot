@@ -50,17 +50,16 @@ class QueryControllerTest extends AbstractIntegrationTest {
             .andDo(print())
             .andExpect(status().isOk())
             .andExpectAll(
-                    jsonPath("$.content[0].request.text").value("hello"),
-                    jsonPath("$.content[0].request.messages").isArray(),
-                    jsonPath("$.content[0].request.messages[0]").value("Hello"),
-                    jsonPath("$.content[0].request.messages[1]").value("What is your name?"),
-                    jsonPath("$.content[0].request.messages[2]").value("John"),
-                    jsonPath("$.content[0].request.response.offerPurchase").value(true),
-                    jsonPath("$.content[0].request.response.dialogEvaluation").value(0.5),
-                    jsonPath("$.content[0].request.response.stopTopics[0]").value("f*ck"),
-                    jsonPath("$.content[0].request.response.feedbacks").isArray(),
-                    jsonPath("$.content[0].request.response.feedbacks[0].correct").value(false),
-                    jsonPath("$.content[0].request.response.feedbacks[1].correct").value(true)
+                    jsonPath("$.content[1].request.text").value("hello"),
+                    jsonPath("$.content[1].request.performedAt").isNotEmpty(),
+                    jsonPath("$.content[1].request.messages").isArray(),
+                    jsonPath("$.content[1].request.messages[0]").value("Hello"),
+                    jsonPath("$.content[1].request.messages[1]").value("What is your name?"),
+                    jsonPath("$.content[1].request.messages[2]").value("John"),
+                    jsonPath("$.content[1].request.response.offerPurchase").value(true),
+                    jsonPath("$.content[1].request.response.dialogEvaluation").value(0.5),
+                    jsonPath("$.content[1].request.response.stopTopics[0]").value("f*ck"),
+                    jsonPath("$.content[1].request.response.feedback").value(-4)
 
             )
             .andReturn();
@@ -68,43 +67,62 @@ class QueryControllerTest extends AbstractIntegrationTest {
 
   @Test
   void shouldGetRequestById() throws Exception {
-    this.mockMvc.perform(get("/api/model/query/model-request/1")
+    this.mockMvc.perform(get("/api/model/query/model-request/c6c0206e-7322-4293-8727-cfafd4edc977")
                     .header(HttpHeaders.CONTENT_TYPE, "application/json"))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpectAll(
                     jsonPath("$.request.text").value("hello"),
+                    jsonPath("$.request.performedAt").isNotEmpty(),
                     jsonPath("$.request.messages").isArray(),
                     jsonPath("$.request.messages[0]").value("Hello"),
                     jsonPath("$.request.messages[1]").value("What is your name?"),
                     jsonPath("$.request.messages[2]").value("John"),
                     jsonPath("$.request.response.offerPurchase").value(true),
                     jsonPath("$.request.response.dialogEvaluation").value(0.5),
-                    jsonPath("$.request.response.feedbacks[0].correct").value(false),
-                    jsonPath("$.request.response.feedbacks").isArray(),
-                    jsonPath("$.request.response.feedbacks[1].correct").value(true)
+                    jsonPath("$.request.response.feedback").value(-4)
 
             );
   }
 
   @Test
-  void shouldFindBuDialogId() throws Exception {
+  void shouldFindByDialogId() throws Exception {
     this.mockMvc.perform(get("/api/model/query/model-request?page=0&size=10&dialogId=1")
                     .header(HttpHeaders.CONTENT_TYPE, "application/json"))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpectAll(
                     jsonPath("$.content[0].request.text").value("hello"),
+                    jsonPath("$.content[0].request.performedAt").value("2023-11-10T11:30:00.000+00:00"),
                     jsonPath("$.content[0].request.messages").isArray(),
                     jsonPath("$.content[0].request.messages[0]").value("Hello"),
                     jsonPath("$.content[0].request.messages[1]").value("What is your name?"),
                     jsonPath("$.content[0].request.messages[2]").value("John"),
                     jsonPath("$.content[0].request.response.offerPurchase").value(true),
                     jsonPath("$.content[0].request.response.dialogEvaluation").value(0.5),
-                    jsonPath("$.content[0].request.response.feedbacks").isArray(),
-                    jsonPath("$.content[0].request.response.feedbacks[0].correct").value(false),
-                    jsonPath("$.content[0].request.response.feedbacks[1].correct").value(true)
+                    jsonPath("$.content[0].request.response.feedback").value(-4)
+            );
+  }
 
+  @Test
+  void shouldOrderByRequestDates() throws Exception {
+   this.mockMvc.perform(get("/api/model/query/model-request?page=0&size=10&sortBy=performedAt&sort=asc")
+                    .header(HttpHeaders.CONTENT_TYPE, "application/json"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpectAll(
+                    jsonPath("$.content[0].request.performedAt").value("2023-11-09T12:30:00.000+00:00"),
+                    jsonPath("$.content[1].request.performedAt").value("2023-11-10T11:30:00.000+00:00"),
+                    jsonPath("$.content[2].request.performedAt").value("2023-11-11T12:00:00.000+00:00")
+            );
+    this.mockMvc.perform(get("/api/model/query/model-request?page=0&size=10&sortBy=performedAt&sort=desc")
+                    .header(HttpHeaders.CONTENT_TYPE, "application/json"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpectAll(
+                    jsonPath("$.content[2].request.performedAt").value("2023-11-09T12:30:00.000+00:00"),
+                    jsonPath("$.content[1].request.performedAt").value("2023-11-10T11:30:00.000+00:00"),
+                    jsonPath("$.content[0].request.performedAt").value("2023-11-11T12:00:00.000+00:00")
             );
   }
 
