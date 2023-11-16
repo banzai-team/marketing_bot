@@ -24,7 +24,6 @@ public class ModelBehaviorAggregate {
     private ModelBehavior.Builder rootBuilder;
 
     private Builder(ModelRequestDTO requestDTO) {
-
       rootBuilder = ModelBehavior.Builder.forRequest(requestDTO);
     }
 

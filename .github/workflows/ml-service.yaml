@@ -55,8 +55,8 @@ jobs:
           image="$DOCKER_IMAGE_REPO_ADDR/$DOCKER_REGISTRY/banzai-ml"
           tag="$image:${{github.sha}}"
           latest_tag="$image:latest"
-          docker build . -t $tag -t $latest_tag
-          docker push $image
+          docker build . -t $tag
+          docker push $tag
         env:
           DOCKER_IMAGE_REPO_ADDR: swr.ru-moscow-1.hc.sbercloud.ru
           DOCKER_REGISTRY: gazprom-mrkt

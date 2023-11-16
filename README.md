@@ -118,16 +118,10 @@ model_request_message {
     string content
 }
 
-user_feedback {
-    int feedback_id
-    int user_id
-    int model_response_id
-    boolean is_correct
-}
-
 model_request {
     int request_id
     int dialog_id
+    date made_at
     boolean is_operator
     string text
 }
@@ -137,6 +131,7 @@ model_response {
     int dialog_evaluation
     boolean offer_purchase
     int request_id
+    int feedback
 }
 
 stop_theme {
@@ -145,8 +140,14 @@ stop_theme {
 }
 
 model_request ||--|{ model_request_message: contains
-model_response ||--|| user_feedback: given
 model_request }|--|| dialog: refers
 model_request ||--|| model_response: corresponds
 model_response ||--o{ stop_theme: "may contain"
 ```
+
+
+//TODO 
+фильтрация и сортировка
+версионирование модели
+накопление лайков и дизлайков
+универсальный uuid для запроса

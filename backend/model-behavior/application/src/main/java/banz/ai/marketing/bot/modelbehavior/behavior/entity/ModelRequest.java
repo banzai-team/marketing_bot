@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "model_request")
@@ -15,15 +13,17 @@ import java.util.Objects;
 public class ModelRequest {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "model_request_id")
-    private Long id;
+    private UUID id;
 
     @Column(name = "is_operator")
     private boolean isOperator;
 
     @Column(name = "additional_text")
     private String text;
+
+    @Column(name = "performed_at")
+    private Date performedAt;
 
     @OneToOne(mappedBy = "modelRequest", cascade = CascadeType.ALL)
     private ModelResponse modelResponse;

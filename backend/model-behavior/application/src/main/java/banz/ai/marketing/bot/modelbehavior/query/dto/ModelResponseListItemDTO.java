@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -13,9 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 public class ModelResponseListItemDTO {
 
-    private long id;
+    private UUID id;
     private boolean offerPurchase;
     private float dialogEvaluation;
     private List<String> stopTopics;
-    private List<UserFeedbackListItemDTO> feedbacks;
+    private int feedback;
 }
