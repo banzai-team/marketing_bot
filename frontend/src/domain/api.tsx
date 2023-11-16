@@ -25,8 +25,8 @@ export function sendMessage(payload: SendMessagePayload, token: string) {
   return axios.post(`${config.apiUrl}/api/model/evaluate`, params, {
     headers: {
       'Content-Type': `application/json`,
-      // Authorization: `Bearer ${token}`,
-      'Authorization': `Basic ${btoa('test:1234')}`,
+      Authorization: `Bearer ${token}`,
+      // 'Authorization': `Basic ${btoa('test:1234')}`,
     },
   });
 }
@@ -35,8 +35,8 @@ export function getDialogs(token: string) {
   return axios.get(`${config.apiUrl}/api/model/query/model-request`, {
     headers: {
       'Content-Type': `application/json`,
-      // Authorization: `Bearer ${token}`,
-      'Authorization': `Basic ${btoa('test:1234')}`,
+      Authorization: `Bearer ${token}`,
+      // 'Authorization': `Basic ${btoa('test:1234')}`,
 
     },
   });
@@ -46,8 +46,8 @@ export function getDialog(token: string, id: string) {
   return axios.get(`${config.apiUrl}/api/model/query/model-request/${id}`, {
     headers: {
       'Content-Type': `application/json`,
-      // Authorization: `Bearer ${token}`,
-      'Authorization': `Basic ${btoa('test:1234')}`,
+      Authorization: `Bearer ${token}`,
+      // 'Authorization': `Basic ${btoa('test:1234')}`,
     },
   });
 }
@@ -56,10 +56,8 @@ export function sendFeedback(payload: SendFeedbackPayload, token: string) {
   return axios.post(`${config.apiUrl}/api/feedback`, payload, {
     headers: {
       'Content-Type': `application/json`,
-      // Authorization: `Bearer ${token}`,
-      'Authorization': `Basic ${btoa('test:1234')}`,
-
-
+      Authorization: `Bearer ${token}`,
+      // 'Authorization': `Basic ${btoa('test:1234')}`,
     },
   });
 }
