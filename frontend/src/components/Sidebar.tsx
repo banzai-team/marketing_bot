@@ -16,6 +16,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
 
     const auth = useAuth();
+    const username = auth.user?.profile?.preferred_username;
 
     return (
         <div className="drawer-side">
@@ -56,7 +57,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                         <div className="w-5 rounded-full ring ring-offset-base-100 ring-base-300 ring-offset-2 mr-2">
                             <UserIcon />
                         </div>
-                        Имя
+                        {username}
                     </NavLink>
                     <span
                         onClick={() => void auth.removeUser()}
