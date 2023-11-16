@@ -12,6 +12,7 @@ import {getDialog} from '~/domain/api';
 import {useAuth} from 'react-oidc-context';
 import LoadingCard from '~/components/LoadingCard';
 import { dialogByIdKey } from "~/domain/keys";
+import {formData} from "~/utils/DateUtils";
 
 const Conversation: React.FC = () => {
     const {id = ""} = useParams();
@@ -20,6 +21,9 @@ const Conversation: React.FC = () => {
     const {data: dialog, isLoading} = useQuery(dialogByIdKey(id), () => getDialog(auth.user?.access_token!, id));
     const data = dialog?.data?.request;
     const responseData = data?.response;
+
+    const fullDate = formData(data?.performedAt);
+
 
     return (
         <>
@@ -35,8 +39,9 @@ const Conversation: React.FC = () => {
                         <LoadingCard />
                     )
                     : dialog?.data && !dialog.data.empty ? (
-                        <div className="grid grid-cols-2 gap-4 mt-6 grid-rows-3 grid-flow-col max-sm:grid-cols-1 items-start">
+                        <div className="grid grid-cols-2 gap-4 mt-6 grid-flow-col max-sm:grid-cols-1 items-start">
                             <div className="card bg-base-100 shadow-xl p-4 row-span-3 max-sm:row-span-1">
+                                <div className="text-primary text-xs">{fullDate}</div>
                                 <Chat data={data.messages} />
                             </div>
                             <div className="grid grid-cols-1 gap-4">

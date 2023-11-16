@@ -18,6 +18,7 @@ import LoadingCard from "~/components/LoadingCard";
 import { getDialogs } from "~/domain/api";
 import { dialogKey } from "~/domain/keys";
 import { useAuth } from "react-oidc-context";
+import {formData} from "~/utils/DateUtils";
 
 const Index: React.FC = () => {
   const [rowSelection, setRowSelection] = React.useState<string[]>([]);
@@ -87,6 +88,13 @@ const Index: React.FC = () => {
             {cutUnknownDirection(messages[messages.length - 1])}
           </div>
         );
+      }
+    }),
+    columnHelper.accessor('performedAt', {
+      header: "Дата создания",
+      cell: info => {
+        const fullDate = formData(info.renderValue())
+        return <div className="text-primary text-xs">{fullDate}</div>;
       }
     }),
     columnHelper.accessor('response.stopTopics', {
