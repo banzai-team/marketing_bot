@@ -35,11 +35,11 @@ public class QueryController {
   public ResponseEntity<Page<ModelRequestListingItem>> listModelRequests(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
                                                                          @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
                                                                          @RequestParam(value = "sortBy", required = false, defaultValue = "performedAt") String sortBy,
-                                                                         @RequestParam(value = "sort", required = false, defaultValue = "asc") String sortDirection,
+                                                                         @RequestParam(value = "sort", required = false, defaultValue = "desc") String sortDirection,
                                                                          @RequestParam(value = "dialogId", required = false) Long dialogId
   ) {
     var query = ModelRequestListingQuery.builder()
-            .pageable(PageRequest.of(page, size, sortDirection.equals("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending()));
+            .pageable(PageRequest.of(page, size, sortDirection.equals("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending()));
     if (Objects.nonNull(dialogId)) {
       query.criteria(Map.of("dialogId", dialogId));
     }

@@ -32,6 +32,7 @@ public class ModelBehaviorJPADomainRepository implements ModelBehaviorDomainRepo
             dialog.setCreatedAt(new Date());
         }
         var request = new ModelRequest();
+        request.setId(root.request.id);
         request.setDialog(dialog);
         request.setText(root.request.text);
         request.setOperator(root.request.isOperator());
@@ -45,6 +46,7 @@ public class ModelBehaviorJPADomainRepository implements ModelBehaviorDomainRepo
                 }).forEach(request::addMessage);
         if (Objects.nonNull(root.response)) {
             var response = new ModelResponse();
+            response.setId(root.response.id());
             root.response.stopTopics().stream()
                     .map(c -> {
                         var stopTopic = new StopTopic();
@@ -63,6 +65,6 @@ public class ModelBehaviorJPADomainRepository implements ModelBehaviorDomainRepo
 
     @Override
     public ModelBehaviorAggregate getById(long id) {
-        return null;
+        throw new UnsupportedOperationException("Not implemented");
     }
 }

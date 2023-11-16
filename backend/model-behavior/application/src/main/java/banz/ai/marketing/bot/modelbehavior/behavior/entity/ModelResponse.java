@@ -17,7 +17,7 @@ public class ModelResponse {
 
     @Id
     @Column(name = "model_response_id")
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     @Column(name = "dialog_evaluation")
     private float dialogEvaluation;

@@ -38,6 +38,7 @@ public class ModelCallWrapper {
         var mqMessage = ModelBehaviorDTO.builder()
                 .capturedAt(new Date())
                 .modelRequest(ModelRequestDTO.builder()
+                        .uuid(uuid)
                         .messages(modelRequest.getMessages())
                         .dialogId(modelRequest.getDialogId())
                         .isOperator(modelRequest.isOperator())

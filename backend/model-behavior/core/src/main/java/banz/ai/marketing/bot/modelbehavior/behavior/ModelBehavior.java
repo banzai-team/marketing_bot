@@ -11,6 +11,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class ModelBehavior {
@@ -42,6 +43,7 @@ public class ModelBehavior {
       }
       request = new ModelRequest(
               dialogId,
+              modelRequest.getUuid(),
               modelRequest.getMessages().stream()
                       .map(s -> new Message(request, s))
                       .collect(Collectors.toList()),
@@ -59,7 +61,8 @@ public class ModelBehavior {
       if (Objects.isNull(modelResponse)) {
         throw new InvalidModelBehaviorException("Model behavior request is empty");
       }
-      response = new ModelResponse(dialogId,
+      response = new ModelResponse(UUID.randomUUID(),
+              request,
               modelResponse.getDialogEvaluation(),
               CollectionUtils.isEmpty(modelResponse.getStopTopics()) ? Collections.emptyList() : modelResponse.getStopTopics(),
               modelResponse.isOfferPurchase(),

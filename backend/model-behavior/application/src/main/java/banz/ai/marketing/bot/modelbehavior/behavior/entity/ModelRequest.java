@@ -14,7 +14,7 @@ public class ModelRequest {
 
     @Id
     @Column(name = "model_request_id")
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     @Column(name = "is_operator")
     private boolean isOperator;
