@@ -7,7 +7,7 @@
             <column name="user_id" type="bigint">
                 <constraints nullable="false" />
             </column>
-            <column name="model_response_id" type="uuid">
+            <column name="model_response_id" type="bigint">
                 <constraints nullable="false" />
             </column>
             <column name="is_correct" type="bool">
