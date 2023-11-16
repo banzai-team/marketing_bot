@@ -10,10 +10,10 @@ type FeedbackButtonsProps = {
   bigSize?: boolean;
   cleanChatIds?: (chatIds: Array<string>) => void;
   currentFeedback?: boolean;
-  allFeedbacks?: any[];
+  feedback?: number;
 }
 
-const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ allFeedbacks, chatIds, cleanChatIds, bigSize, currentFeedback }) => {
+const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ feedback, chatIds, cleanChatIds, bigSize, currentFeedback }) => {
   const auth = useAuth();
 
   const queryClient = useQueryClient()
@@ -36,7 +36,7 @@ const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ allFeedbacks, chatIds
     }
   };
 
-  const isGoodFeedback = allFeedbacks?.length ? allFeedbacks[allFeedbacks.length - 1]?.correct : null;
+  const isGoodFeedback = feedback !== null && feedback !== undefined ? feedback > 0 : null;
 
   return (
     <>

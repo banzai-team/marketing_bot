@@ -103,7 +103,7 @@ const Index: React.FC = () => {
     }),
     columnHelper.accessor('response', {
       header: "Оценка",
-      cell: info => <FeedbackButtons chatIds={info.renderValue().id} allFeedbacks={info.renderValue()?.feedbacks}/>,
+      cell: info => <FeedbackButtons chatIds={info.renderValue().id} feedback={info.renderValue()?.feedback}/>,
     })
   ]
 
