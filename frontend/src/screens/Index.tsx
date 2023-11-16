@@ -32,7 +32,6 @@ const Index: React.FC = () => {
   const data = useMemo(() => dialogs?.data?.content.map(
     (item: any) => ({ ...item.request, subRows: [true] })
   ) || null, [dialogs]);
-  console.log(data);
 
 
   // TODO: add type
@@ -133,7 +132,7 @@ const Index: React.FC = () => {
             </div>
           </div>
           <div className="flex mb-4">
-            <div className="font-bold mr-4">Число:</div>
+            <div className="font-bold mr-4">ID Диалога:</div>
             <div>{row.original.dialogId}</div>
           </div>
           <div className="flex mb-4">
@@ -151,7 +150,7 @@ const Index: React.FC = () => {
 
   return (
     <>
-      <Head title="Main page"/>
+      <Head title="Main page" />
       {
         rowSelection.length ? <FeedbackPanel chatIds={rowSelection} cleanChatIds={setRowSelection}/> : null
       }
@@ -160,14 +159,14 @@ const Index: React.FC = () => {
 
         <Link to={`${Routes.CONVERSATION}/${Routes.CREATE}`} className="btn btn-sm btn-outline btn-primary">
           <PlusSmallIcon className="h-5 w-5"/>
-          add new
+          Добавить
         </Link>
       </div>
       <div className="card bg-base-100 shadow-xl overflow-hidden mt-6 mb-10">
         {
           isLoading
             ? (
-              <LoadingCard/>
+              <LoadingCard />
             ) : dialogs?.data && !dialogs.data.empty && !!data ? (
               <Table
                 onRowClick={onRowClick}

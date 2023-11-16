@@ -7,11 +7,9 @@ type ChatProps = {
 }
 
 const Chat: React.FC<ChatProps> = ({ data }) => {
-    console.log(data);
     return (
         <div className="flex-1">
             {data.map((message, key) => {
-                console.log(message);
                 if (message.trim().endsWith("in")) {
                     return (
                         <div className="chat chat-start" key={`message-${key}`}>

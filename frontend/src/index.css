@@ -113,3 +113,13 @@ tr.row-action:hover {
   background: #f8f8f8;
   cursor: pointer;
 }
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
