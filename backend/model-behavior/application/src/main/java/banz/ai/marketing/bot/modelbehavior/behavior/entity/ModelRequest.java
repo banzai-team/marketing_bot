@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "model_request")
@@ -16,9 +13,8 @@ import java.util.Objects;
 public class ModelRequest {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "model_request_id")
-    private Long id;
+    private UUID id = UUID.randomUUID();
 
     @Column(name = "is_operator")
     private boolean isOperator;

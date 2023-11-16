@@ -12,10 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CustomModelRequestRepositoryImpl implements CustomModelRequestRepository {
@@ -62,7 +59,7 @@ public class CustomModelRequestRepositoryImpl implements CustomModelRequestRepos
   }
 
   @Override
-  public Optional<ModelRequest> getById(long id) {
+  public Optional<ModelRequest> getByUUID(UUID id) {
     JPQLQuery<ModelRequest> query = new JPAQuery<>(entityManager);
 
     return Optional.ofNullable(query.from(QModelRequest.modelRequest)

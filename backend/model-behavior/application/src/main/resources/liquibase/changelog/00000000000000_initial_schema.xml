@@ -18,26 +18,29 @@
             <column name="content" type="text"/>
         </createTable>
         <createTable tableName="model_request">
-            <column name="model_request_id" type="bigint" autoIncrement="true">
+            <column name="model_request_id" type="uuid">
                 <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="performed_at" type="timestamp with time zone">
+                <constraints nullable="false" />
             </column>
             <column name="dialog_id" type="bigint"/>
             <column name="is_operator" type="boolean" />
             <column name="additional_text" type="text" />
         </createTable>
         <createTable tableName="model_response">
-            <column name="model_response_id" type="bigint" autoIncrement="true">
+            <column name="model_response_id" type="uuid">
                 <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="dialog_evaluation" type="real"/>
             <column name="offer_purchase" type="boolean" />
-            <column name="model_request_id" type="bigint" />
+            <column name="model_request_id" type="uuid" />
         </createTable>
         <createTable tableName="stop_topic">
             <column name="stop_topic_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" />
             </column>
-            <column name="model_response_id" type="bigint" />
+            <column name="model_response_id" type="uuid" />
             <column name="content" type="text"/>
         </createTable>
         <addForeignKeyConstraint  baseColumnNames="dialog_id"

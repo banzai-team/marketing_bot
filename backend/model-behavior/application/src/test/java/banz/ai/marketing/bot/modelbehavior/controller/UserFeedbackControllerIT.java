@@ -22,6 +22,7 @@ import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.DockerImageName;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -66,10 +67,13 @@ class UserFeedbackControllerIT extends AbstractIntegrationTest {
                             """
                                         {
                                            "userId": 99,
-                                           "modelResponseId": %d,
-                                           "isCorrect": false
+                                           "modelResponseId": "%s",
+                                           "correct": true
                                         }
-                                    """.formatted(resp.getId())))
+                                    """.formatted(resp.getId())
+                    )
+                    .characterEncoding(StandardCharsets.UTF_8)
+            )
             .andDo(print())
             .andExpect(status().isCreated());
 

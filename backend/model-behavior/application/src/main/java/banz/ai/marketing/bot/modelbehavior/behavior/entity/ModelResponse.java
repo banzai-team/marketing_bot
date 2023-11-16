@@ -7,6 +7,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "model_response")
@@ -15,9 +16,8 @@ import java.util.Objects;
 public class ModelResponse {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "model_response_id")
-    private Long id;
+    private UUID id = UUID.randomUUID();
 
     @Column(name = "dialog_evaluation")
     private float dialogEvaluation;

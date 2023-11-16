@@ -8,7 +8,9 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 
-public interface ModelRequestRepository extends JpaRepository<ModelRequest, Long>,
+import java.util.UUID;
+
+public interface ModelRequestRepository extends JpaRepository<ModelRequest, UUID>,
         QuerydslPredicateExecutor<ModelRequest>,
         QuerydslBinderCustomizer<QModelRequest>,
         CustomModelRequestRepository {

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -48,7 +49,7 @@ public class QueryController {
   }
 
   @GetMapping("model-request/{id}")
-  public ResponseEntity<ModelRequestListingItem> listModelRequests(@PathVariable("id") long id) {
+  public ResponseEntity<ModelRequestListingItem> listModelRequests(@PathVariable("id") UUID id) {
     return ResponseEntity.ok()
             .body(modelRequestQueryHandler.getById(ModelRequestByIdQueryDTO.builder().id(id).build())
                     .map(this::mapToDTO).orElseThrow());

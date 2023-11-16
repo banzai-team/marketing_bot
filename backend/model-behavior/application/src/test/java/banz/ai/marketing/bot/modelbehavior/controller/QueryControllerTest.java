@@ -67,7 +67,7 @@ class QueryControllerTest extends AbstractIntegrationTest {
 
   @Test
   void shouldGetRequestById() throws Exception {
-    this.mockMvc.perform(get("/api/model/query/model-request/1")
+    this.mockMvc.perform(get("/api/model/query/model-request/c6c0206e-7322-4293-8727-cfafd4edc977")
                     .header(HttpHeaders.CONTENT_TYPE, "application/json"))
             .andDo(print())
             .andExpect(status().isOk())
