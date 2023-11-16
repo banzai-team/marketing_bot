@@ -10,7 +10,7 @@ export type SendMessagePayload = {
 
 export type SendFeedbackPayload = {
   userId?: string;
-  modelResponseId: number;
+  modelResponseId: string;
   correct: boolean;
 };
 

@@ -77,7 +77,7 @@ const Conversation: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className="flex justify-center">
-                                        <FeedbackButtons chatIds={id} bigSize feedback={responseData?.feedback} />
+                                        <FeedbackButtons chatIds={responseData?.id} bigSize feedback={responseData?.feedback} />
                                     </div>
                                 </div>
                             </div>

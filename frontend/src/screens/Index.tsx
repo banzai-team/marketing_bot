@@ -48,30 +48,31 @@ const Index: React.FC = () => {
             onChange={() => (
               rowSelection.length === data.length
                 ? setRowSelection([])
-                : setRowSelection(data.map((item: { id: string }) => item.id))
+                : setRowSelection(data.map((item: { response: {id: string} }) => item?.response?.id))
             )}
             checked={rowSelection.length === data.length}
             className="checkbox checkbox-xs checkbox-primary align-middle"
           />
         </div>
       ),
-      cell: ({ row, getValue }) => (
-        <div className="flex justify-between items-center" onClick={(e) => e.stopPropagation()}>
+      cell: ({ row }) => {
+        const responseId = row?.original?.response?.id;
+        return <div className="flex justify-between items-center" onClick={(e) => e.stopPropagation()}>
           <ExpandedButton onClick={row.getToggleExpandedHandler()} isExpanded={row.getIsExpanded()}/>
           <input
-            type="checkbox"
-            checked={rowSelection.includes(getValue())}
-            onChange={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              rowSelection.includes(getValue())
-                ? setRowSelection(rowSelection.filter(item => item !== getValue()))
-                : setRowSelection([...rowSelection, getValue()])
-            }}
-            className="checkbox checkbox-xs checkbox-primary z-2"
+              type="checkbox"
+              checked={rowSelection.includes(responseId)}
+              onChange={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                rowSelection.includes(responseId)
+                    ? setRowSelection(rowSelection.filter(item => item !== responseId))
+                    : setRowSelection([...rowSelection, responseId])
+              }}
+              className="checkbox checkbox-xs checkbox-primary z-2"
           />
         </div>
-      ),
+      },
     }),
     columnHelper.accessor('messages', {
       header: "Чат",
