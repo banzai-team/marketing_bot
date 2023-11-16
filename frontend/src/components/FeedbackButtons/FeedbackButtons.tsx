@@ -36,7 +36,7 @@ const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ feedback, chatIds, cl
     }
   };
 
-  const isGoodFeedback = feedback !== null && feedback !== undefined ? feedback > 0 : null;
+  const isGoodFeedback = feedback ? feedback > 0 : null;
 
   return (
     <>
