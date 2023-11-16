@@ -7,7 +7,7 @@ RUN pip install --upgrade pip && \
 COPY app ./app
 
 RUN mkdir -p /app/models
-COPY ./models /app/models
+#COPY ./models /app/models
 
 
 # Образ для разработки
