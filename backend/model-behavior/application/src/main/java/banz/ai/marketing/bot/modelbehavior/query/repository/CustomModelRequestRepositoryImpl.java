@@ -22,7 +22,7 @@ public class CustomModelRequestRepositoryImpl implements CustomModelRequestRepos
 
   @Override
   public Page<ModelRequest> listPage(Pageable pageable, Map<String, Object> criteria) {
-    var filteredProperties = Set.of("performedAt", "requestId");
+    var filteredProperties = Set.of("performedAt");
     JPQLQuery<ModelRequest> query = new JPAQuery<>(entityManager);
     var sorting = pageable.getSort().get()
             .filter(s -> filteredProperties.contains(s.getProperty()))
@@ -33,16 +33,9 @@ public class CustomModelRequestRepositoryImpl implements CustomModelRequestRepos
                 } else {
                   return QModelRequest.modelRequest.performedAt.desc();
                 }
-              } else if (s.getProperty().equals("requestId")) {
-                if (s.getDirection().equals(Sort.Direction.ASC)) {
-                  return QModelRequest.modelRequest.id.asc();
-                } else {
-                  return QModelRequest.modelRequest.id.desc();
-                }
               }
-              throw new AssertionFailure("Unreachable...");
-            })
-            .collect(Collectors.toList());
+              return QModelRequest.modelRequest.performedAt.desc();
+            }).toList();
     var req = query.from(QModelRequest.modelRequest)
             .leftJoin(QModelRequest.modelRequest.messages, QModelRequestMessage.modelRequestMessage)
             .innerJoin(QModelRequest.modelRequest.dialog, QDialog.dialog)
