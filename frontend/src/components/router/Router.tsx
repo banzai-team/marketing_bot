@@ -18,6 +18,7 @@ const LoginScreen = lazy(() => import('~/screens/LoginPage'));
 const ConversationScreen = lazy(() => import('~/screens/ConversationPage'));
 const Chats = lazy(() => import('~/screens/Chats'));
 const StatisticScreen = lazy(() => import('~/screens/StatisticPage'));
+const ProfileScreen = lazy(() => import('~/screens/ProfilePage'));
 
 export const Routes = {
     ROOT: "/",
@@ -25,6 +26,7 @@ export const Routes = {
     CONVERSATION: "conversation",
     CREATE: "create",
     STATISTIC: "statistic",
+    PROFILE: "profile",
 };
 
 export const Router = () => {
@@ -99,6 +101,10 @@ const InnerRouter = () => {
                 {
                     path: Routes.STATISTIC,
                     element: <StatisticScreen />,
+                },
+                {
+                    path: Routes.PROFILE,
+                    element: <ProfileScreen />,
                 },
                 {
                     path: '*',
