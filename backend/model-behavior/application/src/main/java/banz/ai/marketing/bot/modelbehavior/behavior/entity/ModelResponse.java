@@ -36,11 +36,11 @@ public class ModelResponse {
     private List<StopTopic> stopTopics = new ArrayList<>();
 
     public void incrementFeedback() {
-        feedback ++;
+        feedback = 1;
     }
 
     public void decrementFeedback() {
-        feedback --;
+        feedback = -1;
     }
 
     public void addStopTopic(StopTopic stopTopic) {
