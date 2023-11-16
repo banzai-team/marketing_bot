@@ -26,7 +26,6 @@ export function sendMessage(payload: SendMessagePayload, token: string) {
     headers: {
       'Content-Type': `application/json`,
       Authorization: `Bearer ${token}`,
-      // 'Authorization': `Basic ${btoa('test:1234')}`,
     },
   });
 }
@@ -36,7 +35,6 @@ export function getDialogs(token: string) {
     headers: {
       'Content-Type': `application/json`,
       Authorization: `Bearer ${token}`,
-      // 'Authorization': `Basic ${btoa('test:1234')}`,
 
     },
   });
@@ -47,7 +45,6 @@ export function getDialog(token: string, id: string) {
     headers: {
       'Content-Type': `application/json`,
       Authorization: `Bearer ${token}`,
-      // 'Authorization': `Basic ${btoa('test:1234')}`,
     },
   });
 }
@@ -57,7 +54,6 @@ export function sendFeedback(payload: SendFeedbackPayload, token: string) {
     headers: {
       'Content-Type': `application/json`,
       Authorization: `Bearer ${token}`,
-      // 'Authorization': `Basic ${btoa('test:1234')}`,
     },
   });
 }
